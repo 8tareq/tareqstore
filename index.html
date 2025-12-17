@@ -1522,7 +1522,16 @@
         // إنشاء كشف الحساب للعرض
         function generateStatement(companyId) {
             const company = isamData.companies.find(c => c.id == companyId);
-            if (!company) return;
+            if (!company) {
+                document.getElementById('statementContent').innerHTML = `
+                    <div class="account-statement" style="text-align: center; padding: 50px 20px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 5rem; color: #f39c12; margin-bottom: 20px;"></i>
+                        <h3 style="color: #7f8c8d;">الشركة غير موجودة</h3>
+                        <p>يرجى اختيار شركة صحيحة من القائمة</p>
+                    </div>
+                `;
+                return;
+            }
             
             // تحديث الـ select ليعرض الشركة المحددة
             document.getElementById('statementCompany').value = companyId;
