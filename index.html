@@ -261,153 +261,6 @@
             box-shadow: 0 5px 10px rgba(23, 162, 184, 0.3);
         }
         
-        /* كشف الحساب - التصميم الجديد */
-        .transaction-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .transaction-item {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 3px 10px var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            transition: all 0.3s;
-            border-right: 5px solid;
-        }
-        
-        .transaction-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px var(--shadow);
-        }
-        
-        .transaction-item.ticket {
-            border-right-color: var(--success);
-        }
-        
-        .transaction-item.fine {
-            border-right-color: var(--warning);
-        }
-        
-        .transaction-item.delivery {
-            border-right-color: var(--info);
-        }
-        
-        .transaction-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-        
-        .transaction-icon.ticket {
-            background-color: rgba(39, 174, 96, 0.15);
-            color: var(--success);
-        }
-        
-        .transaction-icon.fine {
-            background-color: rgba(243, 156, 18, 0.15);
-            color: var(--warning);
-        }
-        
-        .transaction-icon.delivery {
-            background-color: rgba(155, 89, 182, 0.15);
-            color: var(--info);
-        }
-        
-        .transaction-details {
-            flex: 1;
-        }
-        
-        .transaction-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .transaction-type {
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        
-        .transaction-type.ticket {
-            background-color: rgba(39, 174, 96, 0.15);
-            color: var(--success);
-        }
-        
-        .transaction-type.fine {
-            background-color: rgba(243, 156, 18, 0.15);
-            color: var(--warning);
-        }
-        
-        .transaction-type.delivery {
-            background-color: rgba(155, 89, 182, 0.15);
-            color: var(--info);
-        }
-        
-        .transaction-date {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-        
-        .transaction-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-        
-        .info-item {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .info-label {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin-bottom: 5px;
-        }
-        
-        .info-value {
-            font-weight: 600;
-            color: var(--text);
-        }
-        
-        .transaction-amount {
-            font-size: 1.3rem;
-            font-weight: 700;
-            text-align: left;
-            min-width: 120px;
-        }
-        
-        .transaction-amount.ticket {
-            color: var(--success);
-        }
-        
-        .transaction-amount.fine {
-            color: var(--warning);
-        }
-        
-        .transaction-amount.delivery {
-            color: var(--info);
-        }
-        
-        .transaction-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
         /* نماذج تأكيد الحذف */
         .modal-overlay {
             position: fixed;
@@ -464,72 +317,294 @@
             font-size: 0.9rem;
         }
         
-        /* تنسيقات الطباعة */
-        .print-container {
-            display: none;
+        /* ستايلات كشف الحساب الجديد */
+        .statement-wrapper {
+            width: 100%;
+            overflow-x: auto;
         }
-        
+
+        .account-statement {
+            width: 100%;
+            min-width: 1000px;
+        }
+
+        .statement-header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .statement-header h3 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .statement-header p {
+            color: var(--text-light);
+            font-size: 16px;
+        }
+
+        .statement-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 12px;
+        }
+
+        .statement-table th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 8px 4px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .statement-table td {
+            padding: 6px 4px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 11px;
+        }
+
+        .statement-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .balance-cell {
+            font-weight: bold;
+        }
+
+        .balance-positive {
+            color: #27ae60;
+        }
+
+        .balance-negative {
+            color: #e74c3c;
+        }
+
+        .debit-cell {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .credit-cell {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .statement-summary {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .summary-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        .summary-table td {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            text-align: right;
+        }
+
+        .summary-table td:first-child {
+            font-weight: bold;
+            text-align: left;
+            width: 150px;
+        }
+
+        .final-balance {
+            margin-top: 20px;
+            padding: 15px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .final-label {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .final-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .statement-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 11px;
+        }
+
+        .statement-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* ستايلات المعاملات */
+        .transactions-container {
+            width: 100%;
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .filter-box {
+            width: 200px;
+        }
+
+        .transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .transactions-table th {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .transactions-table td {
+            padding: 10px 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .transactions-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .transactions-table tr:hover {
+            background-color: #e8f4fc;
+        }
+
+        .transaction-type-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-ticket {
+            background-color: rgba(39, 174, 96, 0.15);
+            color: var(--success);
+        }
+
+        .badge-fine {
+            background-color: rgba(243, 156, 18, 0.15);
+            color: var(--warning);
+        }
+
+        .badge-delivery {
+            background-color: rgba(155, 89, 182, 0.15);
+            color: var(--info);
+        }
+
+        .amount-positive {
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .amount-negative {
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+
+        .no-data i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #bdc3c7;
+        }
+
+        /* الطباعة - الشكل المطلوب */
         @media print {
             body * {
-                display: none !important;
-                visibility: hidden !important;
+                visibility: hidden;
             }
             
-            body {
-                background: white !important;
-                margin: 0 !important;
-                padding: 10mm 5mm !important;
-                font-family: 'Arial', 'sans-serif' !important;
-                direction: rtl !important;
-                color: black !important;
-                font-size: 12px !important;
+            #printableStatement, #printableStatement * {
+                visibility: visible;
             }
             
-            /* حاوية الطباعة */
-            .print-container, 
-            .print-container * {
-                display: block !important;
-                visibility: visible !important;
-                position: relative !important;
-                width: 100% !important;
-                max-width: 100% !important;
-                overflow: visible !important;
-                font-family: 'Arial', 'sans-serif' !important;
-            }
-            
-            .print-container {
+            #printableStatement {
                 position: absolute;
-                top: 0;
                 left: 0;
+                top: 0;
                 width: 100%;
-                padding: 0;
+                padding: 20px;
                 background: white;
                 color: black;
+                font-family: 'Arial', sans-serif;
+                direction: rtl;
             }
             
-            /* ترويسة الشركة */
-            .company-header {
+            .print-statement {
+                width: 100%;
+            }
+            
+            .print-header {
                 text-align: center;
-                margin-bottom: 15px;
+                margin-bottom: 20px;
                 padding-bottom: 10px;
                 border-bottom: 2px solid #333;
             }
             
-            .company-header h1 {
+            .print-header h1 {
+                font-size: 20px;
                 color: #2c3e50;
-                font-size: 22px;
-                margin: 0 0 5px 0;
-                font-weight: bold;
+                margin-bottom: 5px;
             }
             
-            .company-header h2 {
-                color: #3498db;
+            .print-header h2 {
                 font-size: 16px;
-                margin: 0;
+                color: #666;
                 font-weight: normal;
             }
             
-            /* جدول المعاملات - نفس تصميم الصورة */
             .print-table {
                 width: 100%;
                 border-collapse: collapse;
@@ -543,14 +618,14 @@
                 background-color: #f5f5f5 !important;
                 color: black !important;
                 font-weight: bold;
-                padding: 8px 5px;
+                padding: 6px 4px;
                 border: 1px solid #ddd;
                 text-align: center;
                 font-size: 10px;
             }
             
             .print-table td {
-                padding: 6px 4px;
+                padding: 5px 4px;
                 border: 1px solid #ddd;
                 text-align: center;
                 page-break-inside: avoid;
@@ -560,84 +635,31 @@
                 text-overflow: ellipsis;
             }
             
-            /* تنسيق الأعمدة */
-            .print-table th:nth-child(1),
-            .print-table td:nth-child(1) {
-                width: 40px; /* # */
-            }
-            
-            .print-table th:nth-child(2),
-            .print-table td:nth-child(2) {
-                width: 80px; /* التاريخ */
-            }
-            
-            .print-table th:nth-child(3),
-            .print-table td:nth-child(3) {
-                width: 60px; /* الخدمة */
-            }
-            
-            .print-table th:nth-child(4),
-            .print-table td:nth-child(4) {
-                width: 110px; /* رقم المستند */
-            }
-            
-            .print-table th:nth-child(5),
-            .print-table td:nth-child(5) {
-                width: 100px; /* الحالة */
-            }
-            
-            .print-table th:nth-child(6),
-            .print-table td:nth-child(6) {
-                width: 140px; /* البيان */
-            }
-            
-            .print-table th:nth-child(7),
-            .print-table td:nth-child(7) {
-                width: 80px; /* المسار */
-            }
-            
-            .print-table th:nth-child(8),
-            .print-table td:nth-child(8) {
-                width: 70px; /* دائن */
-            }
-            
-            .print-table th:nth-child(9),
-            .print-table td:nth-child(9) {
-                width: 70px; /* معين */
-            }
-            
-            .print-table th:nth-child(10),
-            .print-table td:nth-child(10) {
-                width: 100px; /* الرصيد */
-            }
-            
             .print-table tr:nth-child(even) {
                 background-color: #f9f9f9;
             }
             
-            /* تنسيق الأرقام */
-            .amount-negative {
-                color: #e74c3c;
-                font-weight: bold;
-            }
-            
-            .amount-positive {
+            .print-balance-positive {
                 color: #27ae60;
                 font-weight: bold;
             }
             
-            .credit-amount {
-                color: #27ae60;
-                font-weight: bold;
-            }
-            
-            .debit-amount {
+            .print-balance-negative {
                 color: #e74c3c;
                 font-weight: bold;
             }
             
-            /* ملخص التقرير */
-            .report-summary {
+            .print-debit {
+                color: #e74c3c;
+                font-weight: bold;
+            }
+            
+            .print-credit {
+                color: #27ae60;
+                font-weight: bold;
+            }
+            
+            .print-summary {
                 margin-top: 20px;
                 padding: 10px;
                 background: #f8f9fa;
@@ -647,9 +669,9 @@
                 font-size: 11px;
             }
             
-            .summary-title {
+            .print-summary-title {
                 text-align: center;
-                font-size: 13px;
+                font-size: 12px;
                 font-weight: bold;
                 color: #2c3e50;
                 margin-bottom: 10px;
@@ -657,50 +679,49 @@
                 border-bottom: 1px solid #ddd;
             }
             
-            .summary-table {
+            .print-summary-table {
                 width: 100%;
                 border-collapse: collapse;
                 margin: 10px 0;
             }
             
-            .summary-table td {
-                padding: 8px 10px;
+            .print-summary-table td {
+                padding: 6px 8px;
                 border: 1px solid #ddd;
                 text-align: right;
             }
             
-            .summary-table td:first-child {
+            .print-summary-table td:first-child {
                 font-weight: bold;
                 text-align: left;
-                width: 150px;
+                width: 120px;
             }
             
-            .total-balance {
+            .print-total-balance {
                 margin-top: 15px;
-                padding: 12px;
+                padding: 10px;
                 background: #2c3e50;
                 color: white;
                 border-radius: 5px;
                 text-align: center;
-                font-size: 13px;
+                font-size: 12px;
                 page-break-inside: avoid;
             }
             
-            .total-label {
-                font-size: 12px;
+            .print-total-label {
+                font-size: 11px;
                 margin-bottom: 5px;
             }
             
-            .total-value {
-                font-size: 18px;
+            .print-total-value {
+                font-size: 16px;
                 font-weight: bold;
             }
             
-            /* تذييل الطباعة */
             .print-footer {
                 text-align: center;
-                margin-top: 20px;
-                padding-top: 10px;
+                margin-top: 15px;
+                padding-top: 8px;
                 border-top: 1px solid #ddd;
                 color: #666;
                 font-size: 9px;
@@ -708,17 +729,9 @@
             }
             
             /* إخفاء العناصر غير المرغوب فيها */
-            .transaction-actions,
-            .btn,
-            button,
-            .menu-btn,
-            footer,
-            header,
-            .section-header,
-            .main-menu,
-            .form-control,
-            .form-select,
-            .no-print {
+            .no-print, .btn, button, .menu-btn, footer, header,
+            .section-header, .main-menu, .form-control, .form-select,
+            .search-filters, .transaction-actions {
                 display: none !important;
             }
             
@@ -726,12 +739,6 @@
             @page {
                 size: landscape;
                 margin: 5mm;
-            }
-            
-            /* منع قطع الصفوف بين الصفحات */
-            .print-table tr {
-                page-break-inside: avoid;
-                page-break-after: auto;
             }
         }
         
@@ -755,19 +762,21 @@
                 grid-template-columns: 1fr;
             }
             
-            .transaction-item {
+            .search-filters {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
             }
             
-            .transaction-amount {
-                text-align: right;
-                align-self: flex-end;
+            .search-box, .filter-box {
+                width: 100%;
             }
             
-            .modal-buttons {
-                flex-direction: column;
+            .transactions-table {
+                font-size: 12px;
+            }
+            
+            .transactions-table th,
+            .transactions-table td {
+                padding: 6px 4px;
             }
         }
     </style>
@@ -863,6 +872,9 @@
             </button>
             <button class="menu-btn" data-section="addDelivery">
                 <i class="fas fa-hand-holding-usd"></i> تسليم مبلغ
+            </button>
+            <button class="menu-btn" data-section="transactionsList">
+                <i class="fas fa-list-alt"></i> قائمة المعاملات
             </button>
             <button class="menu-btn" data-section="statement">
                 <i class="fas fa-file-invoice-dollar"></i> كشف حساب
@@ -1038,6 +1050,48 @@
             </form>
         </div>
         
+        <!-- قائمة المعاملات -->
+        <div id="transactionsList" class="content-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list-alt"></i> قائمة جميع المعاملات</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="refreshTransactionsList()" class="btn btn-info">
+                        <i class="fas fa-sync-alt"></i> تحديث
+                    </button>
+                </div>
+            </div>
+            
+            <div class="search-filters">
+                <div class="search-box">
+                    <input type="text" id="searchTransactions" class="form-control" placeholder="ابحث بالاسم أو رقم المستند...">
+                </div>
+                <div class="filter-box">
+                    <select id="filterType" class="form-select">
+                        <option value="">جميع الأنواع</option>
+                        <option value="ticket">تذاكر</option>
+                        <option value="fine">غرامات</option>
+                        <option value="delivery">تسليمات</option>
+                    </select>
+                </div>
+                <div class="filter-box">
+                    <select id="filterCompany" class="form-select">
+                        <option value="">جميع الشركات</option>
+                    </select>
+                </div>
+                <div class="filter-box">
+                    <input type="date" id="filterDate" class="form-control">
+                </div>
+            </div>
+            
+            <div id="transactionsListContent">
+                <div class="no-data">
+                    <i class="fas fa-list-alt"></i>
+                    <h3>لا توجد معاملات مسجلة</h3>
+                    <p>ابدأ بإضافة معاملة جديدة من خلال القائمة أعلاه</p>
+                </div>
+            </div>
+        </div>
+        
         <!-- كشف حساب -->
         <div id="statement" class="content-section">
             <div class="section-header">
@@ -1109,6 +1163,7 @@
                 }
                 updateCompaniesSelect();
                 displayCompaniesList();
+                displayTransactionsList();
             }
         }
 
@@ -1117,6 +1172,7 @@
             localStorage.setItem('isamData', JSON.stringify(isamData));
             updateCompaniesSelect();
             displayCompaniesList();
+            displayTransactionsList();
             
             if (isamData.companies.length > 0) {
                 showMainInterface();
@@ -1143,7 +1199,8 @@
                 'transactionCompany', 
                 'fineCompany', 
                 'deliveryCompany', 
-                'statementCompany'
+                'statementCompany',
+                'filterCompany'
             ];
             
             companySelects.forEach(selectId => {
@@ -1244,6 +1301,189 @@
             contentDiv.innerHTML = companiesHTML;
         }
 
+        // عرض قائمة المعاملات
+        function displayTransactionsList() {
+            const contentDiv = document.getElementById('transactionsListContent');
+            
+            // جمع جميع المعاملات
+            let allItems = [];
+            
+            // إضافة التذاكر
+            isamData.transactions.forEach(trans => {
+                allItems.push({
+                    id: trans.id,
+                    type: 'ticket',
+                    date: trans.date,
+                    documentNo: trans.documentNo,
+                    name: trans.passenger,
+                    company: isamData.companies.find(c => c.id == trans.companyId)?.name || 'غير معروف',
+                    amount: trans.amount,
+                    details: trans.destination,
+                    companyId: trans.companyId,
+                    originalData: trans
+                });
+            });
+            
+            // إضافة الغرامات
+            isamData.fines.forEach(fine => {
+                allItems.push({
+                    id: fine.id,
+                    type: 'fine',
+                    date: fine.date,
+                    documentNo: fine.documentNo || '--',
+                    name: fine.person,
+                    company: isamData.companies.find(c => c.id == fine.companyId)?.name || 'غير معروف',
+                    amount: fine.amount,
+                    details: fine.reason,
+                    companyId: fine.companyId,
+                    originalData: fine
+                });
+            });
+            
+            // إضافة التسليمات
+            isamData.deliveries.forEach(delivery => {
+                allItems.push({
+                    id: delivery.id,
+                    type: 'delivery',
+                    date: delivery.date,
+                    documentNo: '--',
+                    name: delivery.deliveredTo,
+                    company: isamData.companies.find(c => c.id == delivery.companyId)?.name || 'غير معروف',
+                    amount: delivery.amount,
+                    details: delivery.notes || '--',
+                    companyId: delivery.companyId,
+                    originalData: delivery
+                });
+            });
+            
+            // ترتيب حسب التاريخ (من الأحدث إلى الأقدم)
+            allItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // تطبيق عوامل التصفية
+            const searchTerm = document.getElementById('searchTransactions')?.value.toLowerCase() || '';
+            const filterType = document.getElementById('filterType')?.value || '';
+            const filterCompany = document.getElementById('filterCompany')?.value || '';
+            const filterDate = document.getElementById('filterDate')?.value || '';
+            
+            let filteredItems = allItems.filter(item => {
+                // البحث بالاسم أو رقم المستند
+                if (searchTerm && !item.name.toLowerCase().includes(searchTerm) && 
+                    !item.documentNo.toLowerCase().includes(searchTerm) &&
+                    !item.company.toLowerCase().includes(searchTerm)) {
+                    return false;
+                }
+                
+                // تصفية بالنوع
+                if (filterType && item.type !== filterType) {
+                    return false;
+                }
+                
+                // تصفية بالشركة
+                if (filterCompany && item.companyId != filterCompany) {
+                    return false;
+                }
+                
+                // تصفية بالتاريخ
+                if (filterDate) {
+                    const itemDate = new Date(item.date).toISOString().split('T')[0];
+                    if (itemDate !== filterDate) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+            
+            if (filteredItems.length === 0) {
+                contentDiv.innerHTML = `
+                    <div class="no-data">
+                        <i class="fas fa-search"></i>
+                        <h3>لا توجد معاملات مطابقة للبحث</h3>
+                        <p>حاول تغيير معايير البحث أو أضف معاملة جديدة</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let transactionsHTML = `
+                <div class="transactions-container">
+                    <table class="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>نوع المعاملة</th>
+                                <th>رقم المستند</th>
+                                <th>الاسم</th>
+                                <th>الشركة</th>
+                                <th>المبلغ</th>
+                                <th>التاريخ</th>
+                                <th>التفاصيل</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            filteredItems.forEach((item, index) => {
+                let typeText = '';
+                let badgeClass = '';
+                
+                switch(item.type) {
+                    case 'ticket':
+                        typeText = 'تذكرة';
+                        badgeClass = 'badge-ticket';
+                        break;
+                    case 'fine':
+                        typeText = 'غرامة';
+                        badgeClass = 'badge-fine';
+                        break;
+                    case 'delivery':
+                        typeText = 'تسليم';
+                        badgeClass = 'badge-delivery';
+                        break;
+                }
+                
+                transactionsHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td><span class="transaction-type-badge ${badgeClass}">${typeText}</span></td>
+                        <td>${item.documentNo}</td>
+                        <td>${item.name}</td>
+                        <td>${item.company}</td>
+                        <td class="${item.amount >= 0 ? 'amount-positive' : 'amount-negative'}">${formatDecimal(item.amount)}</td>
+                        <td>${formatGregorianDate(item.date)}</td>
+                        <td>${item.details}</td>
+                        <td>
+                            <button onclick="openEditModal('${item.type === 'ticket' ? 'transaction' : item.type === 'fine' ? 'fine' : 'delivery'}', ${item.id})" 
+                                    class="btn btn-warning" style="padding: 5px 10px; font-size: 0.9rem; margin-right: 5px;">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="requestDelete('${item.type === 'ticket' ? 'transaction' : item.type === 'fine' ? 'fine' : 'delivery'}', ${item.id})" 
+                                    class="btn btn-danger" style="padding: 5px 10px; font-size: 0.9rem;">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            transactionsHTML += `
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 15px; text-align: center; color: var(--text-light); font-size: 0.9rem;">
+                        إجمالي النتائج: ${filteredItems.length} معاملة
+                    </div>
+                </div>
+            `;
+            
+            contentDiv.innerHTML = transactionsHTML;
+        }
+
+        // تحديث قائمة المعاملات
+        function refreshTransactionsList() {
+            displayTransactionsList();
+        }
+
         // تحويل النص إلى رقم مع السماح بثلاث منازل عشرية
         function parseDecimal(value) {
             if (!value) return 0;
@@ -1267,7 +1507,7 @@
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
+            return `${day}/${month}/${year}`;
         }
 
         // الحصول على اسم المدينة الكامل من الاختصار
@@ -1302,11 +1542,10 @@
                     type: 'ticket',
                     date: trans.date,
                     documentNo: trans.documentNo,
-                    name: trans.passenger,
-                    info: trans.destination,
+                    passenger: trans.passenger,
+                    destination: trans.destination,
                     amount: trans.amount,
-                    amountFormatted: formatDecimal(trans.amount),
-                    originalData: trans
+                    amountFormatted: formatDecimal(trans.amount)
                 });
             });
             
@@ -1317,11 +1556,10 @@
                     type: 'fine',
                     date: fine.date,
                     documentNo: fine.documentNo || '--',
-                    name: fine.person,
-                    info: fine.reason,
+                    passenger: fine.person,
+                    destination: fine.reason,
                     amount: fine.amount,
-                    amountFormatted: formatDecimal(fine.amount),
-                    originalData: fine
+                    amountFormatted: formatDecimal(fine.amount)
                 });
             });
             
@@ -1332,217 +1570,15 @@
                     type: 'delivery',
                     date: delivery.date,
                     documentNo: '--',
-                    name: delivery.deliveredTo,
-                    info: delivery.notes || '--',
+                    passenger: delivery.deliveredTo,
+                    destination: delivery.notes || '--',
                     amount: delivery.amount,
-                    amountFormatted: formatDecimal(delivery.amount),
-                    originalData: delivery
+                    amountFormatted: formatDecimal(delivery.amount)
                 });
             });
             
             // ترتيب حسب التاريخ (من الأحدث إلى الأقدم)
             allItems.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            // حساب الإجماليات
-            const totalTickets = companyTransactions.reduce((sum, t) => sum + t.amount, 0);
-            const totalFines = companyFines.reduce((sum, f) => sum + f.amount, 0);
-            const totalDeliveries = companyDeliveries.reduce((sum, d) => sum + d.amount, 0);
-            
-            // إنشاء HTML لكشف الحساب
-            let statementHTML = `
-                <div class="account-statement">
-                    <div style="background: linear-gradient(to right, var(--primary), var(--secondary)); color: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <h3 style="margin: 0; font-size: 1.8rem;">${company.name}</h3>
-                            <p style="margin: 5px 0 0; opacity: 0.9; font-size: 0.95rem;">
-                                نوع الحساب: <strong>${company.type}</strong> - ${company.type === 'دائن' ? 'الشركة تبي مني' : 'أنا أحتاج من الشركة'}
-                            </p>
-                        </div>
-                        <div style="text-align: left;">
-                            <div style="font-size: 1rem; opacity: 0.9; margin-bottom: 5px;">الرصيد الحالي</div>
-                            <div style="font-size: 2.5rem; font-weight: 700; color: ${company.balance >= 0 ? '#27ae60' : '#e74c3c'}">
-                                ${formatDecimal(company.balance)}
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 30px;">
-                        <h3 style="color: var(--primary); margin-bottom: 20px;">جميع المعاملات</h3>
-            `;
-            
-            if (allItems.length === 0) {
-                statementHTML += `
-                    <div style="text-align: center; padding: 50px 20px; color: var(--text-light);">
-                        <i class="fas fa-info-circle" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                        <h3 style="color: #7f8c8d;">لا توجد معاملات مسجلة</h3>
-                        <p>ابدأ بإضافة أول معاملة للشركة</p>
-                    </div>
-                `;
-            } else {
-                statementHTML += `<div class="transaction-list">`;
-                
-                allItems.forEach(item => {
-                    let typeText = '';
-                    let typeClass = '';
-                    let iconClass = '';
-                    
-                    switch(item.type) {
-                        case 'ticket':
-                            typeText = 'تذكرة';
-                            typeClass = 'ticket';
-                            iconClass = 'ticket';
-                            break;
-                        case 'fine':
-                            typeText = 'غرامة';
-                            typeClass = 'fine';
-                            iconClass = 'fine';
-                            break;
-                        case 'delivery':
-                            typeText = 'تسليم مبلغ';
-                            typeClass = 'delivery';
-                            iconClass = 'delivery';
-                            break;
-                    }
-                    
-                    statementHTML += `
-                        <div class="transaction-item ${typeClass}">
-                            <div class="transaction-icon ${iconClass}">
-                                ${item.type === 'ticket' ? '<i class="fas fa-ticket-alt"></i>' : 
-                                  item.type === 'fine' ? '<i class="fas fa-exclamation-triangle"></i>' : 
-                                  '<i class="fas fa-hand-holding-usd"></i>'}
-                            </div>
-                            <div class="transaction-details">
-                                <div class="transaction-header">
-                                    <span class="transaction-type ${typeClass}">${typeText}</span>
-                                    <span class="transaction-date">${formatGregorianDate(item.date)}</span>
-                                </div>
-                                <div class="transaction-info">
-                                    <div class="info-item">
-                                        <span class="info-label">رقم المستند</span>
-                                        <span class="info-value">${item.documentNo}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">${item.type === 'ticket' ? 'المسافر' : item.type === 'fine' ? 'المُغرَم' : 'المستلم'}</span>
-                                        <span class="info-value">${item.name}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="info-label">${item.type === 'ticket' ? 'الوجهة' : item.type === 'fine' ? 'السبب' : 'ملاحظات'}</span>
-                                        <span class="info-value">${item.type === 'ticket' ? `${getCityName(item.info)} (${item.info})` : item.info}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="transaction-amount ${typeClass}">${item.amountFormatted}</div>
-                            <div class="transaction-actions">
-                                <button onclick="openEditModal('${item.type === 'ticket' ? 'transaction' : item.type === 'fine' ? 'fine' : 'delivery'}', ${item.id})" 
-                                        class="btn btn-warning" style="padding: 5px 10px; font-size: 0.9rem;">
-                                    <i class="fas fa-edit"></i> تعديل
-                                </button>
-                                <button onclick="requestDelete('${item.type === 'ticket' ? 'transaction' : item.type === 'fine' ? 'fine' : 'delivery'}', ${item.id})" 
-                                        class="btn btn-danger" style="padding: 5px 10px; font-size: 0.9rem;">
-                                    <i class="fas fa-trash-alt"></i> حذف
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                statementHTML += `</div>`;
-            }
-            
-            statementHTML += `
-                    </div>
-                    
-                    <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--light);">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px;">
-                            <div style="text-align: center; padding: 15px; background: rgba(39, 174, 96, 0.1); border-radius: 10px;">
-                                <div style="font-size: 0.9rem; color: var(--text-light);">إجمالي التذاكر</div>
-                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--success);">${formatDecimal(totalTickets)}</div>
-                                <div style="font-size: 0.8rem; color: var(--text-light);">${companyTransactions.length} تذكرة</div>
-                            </div>
-                            <div style="text-align: center; padding: 15px; background: rgba(243, 156, 18, 0.1); border-radius: 10px;">
-                                <div style="font-size: 0.9rem; color: var(--text-light);">إجمالي الغرامات</div>
-                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--warning);">${formatDecimal(totalFines)}</div>
-                                <div style="font-size: 0.8rem; color: var(--text-light);">${companyFines.length} غرامة</div>
-                            </div>
-                            <div style="text-align: center; padding: 15px; background: rgba(155, 89, 182, 0.1); border-radius: 10px;">
-                                <div style="font-size: 0.9rem; color: var(--text-light);">إجمالي التسليمات</div>
-                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--info);">${formatDecimal(totalDeliveries)}</div>
-                                <div style="font-size: 0.8rem; color: var(--text-light);">${companyDeliveries.length} تسليم</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('statementContent').innerHTML = statementHTML;
-        }
-
-        // إنشاء كشف الحساب للطباعة بنفس تنسيق الصورة
-        function createPrintableStatement(companyId) {
-            const company = isamData.companies.find(c => c.id == companyId);
-            if (!company) return '';
-            
-            // جمع جميع المعاملات
-            const companyTransactions = isamData.transactions.filter(t => t.companyId == companyId);
-            const companyFines = isamData.fines.filter(f => f.companyId == companyId);
-            const companyDeliveries = isamData.deliveries.filter(d => d.companyId == companyId);
-            
-            // دمج جميع المعاملات في مصفوفة واحدة
-            let allItems = [];
-            
-            // إضافة التذاكر
-            companyTransactions.forEach(trans => {
-                allItems.push({
-                    id: trans.id,
-                    type: 'تذكرة',
-                    date: trans.date,
-                    documentNo: trans.documentNo,
-                    passenger: trans.passenger,
-                    destination: trans.destination,
-                    amount: trans.amount,
-                    debit: trans.amount,
-                    credit: 0,
-                    status: 'NW',
-                    path: trans.destination === 'IST' ? 'IST/MJI' : 'MJI/JST'
-                });
-            });
-            
-            // إضافة الغرامات
-            companyFines.forEach(fine => {
-                allItems.push({
-                    id: fine.id,
-                    type: 'غرامة',
-                    date: fine.date,
-                    documentNo: fine.documentNo || '--',
-                    passenger: fine.person,
-                    destination: fine.reason,
-                    amount: fine.amount,
-                    debit: fine.amount,
-                    credit: 0,
-                    status: 'NW',
-                    path: 'MJI/JST'
-                });
-            });
-            
-            // إضافة التسليمات
-            companyDeliveries.forEach(delivery => {
-                allItems.push({
-                    id: delivery.id,
-                    type: 'تسليم',
-                    date: delivery.date,
-                    documentNo: '--',
-                    passenger: delivery.deliveredTo,
-                    destination: delivery.notes || 'تسليم مبلغ',
-                    amount: delivery.amount,
-                    debit: 0,
-                    credit: delivery.amount,
-                    status: 'NW',
-                    path: ''
-                });
-            });
-            
-            // ترتيب حسب التاريخ (من الأقدم إلى الأحدث)
-            allItems.sort((a, b) => new Date(a.date) - new Date(b.date));
             
             // حساب الإجماليات
             const totalTickets = companyTransactions.reduce((sum, t) => sum + t.amount, 0);
@@ -1561,23 +1597,46 @@
                 runningBalance = totalDebit - totalCredit;
             }
             
-            // بناء الجدول للطباعة - بنفس تنسيق الصورة
-            let tableRows = '';
-            
-            // إضافة الترويسة
-            tableRows += `
-                <tr>
-                    <th>#</th>
-                    <th>الخدمة</th>
-                    <th>التاريخ</th>
-                    <th>البيان</th>
-                    <th>الحالة</th>
-                    <th>رقم المستند</th>
-                    <th>المسار</th>
-                    <th>دائن</th>
-                    <th>معين</th>
-                    <th>الرصيد</th>
-                </tr>
+            // إنشاء HTML لكشف الحساب
+            let statementHTML = `
+                <div class="account-statement" id="printableStatement">
+                    <div class="statement-header">
+                        <h3>كشف حساب - ${company.name}</h3>
+                        <p>نظام ISAM لحجز التذاكر</p>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                        <div>
+                            <div style="font-size: 0.9rem; color: #666;">الشركة:</div>
+                            <div style="font-weight: bold;">${company.name}</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.9rem; color: #666;">نوع الحساب:</div>
+                            <div style="font-weight: bold;">${company.type}</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.9rem; color: #666;">التاريخ:</div>
+                            <div style="font-weight: bold;">${formatGregorianDate(new Date().toISOString())}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="statement-wrapper">
+                        <table class="statement-table">
+                            <thead>
+                                <tr>
+                                    <th>الرصيد</th>
+                                    <th>معين</th>
+                                    <th>دائن</th>
+                                    <th>المسار</th>
+                                    <th>رقم المستند</th>
+                                    <th>الحالة</th>
+                                    <th>البيان</th>
+                                    <th>التاريخ</th>
+                                    <th>الخدمة</th>
+                                    <th>#</th>
+                                </tr>
+                            </thead>
+                            <tbody>
             `;
             
             // إضافة سطر الرصيد الافتتاحي
@@ -1586,71 +1645,77 @@
                 openingBalance = -openingBalance;
             }
             
-            tableRows += `
+            statementHTML += `
                 <tr>
-                    <td>1</td>
-                    <td>ايصال قبض</td>
-                    <td>${formatGregorianDate(company.date)}</td>
-                    <td>${company.name}</td>
+                    <td class="balance-cell ${openingBalance >= 0 ? 'balance-positive' : 'balance-negative'}">${formatDecimal(openingBalance)}</td>
+                    <td class="debit-cell">${company.type === 'مدين' ? formatDecimal(Math.abs(openingBalance)) : '0.000'}</td>
+                    <td class="credit-cell">${company.type === 'دائن' ? formatDecimal(Math.abs(openingBalance)) : '0.000'}</td>
+                    <td>1488</td>
                     <td>NW</td>
-                    <td>--</td>
-                    <td>${company.type === 'دائن' ? '1488' : '--'}</td>
-                    <td class="credit-amount">${company.type === 'دائن' ? formatDecimal(Math.abs(openingBalance)) : '0'}</td>
-                    <td class="debit-amount">${company.type === 'مدين' ? formatDecimal(Math.abs(openingBalance)) : '0'}</td>
-                    <td class="amount-negative">${formatDecimal(openingBalance)}</td>
+                    <td>NW</td>
+                    <td>${company.name}</td>
+                    <td>${formatGregorianDate(company.date)}</td>
+                    <td>ايصال قبض</td>
+                    <td>1</td>
                 </tr>
             `;
             
             // تحديث الرصيد التراكمي
-            runningBalance = openingBalance;
+            let cumulativeBalance = openingBalance;
             
             // إضافة جميع المعاملات
             allItems.forEach((item, index) => {
+                // تحديد القيم بناءً على نوع المعاملة
+                let debit = 0;
+                let credit = 0;
+                let path = '';
+                let service = '';
+                
+                if (item.type === 'ticket' || item.type === 'fine') {
+                    debit = item.amount;
+                    path = item.destination === 'IST' ? 'IST/MJI' : 'MJI/JST';
+                    service = item.type === 'ticket' ? 'تذكرة' : 'غرامة';
+                } else if (item.type === 'delivery') {
+                    credit = item.amount;
+                    path = '';
+                    service = 'تسليم';
+                }
+                
                 // تحديث الرصيد التراكمي
-                if (item.credit > 0) {
-                    runningBalance += item.credit; // دائن يزيد الرصيد
+                if (credit > 0) {
+                    cumulativeBalance += credit; // دائن يزيد الرصيد
                 } else {
-                    runningBalance -= item.debit; // معين ينقص الرصيد
+                    cumulativeBalance -= debit; // معين ينقص الرصيد
                 }
                 
                 // تحديد لون الرصيد
-                const balanceClass = runningBalance < 0 ? 'amount-negative' : 'amount-positive';
+                const balanceClass = cumulativeBalance >= 0 ? 'balance-positive' : 'balance-negative';
                 
-                tableRows += `
+                statementHTML += `
                     <tr>
-                        <td>${index + 2}</td>
-                        <td>نذكر</td>
-                        <td>${formatGregorianDate(item.date)}</td>
-                        <td>${item.passenger}</td>
-                        <td>${item.status}</td>
+                        <td class="balance-cell ${balanceClass}">${formatDecimal(cumulativeBalance)}</td>
+                        <td class="debit-cell">${debit > 0 ? formatDecimal(debit) : '0.000'}</td>
+                        <td class="credit-cell">${credit > 0 ? formatDecimal(credit) : '0.000'}</td>
+                        <td>${path}</td>
                         <td>${item.documentNo}</td>
-                        <td>${item.path}</td>
-                        <td class="credit-amount">${formatDecimal(item.credit)}</td>
-                        <td class="debit-amount">${formatDecimal(item.debit)}</td>
-                        <td class="${balanceClass}">${formatDecimal(runningBalance)}</td>
+                        <td>NW</td>
+                        <td>${item.passenger}</td>
+                        <td>${formatGregorianDate(item.date)}</td>
+                        <td>${service}</td>
+                        <td>${index + 2}</td>
                     </tr>
                 `;
             });
             
             // حساب الرصيد النهائي
-            const finalBalance = openingBalance + totalCredit - totalDebit;
+            const finalBalance = cumulativeBalance;
             
-            // إنشاء كشف الحساب للطباعة بنفس تصميم الصورة
-            const printHTML = `
-                <div class="print-statement">
-                    <!-- ترويسة الشركة -->
-                    <div class="company-header">
-                        <h1>كشف حساب - ${company.name}</h1>
-                        <h2>نظام ISAM لحجز التذاكر</h2>
+            statementHTML += `
+                            </tbody>
+                        </table>
                     </div>
                     
-                    <!-- جدول المعاملات -->
-                    <table class="print-table">
-                        ${tableRows}
-                    </table>
-                    
-                    <!-- ملخص التقرير -->
-                    <div class="report-summary">
+                    <div class="statement-summary">
                         <div class="summary-title">أجمالي التقرير بالعملة LYD</div>
                         <table class="summary-table">
                             <tr>
@@ -1671,21 +1736,262 @@
                             </tr>
                             <tr>
                                 <td>اجمال الرصيد</td>
-                                <td>${formatDecimal(runningBalance)} LYD</td>
+                                <td>${formatDecimal(finalBalance)} LYD</td>
                             </tr>
                         </table>
                     </div>
                     
-                    <!-- الرصيد النهائي -->
-                    <div class="total-balance">
-                        <div class="total-label">الرصيد النهائي</div>
-                        <div class="total-value">${formatDecimal(runningBalance)} LYD</div>
-                        <div style="margin-top: 5px; font-size: 11px;">
-                            ${runningBalance < 0 ? 'مدين' : 'دائن'}
+                    <div class="final-balance">
+                        <div class="final-label">الرصيد النهائي</div>
+                        <div class="final-value">${formatDecimal(finalBalance)} LYD</div>
+                        <div style="margin-top: 5px; font-size: 14px;">
+                            ${finalBalance < 0 ? 'مدين' : 'دائن'}
                         </div>
                     </div>
                     
-                    <!-- تذييل الطباعة -->
+                    <div class="statement-footer">
+                        <p>تم إنشاء هذا الكشف آلياً بواسطة نظام ISAM لحجز التذاكر</p>
+                        <p>${formatGregorianDate(new Date().toISOString())} - جميع الحقوق محفوظة</p>
+                    </div>
+                    
+                    <div class="statement-actions">
+                        <button onclick="printStatement(${companyId})" class="btn btn-info">
+                            <i class="fas fa-print"></i> طباعة الكشف
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('statementContent').innerHTML = statementHTML;
+        }
+
+        // طباعة كشف الحساب - بنفس الشكل تماماً
+        function printStatement(companyId) {
+            if (!companyId) {
+                companyId = document.getElementById('statementCompany').value;
+            }
+            
+            if (!companyId) {
+                alert('يرجى اختيار شركة أولاً');
+                return;
+            }
+            
+            const company = isamData.companies.find(c => c.id == companyId);
+            if (!company) return;
+            
+            // جمع جميع المعاملات
+            const companyTransactions = isamData.transactions.filter(t => t.companyId == companyId);
+            const companyFines = isamData.fines.filter(f => f.companyId == companyId);
+            const companyDeliveries = isamData.deliveries.filter(d => d.companyId == companyId);
+            
+            // دمج جميع المعاملات في مصفوفة واحدة
+            let allItems = [];
+            
+            // إضافة التذاكر
+            companyTransactions.forEach(trans => {
+                allItems.push({
+                    id: trans.id,
+                    type: 'ticket',
+                    date: trans.date,
+                    documentNo: trans.documentNo,
+                    passenger: trans.passenger,
+                    destination: trans.destination,
+                    amount: trans.amount
+                });
+            });
+            
+            // إضافة الغرامات
+            companyFines.forEach(fine => {
+                allItems.push({
+                    id: fine.id,
+                    type: 'fine',
+                    date: fine.date,
+                    documentNo: fine.documentNo || '',
+                    passenger: fine.person,
+                    destination: fine.reason,
+                    amount: fine.amount
+                });
+            });
+            
+            // إضافة التسليمات
+            companyDeliveries.forEach(delivery => {
+                allItems.push({
+                    id: delivery.id,
+                    type: 'delivery',
+                    date: delivery.date,
+                    documentNo: '',
+                    passenger: delivery.deliveredTo,
+                    destination: delivery.notes || '',
+                    amount: delivery.amount
+                });
+            });
+            
+            // ترتيب حسب التاريخ (من الأحدث إلى الأقدم)
+            allItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // حساب الإجماليات
+            const totalTickets = companyTransactions.reduce((sum, t) => sum + t.amount, 0);
+            const totalFines = companyFines.reduce((sum, f) => sum + f.amount, 0);
+            const totalDeliveries = companyDeliveries.reduce((sum, d) => sum + d.amount, 0);
+            
+            // حساب إجمالي الدائن والمعين
+            let totalDebit = totalTickets + totalFines;
+            let totalCredit = totalDeliveries;
+            
+            // حساب الرصيد التراكمي
+            let runningBalance = parseDecimal(company.initialBalance || '0');
+            if (company.type === 'دائن') {
+                runningBalance = totalCredit - totalDebit;
+            } else {
+                runningBalance = totalDebit - totalCredit;
+            }
+            
+            // إنشاء HTML للطباعة بنفس الشكل
+            let printHTML = `
+                <div class="print-statement" id="printableStatement">
+                    <div class="print-header">
+                        <h1>كشف حساب - ${company.name}</h1>
+                        <h2>نظام ISAM لحجز التذاكر</h2>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                        <div>
+                            <div style="font-size: 0.9rem; color: #666;">الشركة:</div>
+                            <div style="font-weight: bold;">${company.name}</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.9rem; color: #666;">نوع الحساب:</div>
+                            <div style="font-weight: bold;">${company.type}</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.9rem; color: #666;">التاريخ:</div>
+                            <div style="font-weight: bold;">${formatGregorianDate(new Date().toISOString())}</div>
+                        </div>
+                    </div>
+                    
+                    <table class="print-table">
+                        <tr>
+                            <th>الرصيد</th>
+                            <th>معين</th>
+                            <th>دائن</th>
+                            <th>المسار</th>
+                            <th>رقم المستند</th>
+                            <th>الحالة</th>
+                            <th>البيان</th>
+                            <th>التاريخ</th>
+                            <th>الخدمة</th>
+                            <th>#</th>
+                        </tr>
+            `;
+            
+            // إضافة سطر الرصيد الافتتاحي
+            let openingBalance = parseDecimal(company.initialBalance || '0');
+            if (company.type === 'دائن') {
+                openingBalance = -openingBalance;
+            }
+            
+            printHTML += `
+                <tr>
+                    <td class="${openingBalance >= 0 ? 'print-balance-positive' : 'print-balance-negative'}">${formatDecimal(openingBalance)}</td>
+                    <td class="print-debit">${company.type === 'مدين' ? formatDecimal(Math.abs(openingBalance)) : '0.000'}</td>
+                    <td class="print-credit">${company.type === 'دائن' ? formatDecimal(Math.abs(openingBalance)) : '0.000'}</td>
+                    <td>1488</td>
+                    <td>NW</td>
+                    <td>NW</td>
+                    <td>${company.name}</td>
+                    <td>${formatGregorianDate(company.date)}</td>
+                    <td>ايصال قبض</td>
+                    <td>1</td>
+                </tr>
+            `;
+            
+            // تحديث الرصيد التراكمي
+            let cumulativeBalance = openingBalance;
+            
+            // إضافة جميع المعاملات
+            allItems.forEach((item, index) => {
+                // تحديد القيم بناءً على نوع المعاملة
+                let debit = 0;
+                let credit = 0;
+                let path = '';
+                let service = '';
+                
+                if (item.type === 'ticket' || item.type === 'fine') {
+                    debit = item.amount;
+                    path = item.destination === 'IST' ? 'IST/MJI' : 'MJI/JST';
+                    service = item.type === 'ticket' ? 'تذكرة' : 'غرامة';
+                } else if (item.type === 'delivery') {
+                    credit = item.amount;
+                    path = '';
+                    service = 'تسليم';
+                }
+                
+                // تحديث الرصيد التراكمي
+                if (credit > 0) {
+                    cumulativeBalance += credit;
+                } else {
+                    cumulativeBalance -= debit;
+                }
+                
+                // تحديد لون الرصيد
+                const balanceClass = cumulativeBalance >= 0 ? 'print-balance-positive' : 'print-balance-negative';
+                
+                printHTML += `
+                    <tr>
+                        <td class="${balanceClass}">${formatDecimal(cumulativeBalance)}</td>
+                        <td class="print-debit">${debit > 0 ? formatDecimal(debit) : '0.000'}</td>
+                        <td class="print-credit">${credit > 0 ? formatDecimal(credit) : '0.000'}</td>
+                        <td>${path}</td>
+                        <td>${item.documentNo}</td>
+                        <td>NW</td>
+                        <td>${item.passenger}</td>
+                        <td>${formatGregorianDate(item.date)}</td>
+                        <td>${service}</td>
+                        <td>${index + 2}</td>
+                    </tr>
+                `;
+            });
+            
+            // حساب الرصيد النهائي
+            const finalBalance = cumulativeBalance;
+            
+            printHTML += `
+                    </table>
+                    
+                    <div class="print-summary">
+                        <div class="print-summary-title">أجمالي التقرير بالعملة LYD</div>
+                        <table class="print-summary-table">
+                            <tr>
+                                <td>الدائن</td>
+                                <td>${formatDecimal(totalCredit)} LYD</td>
+                            </tr>
+                            <tr>
+                                <td>المعين</td>
+                                <td>${formatDecimal(totalDebit)} LYD</td>
+                            </tr>
+                            <tr>
+                                <td>الرصيد</td>
+                                <td>${formatDecimal(finalBalance)} LYD</td>
+                            </tr>
+                            <tr>
+                                <td>الرصيد السابق</td>
+                                <td>${formatDecimal(openingBalance)} LYD</td>
+                            </tr>
+                            <tr>
+                                <td>اجمال الرصيد</td>
+                                <td>${formatDecimal(finalBalance)} LYD</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="print-total-balance">
+                        <div class="print-total-label">الرصيد النهائي</div>
+                        <div class="print-total-value">${formatDecimal(finalBalance)} LYD</div>
+                        <div style="margin-top: 5px; font-size: 11px;">
+                            ${finalBalance < 0 ? 'مدين' : 'دائن'}
+                        </div>
+                    </div>
+                    
                     <div class="print-footer">
                         <p>تم إنشاء هذا الكشف آلياً بواسطة نظام ISAM لحجز التذاكر</p>
                         <p>${formatGregorianDate(new Date().toISOString())} - جميع الحقوق محفوظة</p>
@@ -1693,7 +1999,198 @@
                 </div>
             `;
             
-            return printHTML;
+            // فتح نافذة جديدة للطباعة
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html dir="rtl" lang="ar">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>كشف حساب - ${company.name}</title>
+                    <style>
+                        body {
+                            font-family: 'Arial', sans-serif;
+                            margin: 0;
+                            padding: 20px;
+                            color: #333;
+                            direction: rtl;
+                            background: white;
+                        }
+                        
+                        .print-statement {
+                            width: 100%;
+                        }
+                        
+                        .print-header {
+                            text-align: center;
+                            margin-bottom: 20px;
+                            padding-bottom: 10px;
+                            border-bottom: 2px solid #333;
+                        }
+                        
+                        .print-header h1 {
+                            font-size: 20px;
+                            color: #2c3e50;
+                            margin-bottom: 5px;
+                        }
+                        
+                        .print-header h2 {
+                            font-size: 16px;
+                            color: #666;
+                            font-weight: normal;
+                        }
+                        
+                        .print-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin: 15px 0;
+                            font-size: 10px;
+                            page-break-inside: auto;
+                            border: 1px solid #ddd;
+                        }
+                        
+                        .print-table th {
+                            background-color: #f5f5f5 !important;
+                            color: black !important;
+                            font-weight: bold;
+                            padding: 6px 4px;
+                            border: 1px solid #ddd;
+                            text-align: center;
+                            font-size: 10px;
+                        }
+                        
+                        .print-table td {
+                            padding: 5px 4px;
+                            border: 1px solid #ddd;
+                            text-align: center;
+                            page-break-inside: avoid;
+                            word-wrap: break-word;
+                            max-width: 120px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                        
+                        .print-table tr:nth-child(even) {
+                            background-color: #f9f9f9;
+                        }
+                        
+                        .print-balance-positive {
+                            color: #27ae60;
+                            font-weight: bold;
+                        }
+                        
+                        .print-balance-negative {
+                            color: #e74c3c;
+                            font-weight: bold;
+                        }
+                        
+                        .print-debit {
+                            color: #e74c3c;
+                            font-weight: bold;
+                        }
+                        
+                        .print-credit {
+                            color: #27ae60;
+                            font-weight: bold;
+                        }
+                        
+                        .print-summary {
+                            margin-top: 20px;
+                            padding: 10px;
+                            background: #f8f9fa;
+                            border: 1px solid #ddd;
+                            border-radius: 5px;
+                            page-break-inside: avoid;
+                            font-size: 11px;
+                        }
+                        
+                        .print-summary-title {
+                            text-align: center;
+                            font-size: 12px;
+                            font-weight: bold;
+                            color: #2c3e50;
+                            margin-bottom: 10px;
+                            padding-bottom: 5px;
+                            border-bottom: 1px solid #ddd;
+                        }
+                        
+                        .print-summary-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin: 10px 0;
+                        }
+                        
+                        .print-summary-table td {
+                            padding: 6px 8px;
+                            border: 1px solid #ddd;
+                            text-align: right;
+                        }
+                        
+                        .print-summary-table td:first-child {
+                            font-weight: bold;
+                            text-align: left;
+                            width: 120px;
+                        }
+                        
+                        .print-total-balance {
+                            margin-top: 15px;
+                            padding: 10px;
+                            background: #2c3e50;
+                            color: white;
+                            border-radius: 5px;
+                            text-align: center;
+                            font-size: 12px;
+                            page-break-inside: avoid;
+                        }
+                        
+                        .print-total-label {
+                            font-size: 11px;
+                            margin-bottom: 5px;
+                        }
+                        
+                        .print-total-value {
+                            font-size: 16px;
+                            font-weight: bold;
+                        }
+                        
+                        .print-footer {
+                            text-align: center;
+                            margin-top: 15px;
+                            padding-top: 8px;
+                            border-top: 1px solid #ddd;
+                            color: #666;
+                            font-size: 9px;
+                            page-break-inside: avoid;
+                        }
+                        
+                        @media print {
+                            @page {
+                                size: landscape;
+                                margin: 5mm;
+                            }
+                            
+                            body {
+                                margin: 0;
+                                padding: 10mm;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${printHTML}
+                    <script>
+                        window.onload = function() {
+                            window.print();
+                            setTimeout(function() {
+                                window.close();
+                            }, 100);
+                        };
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
         }
 
         // فتح نموذج التعديل
@@ -1950,36 +2447,6 @@
             deleteId = null;
         }
 
-        // طباعة كشف الحساب
-        function printStatement() {
-            const companyId = document.getElementById('statementCompany').value;
-            if (!companyId) {
-                alert('يرجى اختيار شركة أولاً');
-                return;
-            }
-            
-            const company = isamData.companies.find(c => c.id == companyId);
-            if (!company) return;
-            
-            // إنشاء كشف الحساب للطباعة
-            const printHTML = createPrintableStatement(companyId);
-            document.getElementById('printContainer').innerHTML = printHTML;
-            
-            // إضافة اسم الشركة في عنوان الصفحة المطبوع
-            document.title = `كشف حساب - ${company.name} - ${formatGregorianDate(new Date().toISOString())}`;
-            
-            // الانتظار قليلاً ثم الطباعة
-            setTimeout(() => {
-                window.print();
-                // إعادة العنوان الأصلي
-                setTimeout(() => {
-                    document.title = 'نظام ISAM لحجز التذاكر';
-                    // تنظيف الحاوية بعد الطباعة
-                    document.getElementById('printContainer').innerHTML = '';
-                }, 100);
-            }, 500);
-        }
-
         // عرض القسم المحدد
         function showSection(sectionId) {
             // إخفاء رسالة الترحيب
@@ -2015,6 +2482,8 @@
                 }
             } else if (sectionId === 'companiesList') {
                 displayCompaniesList();
+            } else if (sectionId === 'transactionsList') {
+                displayTransactionsList();
             }
         }
 
@@ -2049,7 +2518,26 @@
             });
             
             // زر طباعة الكشف
-            document.getElementById('printStatementBtn').addEventListener('click', printStatement);
+            document.getElementById('printStatementBtn').addEventListener('click', function() {
+                printStatement();
+            });
+            
+            // أحداث البحث في المعاملات
+            document.getElementById('searchTransactions')?.addEventListener('input', function() {
+                displayTransactionsList();
+            });
+            
+            document.getElementById('filterType')?.addEventListener('change', function() {
+                displayTransactionsList();
+            });
+            
+            document.getElementById('filterCompany')?.addEventListener('change', function() {
+                displayTransactionsList();
+            });
+            
+            document.getElementById('filterDate')?.addEventListener('change', function() {
+                displayTransactionsList();
+            });
             
             // أحداث القائمة الرئيسية
             document.querySelectorAll('.menu-btn').forEach(button => {
