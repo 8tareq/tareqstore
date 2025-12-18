@@ -794,8 +794,6 @@
             }
         }
         
-        /* بطاقة الرصيد - تم إزالته */
-        
         /* جهات السفر */
         .destination-badge {
             display: inline-block;
@@ -1060,6 +1058,11 @@
                         <input type="text" class="form-control" id="company-name" placeholder="أدخل اسم الشركة" required>
                     </div>
                 
+                    <div class="mb-3">
+                        <label for="passenger-name" class="form-label">اسم المسافر *</label>
+                        <input type="text" class="form-control" id="passenger-name" placeholder="أدخل اسم المسافر" required>
+                    </div>
+                    
                     <div class="mb-3">
                         <label for="company-initial-balance" class="form-label">الرصيد الأولي (تستحق لنا)</label>
                         <input type="number" class="form-control" id="company-initial-balance" value="0" step="0.01">
@@ -1572,7 +1575,7 @@
                 });
             });
             
-            // حفظ الشركة
+            // حفظ الشركة - تم التعديل هنا
             document.getElementById('save-company').addEventListener('click', function() {
                 const name = document.getElementById('company-name').value.trim();
                 const passengerName = document.getElementById('passenger-name').value.trim();
@@ -1584,6 +1587,7 @@
                     const modal = bootstrap.Modal.getInstance(document.getElementById('addCompanyModal'));
                     modal.hide();
                     
+                    // إعادة تعيين الحقول
                     document.getElementById('company-name').value = '';
                     document.getElementById('passenger-name').value = '';
                     document.getElementById('company-initial-balance').value = '0';
@@ -1841,7 +1845,7 @@
             let allOperations = [
                 ...appData.tickets.map(t => ({ ...t, type: 'ticket' })),
                 ...appData.fines.map(f => ({ ...f, type: 'fine' }))
-            ].sort((a, b) => b.date - a.date).slice(0, 5);
+            ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
             
             if (allOperations.length === 0) {
                 container.innerHTML = `
@@ -2277,7 +2281,7 @@
             let allOperations = [
                 ...appData.tickets.map(t => ({ ...t, operationType: 'ticket' })),
                 ...appData.fines.map(f => ({ ...f, operationType: 'fine' }))
-            ].sort((a, b) => b.date - a.date);
+            ].sort((a, b) => new Date(b.date) - new Date(a.date));
             
             if (searchTerm) {
                 allOperations = allOperations.filter(operation => 
