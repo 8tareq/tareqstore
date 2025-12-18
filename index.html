@@ -1132,8 +1132,8 @@
                     
                     <div class="mb-3">
                         <label for="ticket-passenger" class="form-label">اسم المسافر *</label>
-                        <input type="text" class="form-control" id="ticket-passenger" placeholder="اسم المسافر" readonly>
-                        <small class="text-muted">سيتم تعبئة هذا الحقل تلقائياً بعد اختيار الشركة</small>
+                        <input type="text" class="form-control" id="ticket-passenger" placeholder="اسم المسافر">
+                        <small class="text-muted">يمكنك تعديل اسم المسافر إذا كان مختلفاً عن المختار</small>
                     </div>
                     
                     <div class="row mb-3">
@@ -1195,7 +1195,7 @@
                     
                     <div class="mb-3">
                         <label class="form-label">اسم المسافر</label>
-                        <input type="text" class="form-control" id="edit-ticket-passenger" readonly>
+                        <input type="text" class="form-control" id="edit-ticket-passenger">
                     </div>
                     
                     <div class="row mb-3">
@@ -1261,8 +1261,8 @@
                     
                     <div class="mb-3">
                         <label for="fine-passenger" class="form-label">اسم المسافر *</label>
-                        <input type="text" class="form-control" id="fine-passenger" placeholder="اسم المسافر" readonly>
-                        <small class="text-muted">سيتم تعبئة هذا الحقل تلقائياً بعد اختيار الشركة</small>
+                        <input type="text" class="form-control" id="fine-passenger" placeholder="اسم المسافر">
+                        <small class="text-muted">يمكنك تعديل اسم المسافر إذا كان مختلفاً عن المختار</small>
                     </div>
                     
                     <div class="mb-3">
@@ -1310,7 +1310,7 @@
                     
                     <div class="mb-3">
                         <label class="form-label">اسم المسافر</label>
-                        <input type="text" class="form-control" id="edit-fine-passenger" readonly>
+                        <input type="text" class="form-control" id="edit-fine-passenger">
                     </div>
                     
                     <div class="mb-3">
@@ -1575,7 +1575,7 @@
                 });
             });
             
-            // حفظ الشركة - تم التعديل هنا
+            // حفظ الشركة
             document.getElementById('save-company').addEventListener('click', function() {
                 const name = document.getElementById('company-name').value.trim();
                 const passengerName = document.getElementById('passenger-name').value.trim();
@@ -1619,7 +1619,7 @@
             // حفظ التذكرة
             document.getElementById('save-ticket').addEventListener('click', function() {
                 const companyId = document.getElementById('ticket-company').value;
-                const passenger = document.getElementById('ticket-passenger').value;
+                const passenger = document.getElementById('ticket-passenger').value.trim();
                 const from = document.getElementById('ticket-from').value;
                 const to = document.getElementById('ticket-to').value;
                 const date = document.getElementById('ticket-date').value;
@@ -1649,14 +1649,15 @@
             // تحديث التذكرة
             document.getElementById('update-ticket').addEventListener('click', function() {
                 const id = document.getElementById('edit-ticket-id').value;
+                const passenger = document.getElementById('edit-ticket-passenger').value.trim();
                 const from = document.getElementById('edit-ticket-from').value;
                 const to = document.getElementById('edit-ticket-to').value;
                 const date = document.getElementById('edit-ticket-date').value;
                 const documentNumber = document.getElementById('edit-ticket-document-number').value;
                 const amount = parseFloat(document.getElementById('edit-ticket-amount').value);
                 
-                if (amount > 0 && date) {
-                    updateTicket(id, from, to, date, documentNumber, amount);
+                if (amount > 0 && date && passenger) {
+                    updateTicket(id, passenger, from, to, date, documentNumber, amount);
                     
                     const modal = bootstrap.Modal.getInstance(document.getElementById('editTicketModal'));
                     modal.hide();
@@ -1670,7 +1671,7 @@
             // حفظ الغرامة
             document.getElementById('save-fine').addEventListener('click', function() {
                 const companyId = document.getElementById('fine-company').value;
-                const passenger = document.getElementById('fine-passenger').value;
+                const passenger = document.getElementById('fine-passenger').value.trim();
                 const date = document.getElementById('fine-date').value;
                 const documentNumber = document.getElementById('fine-document-number').value;
                 const description = document.getElementById('fine-description').value.trim();
@@ -1700,13 +1701,14 @@
             // تحديث الغرامة
             document.getElementById('update-fine').addEventListener('click', function() {
                 const id = document.getElementById('edit-fine-id').value;
+                const passenger = document.getElementById('edit-fine-passenger').value.trim();
                 const date = document.getElementById('edit-fine-date').value;
                 const documentNumber = document.getElementById('edit-fine-document-number').value;
                 const description = document.getElementById('edit-fine-description').value.trim();
                 const amount = parseFloat(document.getElementById('edit-fine-amount').value);
                 
-                if (amount > 0 && date && description) {
-                    updateFine(id, date, documentNumber, description, amount);
+                if (amount > 0 && date && description && passenger) {
+                    updateFine(id, passenger, date, documentNumber, description, amount);
                     
                     const modal = bootstrap.Modal.getInstance(document.getElementById('editFineModal'));
                     modal.hide();
@@ -1760,6 +1762,7 @@
                         companyDetailsSpan.textContent = `الشركة: ${company.name} - الرصيد الحالي: ${formatCurrency(company.balance)}`;
                         infoDiv.style.display = 'block';
                         
+                        // تعبئة اسم المسافر تلقائياً، لكن يمكن للمستخدم تعديله
                         document.getElementById('ticket-passenger').value = company.passengerName;
                     }
                 } else {
@@ -1782,6 +1785,7 @@
                         companyDetailsSpan.textContent = `الشركة: ${company.name} - الرصيد الحالي: ${formatCurrency(company.balance)}`;
                         infoDiv.style.display = 'block';
                         
+                        // تعبئة اسم المسافر تلقائياً، لكن يمكن للمستخدم تعديله
                         document.getElementById('fine-passenger').value = company.passengerName;
                     }
                 } else {
@@ -2110,11 +2114,11 @@
                 document.getElementById('edit-ticket-date').value = formatDate(new Date(ticket.date), false);
                 document.getElementById('edit-ticket-document-number').value = ticket.documentNumber || '';
                 document.getElementById('edit-ticket-amount').value = ticket.amount;
+                document.getElementById('edit-ticket-passenger').value = ticket.passengerName;
                 
                 // إظهار معلومات الشركة والمسافر
                 document.getElementById('edit-ticket-passenger-name').textContent = ticket.passengerName;
                 document.getElementById('edit-ticket-company-info').textContent = `الشركة: ${ticket.companyName}`;
-                document.getElementById('edit-ticket-passenger').value = ticket.passengerName;
                 
                 const modal = new bootstrap.Modal(document.getElementById('editTicketModal'));
                 modal.show();
@@ -2122,7 +2126,7 @@
         }
 
         // تحديث تذكرة
-        function updateTicket(id, from, to, date, documentNumber, amount) {
+        function updateTicket(id, passengerName, from, to, date, documentNumber, amount) {
             const ticket = appData.tickets.find(t => t.id === id);
             if (!ticket) return;
             
@@ -2133,6 +2137,7 @@
             company.balance -= ticket.amount;
             company.balance += amount;
             
+            ticket.passengerName = passengerName;
             ticket.from = from;
             ticket.to = to;
             ticket.date = date ? new Date(date).getTime() : new Date().getTime();
@@ -2182,11 +2187,11 @@
                 document.getElementById('edit-fine-document-number').value = fine.documentNumber || '';
                 document.getElementById('edit-fine-description').value = fine.description;
                 document.getElementById('edit-fine-amount').value = fine.amount;
+                document.getElementById('edit-fine-passenger').value = fine.passengerName;
                 
                 // إظهار معلومات الشركة والمسافر
                 document.getElementById('edit-fine-passenger-name').textContent = fine.passengerName;
                 document.getElementById('edit-fine-company-info').textContent = `الشركة: ${fine.companyName}`;
-                document.getElementById('edit-fine-passenger').value = fine.passengerName;
                 
                 const modal = new bootstrap.Modal(document.getElementById('editFineModal'));
                 modal.show();
@@ -2194,7 +2199,7 @@
         }
 
         // تحديث غرامة
-        function updateFine(id, date, documentNumber, description, amount) {
+        function updateFine(id, passengerName, date, documentNumber, description, amount) {
             const fine = appData.fines.find(f => f.id === id);
             if (!fine) return;
             
@@ -2205,6 +2210,7 @@
             company.balance -= fine.amount;
             company.balance += amount;
             
+            fine.passengerName = passengerName;
             fine.date = date ? new Date(date).getTime() : new Date().getTime();
             fine.documentNumber = documentNumber;
             fine.description = description;
