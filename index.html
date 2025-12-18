@@ -917,6 +917,12 @@
             font-size: 0.9rem;
             color: #666;
         }
+        
+        /* نوع تسليم مبلغ */
+        .type-payment {
+            background: rgba(33, 150, 243, 0.1);
+            color: #2196F3;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -961,6 +967,9 @@
                     </button>
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFineModal">
                         <i class="fas fa-exclamation-triangle"></i> إضافة غرامة
+                    </button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPaymentModal">
+                        <i class="fas fa-money-bill-wave"></i> تسليم مبلغ
                     </button>
                     <button class="btn btn-primary" id="openStatementModal">
                         <i class="fas fa-file-invoice"></i> كشف الحساب
@@ -1131,9 +1140,9 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label for="ticket-passenger" class="form-label">اسم المسافر *</label>
-                        <input type="text" class="form-control" id="ticket-passenger" placeholder="اسم المسافر">
-                        <small class="text-muted">يمكنك تعديل اسم المسافر إذا كان مختلفاً عن المختار</small>
+                        <label for="ticket-passenger" class="form-label">الاسم *</label>
+                        <input type="text" class="form-control" id="ticket-passenger" placeholder="اسم المسافر أو الشركة أو أي شيء">
+                        <small class="text-muted">يمكنك إدخال اسم المسافر أو الشركة أو أي وصف</small>
                     </div>
                     
                     <div class="row mb-3">
@@ -1194,7 +1203,7 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label class="form-label">اسم المسافر</label>
+                        <label class="form-label">الاسم</label>
                         <input type="text" class="form-control" id="edit-ticket-passenger">
                     </div>
                     
@@ -1260,9 +1269,9 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label for="fine-passenger" class="form-label">اسم المسافر *</label>
-                        <input type="text" class="form-control" id="fine-passenger" placeholder="اسم المسافر">
-                        <small class="text-muted">يمكنك تعديل اسم المسافر إذا كان مختلفاً عن المختار</small>
+                        <label for="fine-passenger" class="form-label">الاسم *</label>
+                        <input type="text" class="form-control" id="fine-passenger" placeholder="اسم المسافر أو الشركة أو أي شيء">
+                        <small class="text-muted">يمكنك إدخال اسم المسافر أو الشركة أو أي وصف</small>
                     </div>
                     
                     <div class="mb-3">
@@ -1309,7 +1318,7 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label class="form-label">اسم المسافر</label>
+                        <label class="form-label">الاسم</label>
                         <input type="text" class="form-control" id="edit-fine-passenger">
                     </div>
                     
@@ -1333,6 +1342,119 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
                     <button type="button" class="btn btn-primary" id="update-fine">تحديث الغرامة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- نموذج إضافة تسليم مبلغ -->
+    <div class="modal fade" id="addPaymentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-money-bill-wave"></i> تسليم مبلغ</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="payment-company" class="form-label">اختر الشركة والمسافر *</label>
+                        <select class="form-control" id="payment-company" required>
+                            <option value="">اختر الشركة والمسافر</option>
+                        </select>
+                    </div>
+                    
+                    <!-- معلومات المسافر والشركة -->
+                    <div id="payment-company-info" class="passenger-info mb-3" style="display: none;">
+                        <div class="passenger-name" id="payment-passenger-name"></div>
+                        <div class="passenger-details" id="payment-company-details"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="payment-passenger" class="form-label">الاسم *</label>
+                        <input type="text" class="form-control" id="payment-passenger" placeholder="اسم المسافر أو الشركة أو أي شيء">
+                        <small class="text-muted">يمكنك إدخال اسم المسافر أو الشركة أو أي وصف</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="payment-date" class="form-label">تاريخ التسليم *</label>
+                        <input type="date" class="form-control" id="payment-date" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="payment-document-number" class="form-label">رقم المستند</label>
+                        <input type="text" class="form-control" id="payment-document-number" placeholder="رقم الفاتورة أو المستند">
+                        <small class="text-muted">اختياري - للرجوع للمستند الأصلي</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="payment-description" class="form-label">وصف التسليم</label>
+                        <input type="text" class="form-control" id="payment-description" placeholder="سبب التسليم أو ملاحظات">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="payment-amount" class="form-label">المبلغ المسلم (دينار ليبي) *</label>
+                        <input type="number" class="form-control" id="payment-amount" placeholder="أدخل المبلغ المسلم" step="0.01" min="0" required>
+                        <small class="text-muted">المبلغ المسلم سيقلل من الرصيد المستحق لنا</small>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <small>ملاحظة: تسليم المبلغ للشركة يقلل من الرصيد المستحق لنا (ينقص من حساب الشركة)</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-primary" id="save-payment">حفظ التسليم</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- نموذج تعديل تسليم مبلغ -->
+    <div class="modal fade" id="editPaymentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-edit"></i> تعديل تسليم مبلغ</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="edit-payment-id">
+                    
+                    <!-- معلومات المسافر والشركة -->
+                    <div class="passenger-info mb-3">
+                        <div class="passenger-name" id="edit-payment-passenger-name"></div>
+                        <div class="passenger-details" id="edit-payment-company-info"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">الاسم</label>
+                        <input type="text" class="form-control" id="edit-payment-passenger">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="edit-payment-date" class="form-label">تاريخ التسليم *</label>
+                        <input type="date" class="form-control" id="edit-payment-date" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="edit-payment-document-number" class="form-label">رقم المستند</label>
+                        <input type="text" class="form-control" id="edit-payment-document-number">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="edit-payment-description" class="form-label">وصف التسليم</label>
+                        <input type="text" class="form-control" id="edit-payment-description" placeholder="سبب التسليم أو ملاحظات">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="edit-payment-amount" class="form-label">المبلغ المسلم (دينار ليبي) *</label>
+                        <input type="number" class="form-control" id="edit-payment-amount" step="0.01" min="0" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-primary" id="update-payment">تحديث التسليم</button>
                 </div>
             </div>
         </div>
@@ -1400,6 +1522,10 @@
                                     <div class="summary-value text-danger" id="total-fines-statement">0 د.ل</div>
                                 </div>
                                 <div class="summary-item">
+                                    <div class="summary-label">إجمالي التسليم</div>
+                                    <div class="summary-value text-info" id="total-payments-statement">0 د.ل</div>
+                                </div>
+                                <div class="summary-item">
                                     <div class="summary-label">الرصيد النهائي</div>
                                     <div class="summary-value text-primary" id="final-balance-statement">0 د.ل</div>
                                 </div>
@@ -1411,7 +1537,7 @@
                                         <tr>
                                             <th>التاريخ</th>
                                             <th>نوع العملية</th>
-                                            <th>اسم المسافر</th>
+                                            <th>الاسم</th>
                                             <th>رقم المستند</th>
                                             <th>الوجهة/الوصف</th>
                                             <th>المبلغ</th>
@@ -1433,6 +1559,10 @@
                                     <div class="footer-item expense">
                                         <h5>إجمالي الغرامات</h5>
                                         <div class="value" id="print-total-fines">0 د.ل</div>
+                                    </div>
+                                    <div class="footer-item">
+                                        <h5>إجمالي التسليم</h5>
+                                        <div class="value" id="print-total-payments">0 د.ل</div>
                                     </div>
                                     <div class="footer-item net">
                                         <h5>الرصيد النهائي</h5>
@@ -1463,6 +1593,7 @@
             companies: [],
             tickets: [],
             fines: [],
+            payments: [], // إضافة مصفوفة للتسليمات
             currentSection: 'home'
         };
 
@@ -1473,15 +1604,26 @@
             
             // تحميل البيانات وتهيئة التطبيق
             setTimeout(() => {
-                loadData();
-                initializeApp();
-                updateUI();
-                startClock();
-                
-                // إخفاء شاشة التحميل بعد تهيئة كل شيء
-                setTimeout(() => {
+                try {
+                    loadData();
+                    initializeApp();
+                    updateUI();
+                    startClock();
+                    
+                    // إخفاء شاشة التحميل بعد تهيئة كل شيء
+                    setTimeout(() => {
+                        showLoading(false);
+                        // تأكد من إظهار القسم الرئيسي مرة واحدة فقط
+                        const homeSection = document.getElementById('home-section');
+                        if (homeSection && appData.currentSection === 'home') {
+                            homeSection.classList.add('active');
+                        }
+                    }, 500);
+                } catch (error) {
+                    console.error('خطأ في تهيئة التطبيق:', error);
                     showLoading(false);
-                }, 500);
+                    showNotification('error', 'خطأ', 'حدث خطأ في تحميل التطبيق، يرجى تحديث الصفحة');
+                }
             }, 300);
         });
 
@@ -1498,6 +1640,8 @@
         // إظهار الإشعار
         function showNotification(type, title, message, duration = 3000) {
             const container = document.getElementById('notificationContainer');
+            if (!container) return;
+            
             const notificationId = 'notification-' + Date.now();
             
             let icon = 'info-circle';
@@ -1719,6 +1863,57 @@
                 }
             });
             
+            // حفظ تسليم المبلغ
+            document.getElementById('save-payment').addEventListener('click', function() {
+                const companyId = document.getElementById('payment-company').value;
+                const passenger = document.getElementById('payment-passenger').value.trim();
+                const date = document.getElementById('payment-date').value;
+                const documentNumber = document.getElementById('payment-document-number').value;
+                const description = document.getElementById('payment-description').value.trim();
+                const amount = parseFloat(document.getElementById('payment-amount').value);
+                
+                if (companyId && amount > 0 && date && passenger) {
+                    addPayment(companyId, passenger, date, documentNumber, description, amount);
+                    
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('addPaymentModal'));
+                    modal.hide();
+                    
+                    // إعادة تعيين الحقول
+                    document.getElementById('payment-amount').value = '';
+                    document.getElementById('payment-description').value = '';
+                    document.getElementById('payment-document-number').value = '';
+                    document.getElementById('payment-company').value = '';
+                    document.getElementById('payment-passenger').value = '';
+                    document.getElementById('payment-date').value = '';
+                    document.getElementById('payment-company-info').style.display = 'none';
+                    
+                    showNotification('success', 'تم بنجاح', 'تم تسليم المبلغ بنجاح');
+                } else {
+                    showNotification('error', 'خطأ', 'يرجى تعبئة جميع الحقول المطلوبة');
+                }
+            });
+            
+            // تحديث تسليم المبلغ
+            document.getElementById('update-payment').addEventListener('click', function() {
+                const id = document.getElementById('edit-payment-id').value;
+                const passenger = document.getElementById('edit-payment-passenger').value.trim();
+                const date = document.getElementById('edit-payment-date').value;
+                const documentNumber = document.getElementById('edit-payment-document-number').value;
+                const description = document.getElementById('edit-payment-description').value.trim();
+                const amount = parseFloat(document.getElementById('edit-payment-amount').value);
+                
+                if (amount > 0 && date && passenger) {
+                    updatePayment(id, passenger, date, documentNumber, description, amount);
+                    
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('editPaymentModal'));
+                    modal.hide();
+                    
+                    showNotification('success', 'تم بنجاح', 'تم تحديث تسليم المبلغ بنجاح');
+                } else {
+                    showNotification('error', 'خطأ', 'يرجى إدخال بيانات صحيحة');
+                }
+            });
+            
             // فتح نموذج كشف الحساب
             document.getElementById('openStatementModal').addEventListener('click', function() {
                 updateStatementCompanySelect();
@@ -1794,25 +1989,54 @@
                 }
             });
             
+            // إظهار بيانات الشركة والمسافر عند اختيارها في نموذج التسليم
+            document.getElementById('payment-company').addEventListener('change', function() {
+                const companyId = this.value;
+                if (companyId) {
+                    const company = appData.companies.find(c => c.id === companyId);
+                    if (company) {
+                        const infoDiv = document.getElementById('payment-company-info');
+                        const passengerNameSpan = document.getElementById('payment-passenger-name');
+                        const companyDetailsSpan = document.getElementById('payment-company-details');
+                        
+                        passengerNameSpan.textContent = company.passengerName;
+                        companyDetailsSpan.textContent = `الشركة: ${company.name} - الرصيد الحالي: ${formatCurrency(company.balance)}`;
+                        infoDiv.style.display = 'block';
+                        
+                        // تعبئة اسم المسافر تلقائياً، لكن يمكن للمستخدم تعديله
+                        document.getElementById('payment-passenger').value = company.passengerName;
+                    }
+                } else {
+                    document.getElementById('payment-company-info').style.display = 'none';
+                    document.getElementById('payment-passenger').value = '';
+                }
+            });
+            
             // تعيين التاريخ الحالي افتراضياً في النماذج
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('ticket-date').value = today;
             document.getElementById('fine-date').value = today;
-            
-            // تأكد من إظهار القسم الرئيسي
-            showSection('home');
+            document.getElementById('payment-date').value = today;
         }
 
         // عرض القسم المحدد
         function showSection(section) {
+            // إذا كان القسم الحالي هو نفسه المطلوب، لا تفعل شيئاً
+            if (appData.currentSection === section) {
+                return;
+            }
+            
             appData.currentSection = section;
             
+            // إخفاء جميع الأقسام
             document.querySelectorAll('.section').forEach(sec => {
                 sec.classList.remove('active', 'slide-out');
                 sec.style.display = 'none';
             });
             
             const targetSection = document.getElementById(`${section}-section`);
+            if (!targetSection) return;
+            
             targetSection.style.display = 'block';
             setTimeout(() => {
                 targetSection.classList.add('active');
@@ -1844,11 +2068,13 @@
         // تحديث آخر العمليات
         function updateRecentOperations() {
             const container = document.getElementById('recent-operations');
+            if (!container) return;
             
             // جمع آخر 5 عمليات
             let allOperations = [
                 ...appData.tickets.map(t => ({ ...t, type: 'ticket' })),
-                ...appData.fines.map(f => ({ ...f, type: 'fine' }))
+                ...appData.fines.map(f => ({ ...f, type: 'fine' })),
+                ...appData.payments.map(p => ({ ...p, type: 'payment' }))
             ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
             
             if (allOperations.length === 0) {
@@ -1879,16 +2105,22 @@
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <h6 class="mb-1 fw-bold">${operation.companyName}</h6>
-                            <div class="passenger-details mb-2">المسافر: ${operation.passengerName}</div>
+                            <div class="passenger-details mb-2">الاسم: ${operation.passengerName}</div>
                             <small class="text-muted">${dateString}</small>
                             ${operation.type === 'ticket' ? 
                                 `<div class="mt-1"><span class="destination-badge destination-${operation.from.toLowerCase()}">${getCityName(operation.from)} → ${getCityName(operation.to)}</span></div>` : 
-                                `<p class="mb-0 mt-1 small">${operation.description}</p>`
+                                operation.type === 'fine' ? 
+                                `<p class="mb-0 mt-1 small">${operation.description}</p>` :
+                                `<p class="mb-0 mt-1 small">${operation.description || 'تسليم مبلغ'}</p>`
                             }
                         </div>
                         <div class="text-end">
-                            <h6 class="mb-1 ${operation.type === 'ticket' ? 'text-success' : 'text-danger'} fw-bold">+${formatCurrency(operation.amount)}</h6>
-                            <span class="type-badge type-${operation.type}">${operation.type === 'ticket' ? 'تذكرة' : 'غرامة'}</span>
+                            <h6 class="mb-1 ${operation.type === 'ticket' ? 'text-success' : operation.type === 'fine' ? 'text-danger' : 'text-info'} fw-bold">
+                                ${operation.type === 'payment' ? '-' : '+'}${formatCurrency(operation.amount)}
+                            </h6>
+                            <span class="type-badge type-${operation.type}">
+                                ${operation.type === 'ticket' ? 'تذكرة' : operation.type === 'fine' ? 'غرامة' : 'تسليم'}
+                            </span>
                         </div>
                     </div>
                 `;
@@ -1901,11 +2133,14 @@
         function updateSelects() {
             updateCompanySelect('ticket-company');
             updateCompanySelect('fine-company');
+            updateCompanySelect('payment-company');
         }
 
         // تحديث قائمة الشركات في select
         function updateCompanySelect(selectId) {
             const select = document.getElementById(selectId);
+            if (!select) return;
+            
             select.innerHTML = '<option value="">اختر الشركة والمسافر</option>';
             
             appData.companies.forEach(company => {
@@ -1919,6 +2154,8 @@
         // تحديث قائمة الشركات في كشف الحساب
         function updateStatementCompanySelect() {
             const select = document.getElementById('statement-company');
+            if (!select) return;
+            
             select.innerHTML = '<option value="">اختر الشركة والمسافر</option>';
             
             appData.companies.forEach(company => {
@@ -1933,8 +2170,11 @@
             const thirtyDaysAgo = new Date();
             thirtyDaysAgo.setDate(today.getDate() - 30);
             
-            document.getElementById('statement-from-date').value = thirtyDaysAgo.toISOString().split('T')[0];
-            document.getElementById('statement-to-date').value = today.toISOString().split('T')[0];
+            const fromDateInput = document.getElementById('statement-from-date');
+            const toDateInput = document.getElementById('statement-to-date');
+            
+            if (fromDateInput) fromDateInput.value = thirtyDaysAgo.toISOString().split('T')[0];
+            if (toDateInput) toDateInput.value = today.toISOString().split('T')[0];
         }
 
         // توليد معرف فريد
@@ -1950,6 +2190,14 @@
                     appData = JSON.parse(savedData);
                 } catch (e) {
                     console.error('خطأ في تحميل البيانات:', e);
+                    // إعادة تعيين البيانات في حالة الخطأ
+                    appData = {
+                        companies: [],
+                        tickets: [],
+                        fines: [],
+                        payments: [],
+                        currentSection: 'home'
+                    };
                 }
             }
         }
@@ -1973,7 +2221,10 @@
         function updateClock() {
             const now = new Date();
             const timeString = formatDate(now, true);
-            document.getElementById('header-time').textContent = timeString;
+            const headerTime = document.getElementById('header-time');
+            if (headerTime) {
+                headerTime.textContent = timeString;
+            }
         }
 
         // تنسيق التاريخ
@@ -2063,6 +2314,13 @@
                     if (fine.companyId === id) {
                         fine.companyName = name;
                         fine.passengerName = passengerName;
+                    }
+                });
+                
+                appData.payments.forEach(payment => {
+                    if (payment.companyId === id) {
+                        payment.companyName = name;
+                        payment.passengerName = passengerName;
                     }
                 });
                 
@@ -2222,9 +2480,82 @@
             updateHomeScreen();
         }
 
+        // إضافة تسليم مبلغ
+        function addPayment(companyId, passengerName, date, documentNumber, description, amount) {
+            const company = appData.companies.find(c => c.id === companyId);
+            if (!company) return;
+            
+            // تقليل رصيد الشركة (نحن نسلم لهم المبلغ)
+            company.balance -= amount;
+            
+            const payment = {
+                id: generateId(),
+                companyId,
+                companyName: company.name,
+                passengerName,
+                date: date ? new Date(date).getTime() : new Date().getTime(),
+                documentNumber,
+                description,
+                amount,
+                type: 'payment',
+                createdAt: new Date().getTime()
+            };
+            
+            appData.payments.push(payment);
+            saveData();
+            updateTicketsList();
+            updateCompaniesList();
+            updateHomeScreen();
+        }
+
+        // تعديل تسليم مبلغ
+        function editPayment(id) {
+            const payment = appData.payments.find(p => p.id === id);
+            if (payment) {
+                document.getElementById('edit-payment-id').value = payment.id;
+                document.getElementById('edit-payment-date').value = formatDate(new Date(payment.date), false);
+                document.getElementById('edit-payment-document-number').value = payment.documentNumber || '';
+                document.getElementById('edit-payment-description').value = payment.description || '';
+                document.getElementById('edit-payment-amount').value = payment.amount;
+                document.getElementById('edit-payment-passenger').value = payment.passengerName;
+                
+                // إظهار معلومات الشركة والمسافر
+                document.getElementById('edit-payment-passenger-name').textContent = payment.passengerName;
+                document.getElementById('edit-payment-company-info').textContent = `الشركة: ${payment.companyName}`;
+                
+                const modal = new bootstrap.Modal(document.getElementById('editPaymentModal'));
+                modal.show();
+            }
+        }
+
+        // تحديث تسليم مبلغ
+        function updatePayment(id, passengerName, date, documentNumber, description, amount) {
+            const payment = appData.payments.find(p => p.id === id);
+            if (!payment) return;
+            
+            const company = appData.companies.find(c => c.id === payment.companyId);
+            if (!company) return;
+            
+            // إزالة المبلغ القديم وإضافة الجديد
+            company.balance += payment.amount; // نرجع المبلغ القديم
+            company.balance -= amount; // ننزل المبلغ الجديد
+            
+            payment.passengerName = passengerName;
+            payment.date = date ? new Date(date).getTime() : new Date().getTime();
+            payment.documentNumber = documentNumber;
+            payment.description = description;
+            payment.amount = amount;
+            
+            saveData();
+            updateTicketsList();
+            updateCompaniesList();
+            updateHomeScreen();
+        }
+
         // تحديث قائمة الشركات
         function updateCompaniesList(searchTerm = '') {
             const container = document.getElementById('companies-list');
+            if (!container) return;
             
             let filteredCompanies = appData.companies;
             
@@ -2282,11 +2613,13 @@
         // تحديث قائمة التذاكر
         function updateTicketsList(searchTerm = '') {
             const container = document.getElementById('tickets-list');
+            if (!container) return;
             
             // جمع جميع العمليات
             let allOperations = [
                 ...appData.tickets.map(t => ({ ...t, operationType: 'ticket' })),
-                ...appData.fines.map(f => ({ ...f, operationType: 'fine' }))
+                ...appData.fines.map(f => ({ ...f, operationType: 'fine' })),
+                ...appData.payments.map(p => ({ ...p, operationType: 'payment' }))
             ].sort((a, b) => new Date(b.date) - new Date(a.date));
             
             if (searchTerm) {
@@ -2294,7 +2627,8 @@
                     operation.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     operation.passengerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     operation.documentNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    (operation.operationType === 'fine' && operation.description?.toLowerCase().includes(searchTerm.toLowerCase()))
+                    (operation.operationType === 'fine' && operation.description?.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    (operation.operationType === 'payment' && operation.description?.toLowerCase().includes(searchTerm.toLowerCase()))
                 );
             }
             
@@ -2321,17 +2655,23 @@
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <h6 class="mb-1 fw-bold">${operation.companyName}</h6>
-                            <div class="passenger-details mb-2">المسافر: ${operation.passengerName}</div>
+                            <div class="passenger-details mb-2">الاسم: ${operation.passengerName}</div>
                             <small class="text-muted">${dateString}</small>
                             ${operation.operationType === 'ticket' ? 
                                 `<div class="mt-1"><span class="destination-badge destination-${operation.from.toLowerCase()}">${getCityName(operation.from)} → ${getCityName(operation.to)}</span></div>` : 
-                                `<p class="mb-0 mt-1 small">${operation.description}</p>`
+                                operation.operationType === 'fine' ? 
+                                `<p class="mb-0 mt-1 small">${operation.description}</p>` :
+                                `<p class="mb-0 mt-1 small">${operation.description || 'تسليم مبلغ'}</p>`
                             }
                             ${operation.documentNumber ? `<small class="d-block text-muted mt-1">رقم المستند: ${operation.documentNumber}</small>` : ''}
                         </div>
                         <div class="text-end">
-                            <h6 class="mb-1 ${operation.operationType === 'ticket' ? 'text-success' : 'text-danger'} fw-bold">+${formatCurrency(operation.amount)}</h6>
-                            <span class="type-badge type-${operation.operationType}">${operation.operationType === 'ticket' ? 'تذكرة' : 'غرامة'}</span>
+                            <h6 class="mb-1 ${operation.operationType === 'ticket' ? 'text-success' : operation.operationType === 'fine' ? 'text-danger' : 'text-info'} fw-bold">
+                                ${operation.operationType === 'payment' ? '-' : '+'}${formatCurrency(operation.amount)}
+                            </h6>
+                            <span class="type-badge type-${operation.operationType === 'payment' ? 'payment' : operation.operationType}">
+                                ${operation.operationType === 'ticket' ? 'تذكرة' : operation.operationType === 'fine' ? 'غرامة' : 'تسليم'}
+                            </span>
                             <div class="ticket-actions mt-2">
                                 <button class="action-icon-btn edit edit-operation" data-id="${operation.id}" data-type="${operation.operationType}">
                                     <i class="fas fa-edit"></i>
@@ -2356,6 +2696,8 @@
                 editTicket(id);
             } else if (type === 'fine') {
                 editFine(id);
+            } else if (type === 'payment') {
+                editPayment(id);
             }
         }
 
@@ -2371,6 +2713,7 @@
             // حذف العمليات المرتبطة
             appData.tickets = appData.tickets.filter(t => t.companyId !== id);
             appData.fines = appData.fines.filter(f => f.companyId !== id);
+            appData.payments = appData.payments.filter(p => p.companyId !== id);
             
             // حذف الشركة
             appData.companies = appData.companies.filter(c => c.id !== id);
@@ -2411,6 +2754,16 @@
                 }
                 
                 appData.fines = appData.fines.filter(f => f.id !== id);
+            } else if (type === 'payment') {
+                const payment = appData.payments.find(p => p.id === id);
+                if (!payment) return;
+                
+                const company = appData.companies.find(c => c.id === payment.companyId);
+                if (company) {
+                    company.balance += payment.amount; // نرجع المبلغ المسلّم
+                }
+                
+                appData.payments = appData.payments.filter(p => p.id !== id);
             }
             
             saveData();
@@ -2441,16 +2794,31 @@
             // جمع عمليات الشركة
             const companyTickets = appData.tickets.filter(t => t.companyId === companyId && t.date >= fromTimestamp && t.date <= toTimestamp);
             const companyFines = appData.fines.filter(f => f.companyId === companyId && f.date >= fromTimestamp && f.date <= toTimestamp);
+            const companyPayments = appData.payments.filter(p => p.companyId === companyId && p.date >= fromTimestamp && p.date <= toTimestamp);
             
             // دمج العمليات
             let allOperations = [
                 ...companyTickets.map(t => ({ ...t, operationType: 'ticket' })),
-                ...companyFines.map(f => ({ ...f, operationType: 'fine' }))
+                ...companyFines.map(f => ({ ...f, operationType: 'fine' })),
+                ...companyPayments.map(p => ({ ...p, operationType: 'payment' }))
             ].sort((a, b) => a.date - b.date);
             
-            let runningBalance = 0;
+            // حساب الرصيد الابتدائي (قبل الفترة)
+            let initialBalance = company.balance;
+            
+            // نطرح العمليات في الفترة لنحصل على الرصيد قبل الفترة
+            allOperations.forEach(operation => {
+                if (operation.operationType === 'payment') {
+                    initialBalance += operation.amount; // نرجع المبلغ المسلّم
+                } else {
+                    initialBalance -= operation.amount; // نرجع التذاكر والغرامات
+                }
+            });
+            
+            let runningBalance = initialBalance;
             let totalTickets = 0;
             let totalFines = 0;
+            let totalPayments = 0;
             
             // تحديث العنوان
             document.getElementById('statement-title').textContent = `كشف حساب ${company.name}`;
@@ -2475,6 +2843,19 @@
                     </tr>
                 `;
             } else {
+                // إضافة صف الرصيد الابتدائي
+                const initialRow = document.createElement('tr');
+                initialRow.innerHTML = `
+                    <td>${fromDate}</td>
+                    <td>رصيد أولي</td>
+                    <td>${company.passengerName}</td>
+                    <td>-</td>
+                    <td>رصيد أولي للفترة</td>
+                    <td class="fw-bold">${formatCurrency(initialBalance)}</td>
+                    <td class="fw-bold">${formatCurrency(runningBalance)}</td>
+                `;
+                tableBody.appendChild(initialRow);
+                
                 // إضافة الصفوف
                 allOperations.forEach(operation => {
                     const date = new Date(operation.date);
@@ -2486,13 +2867,18 @@
                         operationType = 'تذكرة';
                         destination = `${getCityName(operation.from)} → ${getCityName(operation.to)}`;
                         totalTickets += operation.amount;
-                    } else {
+                        runningBalance += operation.amount;
+                    } else if (operation.operationType === 'fine') {
                         operationType = 'غرامة';
                         destination = operation.description || '-';
                         totalFines += operation.amount;
+                        runningBalance += operation.amount;
+                    } else if (operation.operationType === 'payment') {
+                        operationType = 'تسليم';
+                        destination = operation.description || 'تسليم مبلغ';
+                        totalPayments += operation.amount;
+                        runningBalance -= operation.amount;
                     }
-                    
-                    runningBalance += operation.amount;
                     
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -2501,7 +2887,9 @@
                         <td>${operation.passengerName}</td>
                         <td>${operation.documentNumber || '-'}</td>
                         <td>${destination}</td>
-                        <td class="${operation.operationType === 'ticket' ? 'text-success' : 'text-danger'} fw-bold">+${formatCurrency(operation.amount)}</td>
+                        <td class="${operation.operationType === 'ticket' ? 'text-success' : operation.operationType === 'fine' ? 'text-danger' : 'text-info'} fw-bold">
+                            ${operation.operationType === 'payment' ? '-' : '+'}${formatCurrency(operation.amount)}
+                        </td>
                         <td class="fw-bold">${formatCurrency(runningBalance)}</td>
                     `;
                     tableBody.appendChild(row);
@@ -2509,19 +2897,21 @@
             }
             
             // تحديث الملخص
-            const finalBalance = totalTickets + totalFines;
+            const finalBalance = initialBalance + totalTickets + totalFines - totalPayments;
             
             document.getElementById('total-tickets-statement').textContent = formatCurrency(totalTickets);
             document.getElementById('total-fines-statement').textContent = formatCurrency(totalFines);
+            document.getElementById('total-payments-statement').textContent = formatCurrency(totalPayments);
             document.getElementById('final-balance-statement').textContent = formatCurrency(finalBalance);
             
             // تحديث الطباعة
             document.getElementById('print-total-tickets').textContent = formatCurrency(totalTickets);
             document.getElementById('print-total-fines').textContent = formatCurrency(totalFines);
+            document.getElementById('print-total-payments').textContent = formatCurrency(totalPayments);
             document.getElementById('print-final-balance').textContent = formatCurrency(finalBalance);
             
             // إنشاء نسخة للطباعة
-            createPrintableStatement(company, fromDate, toDate, allOperations, totalTickets, totalFines, finalBalance);
+            createPrintableStatement(company, fromDate, toDate, initialBalance, allOperations, totalTickets, totalFines, totalPayments, finalBalance);
             
             // إظهار النتائج
             document.getElementById('statement-results').style.display = 'block';
@@ -2531,11 +2921,23 @@
         }
 
         // إنشاء نسخة للطباعة
-        function createPrintableStatement(company, fromDate, toDate, operations, totalTickets, totalFines, finalBalance) {
+        function createPrintableStatement(company, fromDate, toDate, initialBalance, operations, totalTickets, totalFines, totalPayments, finalBalance) {
             const printableArea = document.getElementById('printable-area');
-            let runningBalance = 0;
+            if (!printableArea) return;
             
-            let tableRows = '';
+            let runningBalance = initialBalance;
+            
+            let tableRows = `
+                <tr>
+                    <td>${fromDate}</td>
+                    <td>رصيد أولي</td>
+                    <td>${company.passengerName}</td>
+                    <td>-</td>
+                    <td>رصيد أولي للفترة</td>
+                    <td style="text-align: right; font-weight: bold;">${formatCurrency(initialBalance)}</td>
+                    <td style="text-align: right; font-weight: bold;">${formatCurrency(runningBalance)}</td>
+                </tr>
+            `;
             
             if (operations.length > 0) {
                 operations.forEach(operation => {
@@ -2547,12 +2949,16 @@
                     if (operation.operationType === 'ticket') {
                         operationType = 'تذكرة';
                         destination = `${getCityName(operation.from)} → ${getCityName(operation.to)}`;
-                    } else {
+                        runningBalance += operation.amount;
+                    } else if (operation.operationType === 'fine') {
                         operationType = 'غرامة';
                         destination = operation.description || '-';
+                        runningBalance += operation.amount;
+                    } else if (operation.operationType === 'payment') {
+                        operationType = 'تسليم';
+                        destination = operation.description || 'تسليم مبلغ';
+                        runningBalance -= operation.amount;
                     }
-                    
-                    runningBalance += operation.amount;
                     
                     tableRows += `
                         <tr>
@@ -2561,19 +2967,13 @@
                             <td>${operation.passengerName}</td>
                             <td>${operation.documentNumber || '-'}</td>
                             <td>${destination}</td>
-                            <td style="text-align: right; ${operation.operationType === 'ticket' ? 'color: #2E8B57;' : 'color: #F44336;'} font-weight: bold;">+${formatCurrency(operation.amount)}</td>
+                            <td style="text-align: right; ${operation.operationType === 'ticket' ? 'color: #2E8B57;' : operation.operationType === 'fine' ? 'color: #F44336;' : 'color: #2196F3;'} font-weight: bold;">
+                                ${operation.operationType === 'payment' ? '-' : '+'}${formatCurrency(operation.amount)}
+                            </td>
                             <td style="text-align: right; font-weight: bold;">${formatCurrency(runningBalance)}</td>
                         </tr>
                     `;
                 });
-            } else {
-                tableRows = `
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 20px; color: #666;">
-                            لا توجد عمليات في هذه الفترة
-                        </td>
-                    </tr>
-                `;
             }
             
             printableArea.innerHTML = `
@@ -2593,7 +2993,7 @@
                         <tr>
                             <th style="background: #f8f9fa; padding: 10px; border: 1px solid #ddd; text-align: right;">التاريخ</th>
                             <th style="background: #f8f9fa; padding: 10px; border: 1px solid #ddd; text-align: right;">نوع العملية</th>
-                            <th style="background: #f8f9fa; padding: 10px; border: 1px solid #ddd; text-align: right;">اسم المسافر</th>
+                            <th style="background: #f8f9fa; padding: 10px; border: 1px solid #ddd; text-align: right;">الاسم</th>
                             <th style="background: #f8f9fa; padding: 10px; border: 1px solid #ddd; text-align: right;">رقم المستند</th>
                             <th style="background: #f8f9fa; padding: 10px; border: 1px solid #ddd; text-align: right;">الوجهة/الوصف</th>
                             <th style="background: #f8f9fa; padding: 10px; border: 1px solid #ddd; text-align: right;">المبلغ</th>
@@ -2616,6 +3016,10 @@
                             <div style="font-size: 20px; font-weight: bold; color: #F44336;">${formatCurrency(totalFines)}</div>
                         </div>
                         <div>
+                            <h5 style="font-size: 12px; color: #666; margin-bottom: 8px;">إجمالي التسليم</h5>
+                            <div style="font-size: 20px; font-weight: bold; color: #2196F3;">${formatCurrency(totalPayments)}</div>
+                        </div>
+                        <div>
                             <h5 style="font-size: 12px; color: #666; margin-bottom: 8px;">الرصيد النهائي</h5>
                             <div style="font-size: 20px; font-weight: bold; color: #333;">${formatCurrency(finalBalance)}</div>
                         </div>
@@ -2634,7 +3038,7 @@
         function printStatement() {
             const printableArea = document.getElementById('printable-area');
             
-            if (!printableArea.innerHTML.trim()) {
+            if (!printableArea || !printableArea.innerHTML.trim()) {
                 showNotification('error', 'خطأ', 'يرجى توليد كشف الحساب أولاً');
                 return;
             }
@@ -2753,10 +3157,13 @@
             printWindow.document.close();
             
             setTimeout(() => {
-                printWindow.print();
-                printWindow.close();
-                showNotification('success', 'تم بنجاح', 'تم إرسال كشف الحساب للطابعة');
+                printWindow.focus();
+                setTimeout(() => {
+                    printWindow.print();
+                }, 500);
             }, 500);
+            
+            showNotification('success', 'تم بنجاح', 'تم إرسال كشف الحساب للطابعة');
         }
 
         // إضافة مستمعين للأحداث
