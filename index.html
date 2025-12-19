@@ -700,6 +700,13 @@
         }
         
         @media print {
+            body {
+                padding: 0;
+                background-color: white;
+                font-size: 12px;
+                line-height: 1.4;
+            }
+            
             .no-print {
                 display: none !important;
             }
@@ -712,25 +719,202 @@
                 box-shadow: none !important;
                 padding: 0 !important;
                 border: none !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
             }
             
             .company-info {
                 box-shadow: none !important;
                 border: 1px solid #ddd !important;
+                margin: 10px 0 !important;
+                padding: 10px !important;
             }
             
-            table {
-                font-size: 11px !important;
-                box-shadow: none !important;
+            /* تصميم جديد للطباعة على الهواتف */
+            .print-header {
+                display: block !important;
+                text-align: center;
+                padding: 15px 0;
+                border-bottom: 2px solid #333;
+                margin-bottom: 15px;
+                background: white !important;
+                color: black !important;
+            }
+            
+            .print-header h1 {
+                font-size: 20px;
+                margin-bottom: 5px;
+                color: #2c3e50;
+            }
+            
+            .print-header p {
+                font-size: 14px;
+                color: #666;
+            }
+            
+            /* تحسين الجدول للطباعة */
+            #transactions-table {
+                font-size: 10px !important;
                 min-width: 100% !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                border: 1px solid #ddd !important;
+                margin: 0 !important;
             }
             
-            th, td {
-                padding: 8px !important;
+            #transactions-table th,
+            #transactions-table td {
+                padding: 6px 4px !important;
+                font-size: 9px !important;
+                border: 1px solid #ddd !important;
             }
             
-            /* إخفاء بعض الأعمدة عند الطباعة على الهواتف */
-            @media (max-width: 768px) {
+            #transactions-table th {
+                background-color: #f5f5f5 !important;
+                color: #333 !important;
+                font-weight: bold;
+                font-size: 9px !important;
+            }
+            
+            /* إظهار جميع الأعمدة عند الطباعة */
+            #transactions-table th,
+            #transactions-table td {
+                display: table-cell !important;
+            }
+            
+            /* تقليل عرض الأعمدة عند الطباعة */
+            #transactions-table th:nth-child(1),
+            #transactions-table td:nth-child(1) { width: 5%; } /* # */
+            #transactions-table th:nth-child(2),
+            #transactions-table td:nth-child(2) { width: 10%; } /* التاريخ */
+            #transactions-table th:nth-child(3),
+            #transactions-table td:nth-child(3) { width: 10%; } /* النوع */
+            #transactions-table th:nth-child(4),
+            #transactions-table td:nth-child(4) { width: 15%; } /* المسافر */
+            #transactions-table th:nth-child(5),
+            #transactions-table td:nth-child(5) { width: 10%; } /* المستند */
+            #transactions-table th:nth-child(6),
+            #transactions-table td:nth-child(6) { width: 15%; } /* الوجهة */
+            #transactions-table th:nth-child(7),
+            #transactions-table td:nth-child(7) { width: 10%; } /* الرحلة */
+            #transactions-table th:nth-child(8),
+            #transactions-table td:nth-child(8) { width: 15%; } /* السبب */
+            #transactions-table th:nth-child(9),
+            #transactions-table td:nth-child(9) { width: 10%; } /* المبلغ */
+            #transactions-table th:nth-child(10),
+            #transactions-table td:nth-child(10) { width: 10%; } /* الرصيد */
+            
+            /* تحسين عرض أنواع العمليات عند الطباعة */
+            .transaction-type {
+                padding: 2px 6px !important;
+                font-size: 8px !important;
+                border: 1px solid #ccc !important;
+                background: white !important;
+                color: #333 !important;
+            }
+            
+            /* قسم الرصيد النهائي عند الطباعة */
+            .print-final-balance {
+                display: block !important;
+                text-align: center;
+                padding: 15px;
+                margin-top: 20px;
+                border-top: 2px solid #333;
+                font-size: 14px;
+                font-weight: bold;
+                background-color: #f8f9fa;
+            }
+            
+            .final-balance-amount {
+                font-size: 18px;
+                color: #2c3e50;
+                margin-top: 5px;
+            }
+            
+            .positive-final-balance {
+                color: #27ae60 !important;
+            }
+            
+            .negative-final-balance {
+                color: #e74c3c !important;
+            }
+            
+            /* تذييل الصفحة عند الطباعة */
+            .print-footer {
+                display: block !important;
+                text-align: center;
+                padding: 10px 0;
+                margin-top: 20px;
+                border-top: 1px solid #ddd;
+                font-size: 9px;
+                color: #666;
+            }
+            
+            /* إخفاء حاوية التمرير */
+            .table-container {
+                overflow: visible !important;
+                max-height: none !important;
+                border: none !important;
+                margin: 0 !important;
+            }
+            
+            /* إخفاء مؤشر التمرير */
+            .scroll-indicator {
+                display: none !important;
+            }
+            
+            /* إخفاء رسالة عدم وجود بيانات */
+            #no-data {
+                display: none !important;
+            }
+            
+            /* إخفاء ترويسة التقرير العادية */
+            .report-header {
+                display: none !important;
+            }
+            
+            /* جعل الصفحة تملأ الورقة */
+            @page {
+                margin: 10mm;
+                size: auto;
+            }
+            
+            /* الطباعة في اتجاه أفقي للهواتف إذا كان الجدول كبيراً */
+            @media (max-width: 768px) and print {
+                body {
+                    transform: rotate(0deg);
+                }
+                
+                #transactions-table {
+                    font-size: 8px !important;
+                }
+                
+                #transactions-table th,
+                #transactions-table td {
+                    padding: 4px 2px !important;
+                    font-size: 8px !important;
+                }
+                
+                #transactions-table th:nth-child(5),
+                #transactions-table td:nth-child(5),
+                #transactions-table th:nth-child(7),
+                #transactions-table td:nth-child(7) {
+                    display: none !important;
+                }
+            }
+            
+            /* تحسين للطباعة على الهواتف الصغيرة جداً */
+            @media (max-width: 480px) and print {
+                #transactions-table {
+                    font-size: 7px !important;
+                }
+                
+                #transactions-table th,
+                #transactions-table td {
+                    padding: 3px 1px !important;
+                }
+                
                 #transactions-table th:nth-child(5),
                 #transactions-table td:nth-child(5),
                 #transactions-table th:nth-child(6),
@@ -964,6 +1148,13 @@
             border-radius: 3px;
             color: #333;
             font-size: 0.8rem;
+        }
+        
+        /* عناصر الطباعة المخفية */
+        .print-header,
+        .print-final-balance,
+        .print-footer {
+            display: none;
         }
         
         /* تحسينات للشاشات الصغيرة جداً */
@@ -1646,34 +1837,32 @@
                 display: none;
             }
         }
-        
-        /* تحسينات للطابعة على الهواتف */
-        @media print and (max-width: 768px) {
-            #transactions-table {
-                font-size: 9px !important;
-                min-width: 100% !important;
-            }
-            
-            #transactions-table th,
-            #transactions-table td {
-                padding: 5px 3px !important;
-            }
-            
-            /* إخفاء الأعمدة غير الضرورية عند الطباعة */
-            #transactions-table th:nth-child(5),
-            #transactions-table td:nth-child(5),
-            #transactions-table th:nth-child(7),
-            #transactions-table td:nth-child(7),
-            #transactions-table th:nth-child(8),
-            #transactions-table td:nth-child(8) {
-                display: none !important;
-            }
-        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <header>
+    <!-- عناصر الطباعة المخفية -->
+    <div class="print-header hidden">
+        <h1>نظام تذاكر</h1>
+        <p>برنامج إدارة بيانات التذاكر والمبالغ - متابعة العمليات المالية مع الشركات</p>
+        <div id="print-company-info">
+            <h2 id="print-company-name">كشف الحساب</h2>
+            <p id="print-date">تاريخ الطباعة: <span id="current-print-date"></span></p>
+        </div>
+    </div>
+    
+    <div class="print-final-balance hidden">
+        <p>الرصيد النهائي</p>
+        <div id="print-final-balance-amount" class="final-balance-amount">0 دينار</div>
+    </div>
+    
+    <div class="print-footer hidden">
+        <p>نظام تذاكر &copy; 2023 - برنامج إدارة بيانات التذاكر والمبالغ</p>
+        <p>جميع العمليات المالية مسجلة ومتابعة بشكل آمن</p>
+        <p>صفحة 1 من 1</p>
+    </div>
+    
+    <header class="no-print">
         <div class="logo">
             <div class="logo-row">
                 <div class="logo-icon">
@@ -1832,7 +2021,7 @@
         
         <!-- تبويب كشف الحساب -->
         <div class="tab-content report-section" id="report-tab">
-            <div class="report-header">
+            <div class="report-header no-print">
                 <h2 class="company-report-title" id="report-company-name">كشف الحساب</h2>
                 <button class="btn btn-print no-print" id="print-report">
                     <i class="fas fa-print"></i> طباعة الكشف
@@ -2138,6 +2327,15 @@
         const reportCompanyNameElement = document.getElementById('report-company-name');
         const transactionTypeRadios = document.querySelectorAll('input[name="transaction-type"]');
         
+        // عناصر الطباعة
+        const printHeader = document.querySelector('.print-header');
+        const printCompanyName = document.getElementById('print-company-name');
+        const printDate = document.getElementById('print-date');
+        const currentPrintDate = document.getElementById('current-print-date');
+        const printFinalBalance = document.querySelector('.print-final-balance');
+        const printFinalBalanceAmount = document.getElementById('print-final-balance-amount');
+        const printFooter = document.querySelector('.print-footer');
+        
         // عناصر خيارات نوع العملية
         const ticketOption = document.getElementById('ticket-option');
         const fineOption = document.getElementById('fine-option');
@@ -2306,7 +2504,10 @@
         // أزرار العمل
         addTransactionButton.addEventListener('click', addTransaction);
         resetFormButton.addEventListener('click', resetForm);
-        printReportButton.addEventListener('click', printReport);
+        printReportButton.addEventListener('click', function() {
+            preparePrint();
+            window.print();
+        });
         cancelEditBtn.addEventListener('click', cancelEdit);
         saveEditBtn.addEventListener('click', saveEdit);
         cancelDeleteBtn.addEventListener('click', cancelDelete);
@@ -3069,8 +3270,10 @@
             const currentCompany = companySelect.value;
             if (currentCompany) {
                 reportCompanyNameElement.textContent = `كشف حساب: ${currentCompany}`;
+                printCompanyName.textContent = `كشف حساب: ${currentCompany}`;
             } else {
                 reportCompanyNameElement.textContent = 'كشف الحساب';
+                printCompanyName.textContent = 'كشف الحساب';
             }
             
             updateCompanyBalance(currentCompany);
@@ -3086,19 +3289,22 @@
             }
             
             let filteredTransactions = [];
+            let finalBalance = 0;
             
             if (currentCompany) {
                 filteredTransactions = transactions.filter(t => t.company === currentCompany);
+                finalBalance = companies[currentCompany] || 0;
             } else {
                 filteredTransactions = [...transactions];
+                finalBalance = Object.values(companies).reduce((sum, balance) => sum + balance, 0);
             }
             
-            let balance = 0;
+            let runningBalance = 0;
             filteredTransactions.forEach((transaction, index) => {
                 if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
-                    balance += transaction.amount;
+                    runningBalance += transaction.amount;
                 } else if (transaction.type === 'payment') {
-                    balance -= transaction.amount;
+                    runningBalance -= transaction.amount;
                 }
                 
                 const row = document.createElement('tr');
@@ -3140,21 +3346,22 @@
                     <td>${tripType}</td>
                     <td>${reasonDesc}</td>
                     <td>${formatCurrency(transaction.amount)}</td>
-                    <td>${formatCurrency(balance)}</td>
+                    <td>${formatCurrency(runningBalance)}</td>
                 `;
                 
                 transactionsBody.appendChild(row);
             });
             
+            // إضافة صف الرصيد النهائي
             const totalRow = document.createElement('tr');
             totalRow.className = 'total-row';
             totalRow.innerHTML = `
                 <td colspan="8">الرصيد النهائي</td>
-                <td colspan="2">${formatCurrency(balance)}</td>
+                <td colspan="2">${formatCurrency(finalBalance)}</td>
             `;
             transactionsBody.appendChild(totalRow);
             
-            updateSummary(filteredTransactions, balance);
+            updateSummary(filteredTransactions, finalBalance);
             optimizeForMobile();
         }
         
@@ -3181,13 +3388,37 @@
             totalPaymentsElement.textContent = formatCurrency(totalPayments);
             totalBalanceElement.textContent = formatCurrency(finalBalance);
             
+            // تحديث الرصيد النهائي للطباعة
+            printFinalBalanceAmount.textContent = formatCurrency(finalBalance);
             if (finalBalance > 0) {
                 totalBalanceElement.style.color = 'var(--success-color)';
+                printFinalBalanceAmount.classList.add('positive-final-balance');
+                printFinalBalanceAmount.classList.remove('negative-final-balance');
             } else if (finalBalance < 0) {
                 totalBalanceElement.style.color = 'var(--accent-color)';
+                printFinalBalanceAmount.classList.add('negative-final-balance');
+                printFinalBalanceAmount.classList.remove('positive-final-balance');
             } else {
                 totalBalanceElement.style.color = 'var(--primary-color)';
+                printFinalBalanceAmount.classList.remove('positive-final-balance', 'negative-final-balance');
             }
+        }
+        
+        // دالة إعداد الطباعة
+        function preparePrint() {
+            // تحديث تاريخ الطباعة
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString('ar-LY', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            currentPrintDate.textContent = formattedDate;
+            
+            // إظهار عناصر الطباعة
+            printHeader.classList.remove('hidden');
+            printFinalBalance.classList.remove('hidden');
+            printFooter.classList.remove('hidden');
         }
         
         // دالة إعادة تعيين النموذج
@@ -3209,11 +3440,6 @@
             if (companySelect.value) {
                 passengerNameInput.focus();
             }
-        }
-        
-        // دالة طباعة التقرير
-        function printReport() {
-            window.print();
         }
         
         // دالة الحصول على اسم النوع
@@ -3301,6 +3527,13 @@
         // تهيئة التحسينات عند تحميل الصفحة
         window.addEventListener('load', function() {
             optimizeForMobile();
+        });
+        
+        // إخفاء عناصر الطباعة بعد الطباعة
+        window.addEventListener('afterprint', function() {
+            printHeader.classList.add('hidden');
+            printFinalBalance.classList.add('hidden');
+            printFooter.classList.add('hidden');
         });
     </script>
 </body>
