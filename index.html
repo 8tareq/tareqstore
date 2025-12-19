@@ -18,6 +18,7 @@
             --secondary-color: #3498db;
             --accent-color: #e74c3c;
             --success-color: #27ae60;
+            --warning-color: #f39c12;
             --light-color: #ecf0f1;
             --dark-color: #2c3e50;
         }
@@ -92,13 +93,47 @@
             padding: 0 10px;
         }
         
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            color: var(--secondary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            background-color: #f8fafc;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
         .container {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
         
-        .form-section, .report-section {
+        .form-section, .report-section, .manage-section {
             background-color: white;
             padding: 20px 15px;
             border-radius: 10px;
@@ -114,6 +149,15 @@
             border-bottom: 2px solid var(--light-color);
             font-size: 1.5rem;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        h2 span {
+            font-size: 1rem;
+            color: #666;
+            font-weight: normal;
         }
         
         h2::after {
@@ -179,16 +223,173 @@
             background-color: #f8f9fa;
             transition: all 0.3s;
             flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* تمييز نوع العملية النشط */
+        .radio-option.active-ticket {
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.15), rgba(39, 174, 96, 0.05));
+            border: 2px solid var(--success-color);
+            box-shadow: 0 0 15px rgba(39, 174, 96, 0.2);
+        }
+        
+        .radio-option.active-fine {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.15), rgba(231, 76, 60, 0.05));
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.2);
+        }
+        
+        .radio-option.active-payment {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(52, 152, 219, 0.05));
+            border: 2px solid var(--secondary-color);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.2);
+        }
+        
+        .radio-option.active-ticket::before,
+        .radio-option.active-fine::before,
+        .radio-option.active-payment::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 1%, transparent 20%);
+            z-index: 1;
+        }
+        
+        .radio-option.active-ticket label {
+            color: var(--success-color);
+            font-weight: 700;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+        
+        .radio-option.active-fine label {
+            color: var(--accent-color);
+            font-weight: 700;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+        
+        .radio-option.active-payment label {
+            color: var(--secondary-color);
+            font-weight: 700;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+        
+        /* أيقونات مضيئة */
+        .radio-icon {
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            z-index: 2;
+        }
+        
+        .active-ticket .radio-icon {
+            color: var(--success-color);
+            text-shadow: 0 0 10px rgba(39, 174, 96, 0.5);
+            transform: scale(1.2);
+        }
+        
+        .active-fine .radio-icon {
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+            transform: scale(1.2);
+        }
+        
+        .active-payment .radio-icon {
+            color: var(--secondary-color);
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+            transform: scale(1.2);
+        }
+        
+        /* مؤشر نوع العملية */
+        .type-indicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: white;
+            color: var(--primary-color);
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 10px;
+            z-index: 3;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .active-ticket .type-indicator {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .active-fine .type-indicator {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .active-payment .type-indicator {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        /* توهج النص */
+        .radio-text-glow {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .active-ticket .radio-text-glow {
+            animation: textGlowGreen 2s infinite alternate;
+        }
+        
+        .active-fine .radio-text-glow {
+            animation: textGlowRed 2s infinite alternate;
+        }
+        
+        .active-payment .radio-text-glow {
+            animation: textGlowBlue 2s infinite alternate;
+        }
+        
+        @keyframes textGlowGreen {
+            from { text-shadow: 0 0 5px rgba(39, 174, 96, 0.5); }
+            to { text-shadow: 0 0 15px rgba(39, 174, 96, 0.8); }
+        }
+        
+        @keyframes textGlowRed {
+            from { text-shadow: 0 0 5px rgba(231, 76, 60, 0.5); }
+            to { text-shadow: 0 0 15px rgba(231, 76, 60, 0.8); }
+        }
+        
+        @keyframes textGlowBlue {
+            from { text-shadow: 0 0 5px rgba(52, 152, 219, 0.5); }
+            to { text-shadow: 0 0 15px rgba(52, 152, 219, 0.8); }
+        }
+        
+        /* تأثير النبض */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .radio-option.active-ticket,
+        .radio-option.active-fine,
+        .radio-option.active-payment {
+            animation: pulse 3s infinite;
         }
         
         .radio-option input {
             width: auto;
             margin-left: 5px;
+            position: relative;
+            z-index: 2;
         }
         
         .radio-option label {
             margin-bottom: 0;
             flex: 1;
+            position: relative;
+            z-index: 2;
         }
         
         .btn {
@@ -217,6 +418,14 @@
             background: linear-gradient(135deg, var(--success-color), #219653);
         }
         
+        .btn-edit {
+            background: linear-gradient(135deg, var(--warning-color), #e67e22);
+        }
+        
+        .btn-delete {
+            background: linear-gradient(135deg, var(--accent-color), #c0392b);
+        }
+        
         .btn-print {
             background: linear-gradient(135deg, var(--primary-color), #1a252f);
             width: auto;
@@ -226,13 +435,21 @@
         }
         
         .btn-reset {
-            background: linear-gradient(135deg, var(--accent-color), #c0392b);
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
             margin-top: 12px;
         }
         
         .btn-add-company {
             background: linear-gradient(135deg, #9b59b6, #8e44ad);
             margin-bottom: 15px;
+        }
+        
+        .btn-cancel {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+        }
+        
+        .btn-save {
+            background: linear-gradient(135deg, var(--success-color), #219653);
         }
         
         /* تحسينات للجدول على الهاتف */
@@ -242,12 +459,18 @@
             margin-top: 15px;
             border-radius: 8px;
             border: 1px solid #eee;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .manage-table-container {
+            max-height: 500px;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 800px; /* الحد الأدنى لعرض الجدول */
+            min-width: 800px;
             font-size: 0.85rem;
         }
         
@@ -259,6 +482,9 @@
             font-weight: 600;
             font-size: 0.9rem;
             white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         
         td {
@@ -312,6 +538,42 @@
             color: #d68910;
         }
         
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: white;
+            white-space: nowrap;
+            touch-action: manipulation;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+        
+        .action-btn-edit {
+            background: linear-gradient(135deg, var(--warning-color), #e67e22);
+        }
+        
+        .action-btn-delete {
+            background: linear-gradient(135deg, var(--accent-color), #c0392b);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+        }
+        
         .summary {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -344,22 +606,6 @@
         .summary-box .value {
             font-size: 1.5rem;
             font-weight: bold;
-        }
-        
-        .total-amount {
-            color: var(--primary-color);
-        }
-        
-        .total-tickets {
-            color: var(--success-color);
-        }
-        
-        .total-fines {
-            color: var(--accent-color);
-        }
-        
-        .total-payments {
-            color: var(--secondary-color);
         }
         
         .company-selector {
@@ -433,7 +679,7 @@
                 display: none !important;
             }
             
-            .form-section, .summary {
+            .form-section, .summary, .manage-section, .tabs {
                 display: none !important;
             }
             
@@ -509,7 +755,7 @@
         }
         
         .delete-company {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            background: linear-gradient(135deg, var(--accent-color), #c0392b);
             color: white;
             border: none;
             padding: 6px 12px;
@@ -697,7 +943,7 @@
                 font-size: 2rem;
             }
             
-            .form-section, .report-section {
+            .form-section, .report-section, .manage-section {
                 padding: 15px 10px;
             }
             
@@ -717,6 +963,14 @@
             .summary-box .value {
                 font-size: 1.3rem;
             }
+            
+            .radio-option {
+                padding: 10px;
+            }
+            
+            .radio-icon {
+                font-size: 1rem;
+            }
         }
         
         /* تحسينات للشاشات المتوسطة */
@@ -727,14 +981,17 @@
             
             .container {
                 flex-direction: row;
+                flex-wrap: wrap;
             }
             
             .form-section {
                 flex: 1;
+                min-width: 300px;
             }
             
-            .report-section {
+            .report-section, .manage-section {
                 flex: 2;
+                min-width: 300px;
             }
             
             header {
@@ -763,13 +1020,13 @@
         
         /* منع التكبير التلقائي على الحقول */
         input, select, textarea {
-            font-size: 16px !important; /* يمنع التكبير التلقائي في iOS */
+            font-size: 16px !important;
         }
         
         /* تحسينات للأجهزة التي تدعم اللمس */
         @media (hover: none) and (pointer: coarse) {
-            .btn, .delete-company, .radio-option, .debit-option, .credit-option {
-                min-height: 44px; /* الحجم الأدنى للمس */
+            .btn, .delete-company, .radio-option, .debit-option, .credit-option, .action-btn {
+                min-height: 44px;
             }
             
             input, select, textarea {
@@ -778,30 +1035,211 @@
         }
         
         /* إخفاء شريط التمرير في بعض المتصفحات */
-        .company-list::-webkit-scrollbar {
+        .company-list::-webkit-scrollbar,
+        .table-container::-webkit-scrollbar {
             width: 5px;
         }
         
-        .company-list::-webkit-scrollbar-track {
+        .company-list::-webkit-scrollbar-track,
+        .table-container::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 10px;
         }
         
-        .company-list::-webkit-scrollbar-thumb {
+        .company-list::-webkit-scrollbar-thumb,
+        .table-container::-webkit-scrollbar-thumb {
             background: #ccc;
             border-radius: 10px;
         }
         
-        .company-list::-webkit-scrollbar-thumb:hover {
+        .company-list::-webkit-scrollbar-thumb:hover,
+        .table-container::-webkit-scrollbar-thumb:hover {
             background: #aaa;
         }
         
         /* رسالة عدم وجود بيانات */
-        #no-data, #no-companies {
+        #no-data, #no-companies, #no-transactions {
             padding: 20px;
             text-align: center;
             color: #7f8c8d;
             font-style: italic;
+        }
+        
+        /* قسم إدارة العمليات */
+        .filter-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        @media (min-width: 480px) {
+            .filter-controls {
+                flex-direction: row;
+                align-items: flex-end;
+            }
+            
+            .filter-group {
+                flex: 1;
+            }
+        }
+        
+        .filter-group {
+            margin-bottom: 0;
+        }
+        
+        .filter-group label {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .edit-form {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-right: 4px solid var(--warning-color);
+        }
+        
+        .edit-form h3 {
+            color: var(--warning-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .edit-form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .edit-form-buttons .btn {
+            margin-top: 0;
+            flex: 1;
+        }
+        
+        /* تأثيرات للعمليات */
+        .transaction-row {
+            transition: all 0.3s;
+        }
+        
+        .transaction-row:hover {
+            background-color: #f1f8ff !important;
+        }
+        
+        /* رسالة تأكيد الحذف */
+        .confirm-delete {
+            background: linear-gradient(135deg, #fde0dc, #f9c9c2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-right: 4px solid var(--accent-color);
+            text-align: center;
+        }
+        
+        .confirm-delete h4 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .confirm-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .confirm-buttons button {
+            flex: 1;
+        }
+        
+        /* قسم العنوان مع تمييز النوع */
+        .active-type-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .active-type-ticket {
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(39, 174, 96, 0.05));
+            border-right: 4px solid var(--success-color);
+        }
+        
+        .active-type-fine {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.05));
+            border-right: 4px solid var(--accent-color);
+        }
+        
+        .active-type-payment {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.05));
+            border-right: 4px solid var(--secondary-color);
+        }
+        
+        .active-type-icon {
+            font-size: 1.8rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .active-type-ticket .active-type-icon {
+            background: linear-gradient(135deg, var(--success-color), #219653);
+            color: white;
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+        }
+        
+        .active-type-fine .active-type-icon {
+            background: linear-gradient(135deg, var(--accent-color), #c0392b);
+            color: white;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+        }
+        
+        .active-type-payment .active-type-icon {
+            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
+            color: white;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .active-type-text {
+            flex: 1;
+        }
+        
+        .active-type-text h3 {
+            margin: 0;
+            color: var(--dark-color);
+            font-size: 1.3rem;
+        }
+        
+        .active-type-ticket .active-type-text h3 {
+            color: var(--success-color);
+        }
+        
+        .active-type-fine .active-type-text h3 {
+            color: var(--accent-color);
+        }
+        
+        .active-type-payment .active-type-text h3 {
+            color: var(--secondary-color);
+        }
+        
+        .active-type-text p {
+            margin: 5px 0 0 0;
+            color: #666;
+            font-size: 0.9rem;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -819,9 +1257,22 @@
         <p class="subtitle">برنامج إدارة بيانات التذاكر والمبالغ - متابعة العمليات المالية مع الشركات</p>
     </header>
     
+    <!-- تبويبات التنقل -->
+    <div class="tabs no-print">
+        <div class="tab active" data-tab="add">إضافة عملية</div>
+        <div class="tab" data-tab="report">كشف الحساب</div>
+        <div class="tab" data-tab="manage">إدارة العمليات</div>
+    </div>
+    
     <div class="container">
-        <div class="form-section no-print">
+        <!-- تبويب إضافة عملية -->
+        <div class="tab-content form-section active" id="add-tab">
             <h2><i class="fas fa-plus-circle"></i> تسجيل عملية جديدة</h2>
+            
+            <!-- تمييز نوع العملية النشط -->
+            <div id="active-type-indicator" class="hidden">
+                <!-- سيتم تعبئته بواسطة الجافاسكريبت -->
+            </div>
             
             <!-- إدارة الشركات -->
             <button class="btn btn-add-company" id="open-add-company-modal">
@@ -850,17 +1301,23 @@
             <div class="form-group">
                 <label>نوع العملية</label>
                 <div class="radio-group">
-                    <div class="radio-option">
+                    <div class="radio-option" id="ticket-option">
+                        <i class="fas fa-ticket-alt radio-icon"></i>
                         <input type="radio" id="ticket" name="transaction-type" value="ticket" checked>
-                        <label for="ticket">تذكرة</label>
+                        <label for="ticket" class="radio-text-glow">تذكرة</label>
+                        <div class="type-indicator">نشط</div>
                     </div>
-                    <div class="radio-option">
+                    <div class="radio-option" id="fine-option">
+                        <i class="fas fa-exclamation-triangle radio-icon"></i>
                         <input type="radio" id="fine" name="transaction-type" value="fine">
-                        <label for="fine">غرامة</label>
+                        <label for="fine" class="radio-text-glow">غرامة</label>
+                        <div class="type-indicator">نشط</div>
                     </div>
-                    <div class="radio-option">
+                    <div class="radio-option" id="payment-option">
+                        <i class="fas fa-money-bill-wave radio-icon"></i>
                         <input type="radio" id="payment" name="transaction-type" value="payment">
-                        <label for="payment">تسليم دفعة</label>
+                        <label for="payment" class="radio-text-glow">تسليم دفعة</label>
+                        <div class="type-indicator">نشط</div>
                     </div>
                 </div>
             </div>
@@ -945,7 +1402,8 @@
             </button>
         </div>
         
-        <div class="report-section">
+        <!-- تبويب كشف الحساب -->
+        <div class="tab-content report-section" id="report-tab">
             <div class="report-header">
                 <h2 class="company-report-title" id="report-company-name">كشف الحساب</h2>
                 <button class="btn btn-print no-print" id="print-report">
@@ -996,6 +1454,161 @@
             
             <div id="no-data">
                 لا توجد عمليات مسجلة بعد. قم بإضافة عمليات جديدة باستخدام النموذج.
+            </div>
+        </div>
+        
+        <!-- تبويب إدارة العمليات -->
+        <div class="tab-content manage-section" id="manage-tab">
+            <h2><i class="fas fa-cog"></i> إدارة العمليات</h2>
+            
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="filter-company">تصفية حسب الشركة</label>
+                    <select id="filter-company">
+                        <option value="">جميع الشركات</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="filter-type">تصفية حسب النوع</label>
+                    <select id="filter-type">
+                        <option value="">جميع الأنواع</option>
+                        <option value="ticket">تذكرة</option>
+                        <option value="fine">غرامة</option>
+                        <option value="payment">تسليم دفعة</option>
+                        <option value="initial">رصيد افتتاحي</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-reset" id="reset-filters" style="margin-top: 0;">
+                    <i class="fas fa-filter"></i> إعادة التعيين
+                </button>
+            </div>
+            
+            <!-- نموذج التعديل -->
+            <div id="edit-form-container" class="hidden">
+                <div class="edit-form">
+                    <h3><i class="fas fa-edit"></i> تعديل العملية</h3>
+                    <div class="form-group">
+                        <label for="edit-transaction-type">نوع العملية</label>
+                        <select id="edit-transaction-type">
+                            <option value="ticket">تذكرة</option>
+                            <option value="fine">غرامة</option>
+                            <option value="payment">تسليم دفعة</option>
+                        </select>
+                    </div>
+                    
+                    <div id="edit-ticket-fields">
+                        <div class="form-group">
+                            <label for="edit-passenger-name">اسم المسافر</label>
+                            <input type="text" id="edit-passenger-name" placeholder="اسم المسافر">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-document-number">رقم المستند</label>
+                            <input type="text" id="edit-document-number" placeholder="رقم المستند">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-destination">الوجهة</label>
+                            <select id="edit-destination">
+                                <option value="TIP - IST">طرابلس - اسطنبول (TIP - IST)</option>
+                                <option value="TIP - ANK">طرابلس - أنقرة (TIP - ANK)</option>
+                                <option value="TIP - IZM">طرابلس - إزمير (TIP - IZM)</option>
+                                <option value="TIP - BJV">طرابلس - بودروم (TIP - BJV)</option>
+                                <option value="TIP - DXB">طرابلس - دبي (TIP - DXB)</option>
+                                <option value="TIP - CAI">طرابلس - القاهرة (TIP - CAI)</option>
+                                <option value="other">وجهة أخرى</option>
+                            </select>
+                            <input type="text" id="edit-other-destination" placeholder="أدخل الوجهة" class="hidden">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-trip-type">نوع الرحلة</label>
+                            <select id="edit-trip-type">
+                                <option value="ذهاب">ذهاب فقط</option>
+                                <option value="ذهاب وعودة">ذهاب وعودة</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="edit-fine-only-fields" class="hidden">
+                        <div class="form-group">
+                            <label for="edit-fine-reason">سبب الغرامة</label>
+                            <textarea id="edit-fine-reason" placeholder="سبب الغرامة" rows="2"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div id="edit-payment-fields" class="hidden">
+                        <div class="form-group">
+                            <label for="edit-payment-description">وصف الدفعة</label>
+                            <input type="text" id="edit-payment-description" placeholder="وصف الدفعة">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-amount">المبلغ (دينار)</label>
+                        <input type="number" id="edit-amount" placeholder="المبلغ" min="0" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-date">تاريخ العملية</label>
+                        <input type="date" id="edit-date">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-notes">ملاحظات إضافية</label>
+                        <input type="text" id="edit-notes" placeholder="ملاحظات">
+                    </div>
+                    
+                    <div class="edit-form-buttons">
+                        <button class="btn btn-cancel" id="cancel-edit">
+                            <i class="fas fa-times"></i> إلغاء
+                        </button>
+                        <button class="btn btn-save" id="save-edit">
+                            <i class="fas fa-save"></i> حفظ التعديلات
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- تأكيد الحذف -->
+            <div id="delete-confirm-container" class="hidden">
+                <div class="confirm-delete">
+                    <h4><i class="fas fa-exclamation-triangle"></i> تأكيد الحذف</h4>
+                    <p>هل أنت متأكد من حذف هذه العملية؟ هذا الإجراء لا يمكن التراجع عنه.</p>
+                    <div class="confirm-buttons">
+                        <button class="btn btn-cancel" id="cancel-delete">
+                            <i class="fas fa-times"></i> إلغاء
+                        </button>
+                        <button class="btn btn-delete" id="confirm-delete">
+                            <i class="fas fa-trash"></i> نعم، احذف
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-container manage-table-container">
+                <table id="manage-transactions-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>التاريخ</th>
+                            <th>الشركة</th>
+                            <th>النوع</th>
+                            <th>المسافر</th>
+                            <th>المبلغ</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="manage-transactions-body">
+                        <!-- البيانات ستضاف هنا بواسطة الجافاسكريبت -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="no-transactions">
+                لا توجد عمليات مسجلة بعد. قم بإضافة عمليات جديدة باستخدام تبويب "إضافة عملية".
             </div>
         </div>
     </div>
@@ -1061,11 +1674,20 @@
         let transactions = [];
         let companies = {};
         
-        // حالة نافذة إضافة الشركة
+        // حالة التطبيق
         let balanceType = 'credit';
         let initialBalance = 0;
+        let currentEditTransactionId = null;
+        let currentDeleteTransactionId = null;
         
         // عناصر DOM
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // مؤشر نوع العملية النشط
+        const activeTypeIndicator = document.getElementById('active-type-indicator');
+        
+        // إدارة الشركات
         const openAddCompanyModalBtn = document.getElementById('open-add-company-modal');
         const addCompanyModal = document.getElementById('add-company-modal');
         const closeAddCompanyModalBtn = document.getElementById('close-add-company-modal');
@@ -1086,7 +1708,12 @@
         const reportCompanyNameElement = document.getElementById('report-company-name');
         const transactionTypeRadios = document.querySelectorAll('input[name="transaction-type"]');
         
-        // حقول التذكرة والغرامة
+        // عناصر خيارات نوع العملية
+        const ticketOption = document.getElementById('ticket-option');
+        const fineOption = document.getElementById('fine-option');
+        const paymentOption = document.getElementById('payment-option');
+        
+        // حقول إضافة العملية
         const ticketFineFields = document.getElementById('ticket-fine-fields');
         const fineOnlyFields = document.getElementById('fine-only-fields');
         const passengerNameInput = document.getElementById('passenger-name');
@@ -1094,28 +1721,53 @@
         const destinationSelect = document.getElementById('destination');
         const otherDestinationInput = document.getElementById('other-destination');
         const tripTypeSelect = document.getElementById('trip-type');
-        
-        // حقول الغرامة فقط
         const fineReasonInput = document.getElementById('fine-reason');
-        
-        // حقول التسليم
         const paymentFields = document.getElementById('payment-fields');
         const paymentDescriptionInput = document.getElementById('payment-description');
-        
-        // حقول مشتركة
         const amountInput = document.getElementById('amount');
         const dateInput = document.getElementById('date');
         const notesInput = document.getElementById('notes');
         const notesGroup = document.getElementById('notes-group');
         
+        // حقول التعديل
+        const editFormContainer = document.getElementById('edit-form-container');
+        const editTransactionTypeSelect = document.getElementById('edit-transaction-type');
+        const editTicketFields = document.getElementById('edit-ticket-fields');
+        const editFineOnlyFields = document.getElementById('edit-fine-only-fields');
+        const editPaymentFields = document.getElementById('edit-payment-fields');
+        const editPassengerNameInput = document.getElementById('edit-passenger-name');
+        const editDocumentNumberInput = document.getElementById('edit-document-number');
+        const editDestinationSelect = document.getElementById('edit-destination');
+        const editOtherDestinationInput = document.getElementById('edit-other-destination');
+        const editTripTypeSelect = document.getElementById('edit-trip-type');
+        const editFineReasonInput = document.getElementById('edit-fine-reason');
+        const editPaymentDescriptionInput = document.getElementById('edit-payment-description');
+        const editAmountInput = document.getElementById('edit-amount');
+        const editDateInput = document.getElementById('edit-date');
+        const editNotesInput = document.getElementById('edit-notes');
+        
+        // تأكيد الحذف
+        const deleteConfirmContainer = document.getElementById('delete-confirm-container');
+        
+        // فلاتر إدارة العمليات
+        const filterCompanySelect = document.getElementById('filter-company');
+        const filterTypeSelect = document.getElementById('filter-type');
+        const resetFiltersBtn = document.getElementById('reset-filters');
+        
         // أزرار
         const addTransactionButton = document.getElementById('add-transaction');
         const resetFormButton = document.getElementById('reset-form');
         const printReportButton = document.getElementById('print-report');
+        const cancelEditBtn = document.getElementById('cancel-edit');
+        const saveEditBtn = document.getElementById('save-edit');
+        const cancelDeleteBtn = document.getElementById('cancel-delete');
+        const confirmDeleteBtn = document.getElementById('confirm-delete');
         
         // عناصر التقرير
         const transactionsBody = document.getElementById('transactions-body');
+        const manageTransactionsBody = document.getElementById('manage-transactions-body');
         const noDataElement = document.getElementById('no-data');
+        const noTransactionsElement = document.getElementById('no-transactions');
         const totalTicketsElement = document.getElementById('total-tickets');
         const totalFinesElement = document.getElementById('total-fines');
         const totalPaymentsElement = document.getElementById('total-payments');
@@ -1124,11 +1776,39 @@
         // تعيين تاريخ اليوم كتاريخ افتراضي
         const today = new Date().toISOString().split('T')[0];
         dateInput.value = today;
-        
-        // منع التكبير التلقائي في iOS
-        document.addEventListener('touchstart', function() {}, {passive: true});
+        editDateInput.value = today;
         
         // أحداث التحكم
+        // التبويبات
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `${tabId}-tab`) {
+                        content.classList.add('active');
+                    }
+                });
+                
+                if (tabId === 'manage') {
+                    updateManageTable();
+                }
+                
+                if (tabId === 'report') {
+                    updateReport();
+                }
+                
+                if (tabId === 'add') {
+                    updateActiveTypeIndicator();
+                }
+            });
+        });
+        
+        // إدارة الشركات
         openAddCompanyModalBtn.addEventListener('click', openAddCompanyModal);
         closeAddCompanyModalBtn.addEventListener('click', closeAddCompanyModal);
         saveNewCompanyBtn.addEventListener('click', saveNewCompany);
@@ -1142,6 +1822,7 @@
             selectBalanceType('credit');
         });
         
+        // أحداث الحقول
         companySelect.addEventListener('change', function() {
             const companyName = this.value || '--';
             currentCompanyElement.textContent = companyName;
@@ -1158,22 +1839,113 @@
             }
         });
         
+        editDestinationSelect.addEventListener('change', function() {
+            if (this.value === 'other') {
+                editOtherDestinationInput.classList.remove('hidden');
+            } else {
+                editOtherDestinationInput.classList.add('hidden');
+            }
+        });
+        
         // تغيير حقول النموذج حسب نوع العملية
         transactionTypeRadios.forEach(radio => {
             radio.addEventListener('change', function() {
                 updateFormFields(this.value);
+                updateActiveTypeClasses(this.value);
+                updateActiveTypeIndicator();
             });
         });
         
+        editTransactionTypeSelect.addEventListener('change', function() {
+            updateEditFormFields(this.value);
+        });
+        
+        // فلاتر إدارة العمليات
+        filterCompanySelect.addEventListener('change', updateManageTable);
+        filterTypeSelect.addEventListener('change', updateManageTable);
+        resetFiltersBtn.addEventListener('click', function() {
+            filterCompanySelect.value = '';
+            filterTypeSelect.value = '';
+            updateManageTable();
+        });
+        
+        // أزرار العمل
         addTransactionButton.addEventListener('click', addTransaction);
         resetFormButton.addEventListener('click', resetForm);
         printReportButton.addEventListener('click', printReport);
+        cancelEditBtn.addEventListener('click', cancelEdit);
+        saveEditBtn.addEventListener('click', saveEdit);
+        cancelDeleteBtn.addEventListener('click', cancelDelete);
+        confirmDeleteBtn.addEventListener('click', confirmDelete);
         
-        // تحميل البيانات من localStorage إذا وجدت
+        // تحميل البيانات من localStorage
         loadData();
         
-        // تحديث كشف الحساب
+        // تحديث واجهة المستخدم
         updateReport();
+        updateActiveTypeIndicator();
+        updateActiveTypeClasses('ticket'); // تذكرة هي الافتراضية
+        
+        // دالة تحديث فئات النوع النشط
+        function updateActiveTypeClasses(activeType) {
+            // إزالة جميع الفئات النشطة أولاً
+            ticketOption.classList.remove('active-ticket');
+            fineOption.classList.remove('active-fine');
+            paymentOption.classList.remove('active-payment');
+            
+            // إضافة الفئة المناسبة
+            if (activeType === 'ticket') {
+                ticketOption.classList.add('active-ticket');
+            } else if (activeType === 'fine') {
+                fineOption.classList.add('active-fine');
+            } else if (activeType === 'payment') {
+                paymentOption.classList.add('active-payment');
+            }
+        }
+        
+        // دالة تحديث مؤشر النوع النشط
+        function updateActiveTypeIndicator() {
+            let activeType = '';
+            transactionTypeRadios.forEach(radio => {
+                if (radio.checked) activeType = radio.value;
+            });
+            
+            let icon = '';
+            let title = '';
+            let description = '';
+            let className = '';
+            
+            if (activeType === 'ticket') {
+                icon = 'fas fa-ticket-alt';
+                title = 'تذكرة';
+                description = 'أنت تقوم بتسجيل تذكرة جديدة. الرجاء ملء بيانات المسافر والمستند والوجهة.';
+                className = 'active-type-ticket';
+            } else if (activeType === 'fine') {
+                icon = 'fas fa-exclamation-triangle';
+                title = 'غرامة';
+                description = 'أنت تقوم بتسجيل غرامة. الرجاء ملء سبب الغرامة وبياناتها.';
+                className = 'active-type-fine';
+            } else if (activeType === 'payment') {
+                icon = 'fas fa-money-bill-wave';
+                title = 'تسليم دفعة';
+                description = 'أنت تقوم بتسجيل تسليم دفعة للشركة. الرجاء إدخال وصف الدفعة.';
+                className = 'active-type-payment';
+            }
+            
+            activeTypeIndicator.innerHTML = `
+                <div class="active-type-header ${className}">
+                    <div class="active-type-icon">
+                        <i class="${icon}"></i>
+                    </div>
+                    <div class="active-type-text">
+                        <h3>نوع العملية الحالي: ${title}</h3>
+                        <p>${description}</p>
+                    </div>
+                </div>
+            `;
+            
+            activeTypeIndicator.classList.remove('hidden');
+        }
         
         // دالة فتح نافذة إضافة شركة
         function openAddCompanyModal() {
@@ -1224,16 +1996,13 @@
                 return;
             }
             
-            // حساب الرصيد الافتتاحي
             let openingBalance = balance;
             if (balanceType === 'debit') {
                 openingBalance = -balance;
             }
             
-            // إضافة الشركة مع الرصيد الافتتاحي
             companies[companyName] = openingBalance;
             
-            // إذا كان هناك رصيد افتتاحي، نضيفه كعملية أولية
             if (balance > 0) {
                 const transaction = {
                     id: generateId(),
@@ -1247,34 +2016,30 @@
                 transactions.push(transaction);
             }
             
-            // تحديث واجهة المستخدم
             updateCompanyList();
             updateCompanySelect();
+            updateFilterCompanySelect();
             
-            // اختيار الشركة الجديدة تلقائياً
             companySelect.value = companyName;
             currentCompanyElement.textContent = companyName;
             reportCompanyNameElement.textContent = `كشف حساب: ${companyName}`;
             updateCompanyBalance(companyName);
             
-            // إغلاق النافذة وحفظ البيانات
             closeAddCompanyModal();
             saveData();
             
-            // تحديث التقرير
             updateReport();
+            updateManageTable();
             
             alert('تم إضافة الشركة بنجاح!');
         }
         
         // دالة تحديث حقول النموذج حسب نوع العملية
         function updateFormFields(transactionType) {
-            // إخفاء جميع الحقول أولاً
             ticketFineFields.classList.add('hidden');
             fineOnlyFields.classList.add('hidden');
             paymentFields.classList.add('hidden');
             
-            // إظهار الحقول المناسبة حسب نوع العملية
             if (transactionType === 'ticket') {
                 ticketFineFields.classList.remove('hidden');
                 fineOnlyFields.classList.add('hidden');
@@ -1289,9 +2054,25 @@
             }
         }
         
+        // دالة تحديث حقول نموذج التعديل
+        function updateEditFormFields(transactionType) {
+            editTicketFields.classList.add('hidden');
+            editFineOnlyFields.classList.add('hidden');
+            editPaymentFields.classList.add('hidden');
+            
+            if (transactionType === 'ticket') {
+                editTicketFields.classList.remove('hidden');
+                editFineOnlyFields.classList.add('hidden');
+            } else if (transactionType === 'fine') {
+                editTicketFields.classList.remove('hidden');
+                editFineOnlyFields.classList.remove('hidden');
+            } else if (transactionType === 'payment') {
+                editPaymentFields.classList.remove('hidden');
+            }
+        }
+        
         // دالة إضافة عملية جديدة
         function addTransaction() {
-            // التحقق من وجود شركة
             const company = companySelect.value;
             if (!company) {
                 alert('يرجى اختيار شركة أولاً');
@@ -1299,18 +2080,15 @@
                 return;
             }
             
-            // التحقق من صحة البيانات
             if (!validateForm()) {
                 return;
             }
             
-            // تحديد نوع العملية
             let transactionType = '';
             transactionTypeRadios.forEach(radio => {
                 if (radio.checked) transactionType = radio.value;
             });
             
-            // إنشاء كائن العملية
             const transaction = {
                 id: generateId(),
                 date: dateInput.value,
@@ -1319,7 +2097,6 @@
                 amount: parseFloat(amountInput.value)
             };
             
-            // إضافة بيانات إضافية حسب نوع العملية
             if (transactionType === 'ticket') {
                 let destination = destinationSelect.value;
                 if (destination === 'other') {
@@ -1372,23 +2149,18 @@
                 }
             }
             
-            // تحديث رصيد الشركة
             updateCompanyBalanceAfterTransaction(company, transaction.type, transaction.amount);
             
-            // إضافة العملية للمصفوفة
             transactions.push(transaction);
             
-            // حفظ البيانات
             saveData();
             
-            // تحديث العرض
             updateReport();
             updateCompanyList();
+            updateManageTable();
             
-            // إعادة تعيين النموذج
             resetForm();
             
-            // عرض رسالة نجاح
             alert('تم إضافة العملية بنجاح!');
         }
         
@@ -1472,7 +2244,6 @@
                 companyList.appendChild(companyItem);
             });
             
-            // إضافة أحداث لحذف الشركات
             document.querySelectorAll('.delete-company').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const companyToDelete = this.getAttribute('data-company');
@@ -1492,13 +2263,15 @@
             
             updateCompanyList();
             updateCompanySelect();
+            updateFilterCompanySelect();
             updateReport();
+            updateManageTable();
             saveData();
             
             alert('تم حذف الشركة وعملياتها بنجاح!');
         }
         
-        // دالة تحديث قائمة الشركات في الـ select
+        // دالة تحديث قائمة الشركات في select
         function updateCompanySelect() {
             const currentValue = companySelect.value;
             
@@ -1514,6 +2287,305 @@
             if (currentValue && companies.hasOwnProperty(currentValue)) {
                 companySelect.value = currentValue;
             }
+        }
+        
+        // دالة تحديث قائمة الشركات في فلتر إدارة العمليات
+        function updateFilterCompanySelect() {
+            filterCompanySelect.innerHTML = '<option value="">جميع الشركات</option>';
+            
+            Object.keys(companies).sort().forEach(company => {
+                const option = document.createElement('option');
+                option.value = company;
+                option.textContent = company;
+                filterCompanySelect.appendChild(option);
+            });
+        }
+        
+        // دالة فتح نموذج التعديل
+        function openEditForm(transactionId) {
+            const transaction = transactions.find(t => t.id === transactionId);
+            if (!transaction) return;
+            
+            currentEditTransactionId = transactionId;
+            
+            editFormContainer.classList.remove('hidden');
+            deleteConfirmContainer.classList.add('hidden');
+            
+            editTransactionTypeSelect.value = transaction.type;
+            updateEditFormFields(transaction.type);
+            
+            if (transaction.type === 'ticket') {
+                editPassengerNameInput.value = transaction.passengerName || '';
+                editDocumentNumberInput.value = transaction.documentNumber || '';
+                editDestinationSelect.value = transaction.destination || 'TIP - IST';
+                editTripTypeSelect.value = transaction.tripType || 'ذهاب';
+                editNotesInput.value = transaction.notes || '';
+            } else if (transaction.type === 'fine') {
+                editPassengerNameInput.value = transaction.passengerName || '';
+                editDocumentNumberInput.value = transaction.documentNumber || '';
+                editDestinationSelect.value = transaction.destination || 'TIP - IST';
+                editTripTypeSelect.value = transaction.tripType || 'ذهاب';
+                editFineReasonInput.value = transaction.reason || '';
+            } else if (transaction.type === 'payment') {
+                editPaymentDescriptionInput.value = transaction.description || '';
+            }
+            
+            editAmountInput.value = transaction.amount;
+            editDateInput.value = transaction.date;
+            
+            editFormContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // دالة إلغاء التعديل
+        function cancelEdit() {
+            editFormContainer.classList.add('hidden');
+            currentEditTransactionId = null;
+        }
+        
+        // دالة حفظ التعديلات
+        function saveEdit() {
+            if (!currentEditTransactionId) return;
+            
+            const transactionIndex = transactions.findIndex(t => t.id === currentEditTransactionId);
+            if (transactionIndex === -1) return;
+            
+            const oldTransaction = transactions[transactionIndex];
+            const oldAmount = oldTransaction.amount;
+            const oldType = oldTransaction.type;
+            
+            if (oldType === 'ticket' || oldType === 'fine') {
+                companies[oldTransaction.company] -= oldAmount;
+            } else if (oldType === 'payment') {
+                companies[oldTransaction.company] += oldAmount;
+            }
+            
+            const transactionType = editTransactionTypeSelect.value;
+            const amount = parseFloat(editAmountInput.value);
+            
+            if (!amount || amount <= 0) {
+                alert('يرجى إدخال مبلغ صحيح أكبر من صفر');
+                editAmountInput.focus();
+                return;
+            }
+            
+            const updatedTransaction = {
+                ...oldTransaction,
+                date: editDateInput.value,
+                type: transactionType,
+                amount: amount
+            };
+            
+            if (transactionType === 'ticket') {
+                let destination = editDestinationSelect.value;
+                if (destination === 'other') {
+                    destination = editOtherDestinationInput.value.trim();
+                    if (destination === '') {
+                        alert('يرجى إدخال الوجهة');
+                        editOtherDestinationInput.focus();
+                        return;
+                    }
+                }
+                
+                updatedTransaction.passengerName = editPassengerNameInput.value.trim();
+                updatedTransaction.documentNumber = editDocumentNumberInput.value.trim();
+                updatedTransaction.destination = destination;
+                updatedTransaction.tripType = editTripTypeSelect.value;
+                updatedTransaction.notes = editNotesInput.value.trim();
+                updatedTransaction.reason = '';
+                updatedTransaction.description = '';
+                
+                if (updatedTransaction.passengerName === '') {
+                    alert('يرجى إدخال اسم المسافر للتذكرة');
+                    editPassengerNameInput.focus();
+                    return;
+                }
+                
+                if (updatedTransaction.documentNumber === '') {
+                    alert('يرجى إدخال رقم المستند للتذكرة');
+                    editDocumentNumberInput.focus();
+                    return;
+                }
+                
+            } else if (transactionType === 'fine') {
+                updatedTransaction.passengerName = editPassengerNameInput.value.trim();
+                updatedTransaction.documentNumber = editDocumentNumberInput.value.trim();
+                updatedTransaction.destination = editDestinationSelect.value;
+                updatedTransaction.tripType = editTripTypeSelect.value;
+                updatedTransaction.reason = editFineReasonInput.value.trim();
+                updatedTransaction.notes = '';
+                updatedTransaction.description = '';
+                
+                if (updatedTransaction.reason === '') {
+                    alert('يرجى إدخال سبب الغرامة');
+                    editFineReasonInput.focus();
+                    return;
+                }
+                
+            } else if (transactionType === 'payment') {
+                updatedTransaction.description = editPaymentDescriptionInput.value.trim();
+                updatedTransaction.passengerName = '';
+                updatedTransaction.documentNumber = '';
+                updatedTransaction.destination = '';
+                updatedTransaction.tripType = '';
+                updatedTransaction.reason = '';
+                updatedTransaction.notes = '';
+                
+                if (updatedTransaction.description === '') {
+                    alert('يرجى إدخال وصف الدفعة');
+                    editPaymentDescriptionInput.focus();
+                    return;
+                }
+            }
+            
+            if (transactionType === 'ticket' || transactionType === 'fine') {
+                companies[updatedTransaction.company] += amount;
+            } else if (transactionType === 'payment') {
+                companies[updatedTransaction.company] -= amount;
+            }
+            
+            transactions[transactionIndex] = updatedTransaction;
+            
+            saveData();
+            updateReport();
+            updateCompanyList();
+            updateManageTable();
+            
+            editFormContainer.classList.add('hidden');
+            currentEditTransactionId = null;
+            
+            alert('تم تحديث العملية بنجاح!');
+        }
+        
+        // دالة فتح تأكيد الحذف
+        function openDeleteConfirm(transactionId) {
+            const transaction = transactions.find(t => t.id === transactionId);
+            if (!transaction) return;
+            
+            currentDeleteTransactionId = transactionId;
+            
+            deleteConfirmContainer.classList.remove('hidden');
+            editFormContainer.classList.add('hidden');
+            
+            deleteConfirmContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // دالة إلغاء الحذف
+        function cancelDelete() {
+            deleteConfirmContainer.classList.add('hidden');
+            currentDeleteTransactionId = null;
+        }
+        
+        // دالة تأكيد الحذف
+        function confirmDelete() {
+            if (!currentDeleteTransactionId) return;
+            
+            const transactionIndex = transactions.findIndex(t => t.id === currentDeleteTransactionId);
+            if (transactionIndex === -1) return;
+            
+            const transaction = transactions[transactionIndex];
+            
+            if (confirm(`هل أنت متأكد من حذف هذه العملية؟\n\nالتفاصيل:\n- الشركة: ${transaction.company}\n- النوع: ${getTypeName(transaction.type)}\n- المبلغ: ${formatCurrency(transaction.amount)}\n\nهذا الإجراء لا يمكن التراجع عنه.`)) {
+                if (transaction.type === 'ticket' || transaction.type === 'fine') {
+                    companies[transaction.company] -= transaction.amount;
+                } else if (transaction.type === 'payment') {
+                    companies[transaction.company] += transaction.amount;
+                }
+                
+                transactions.splice(transactionIndex, 1);
+                
+                saveData();
+                updateReport();
+                updateCompanyList();
+                updateManageTable();
+                
+                deleteConfirmContainer.classList.add('hidden');
+                currentDeleteTransactionId = null;
+                
+                alert('تم حذف العملية بنجاح!');
+            }
+        }
+        
+        // دالة تحديث جدول إدارة العمليات
+        function updateManageTable() {
+            const filterCompany = filterCompanySelect.value;
+            const filterType = filterTypeSelect.value;
+            
+            let filteredTransactions = [...transactions];
+            
+            if (filterCompany) {
+                filteredTransactions = filteredTransactions.filter(t => t.company === filterCompany);
+            }
+            
+            if (filterType) {
+                filteredTransactions = filteredTransactions.filter(t => t.type === filterType);
+            }
+            
+            if (filteredTransactions.length > 0) {
+                noTransactionsElement.style.display = 'none';
+                manageTransactionsBody.innerHTML = '';
+            } else {
+                noTransactionsElement.style.display = 'block';
+                manageTransactionsBody.innerHTML = '';
+                return;
+            }
+            
+            filteredTransactions.forEach((transaction, index) => {
+                const row = document.createElement('tr');
+                row.className = 'transaction-row';
+                
+                let typeClass = '';
+                let typeText = getTypeName(transaction.type);
+                
+                if (transaction.type === 'ticket') {
+                    typeClass = 'transaction-ticket';
+                } else if (transaction.type === 'fine') {
+                    typeClass = 'transaction-fine';
+                } else if (transaction.type === 'payment') {
+                    typeClass = 'transaction-payment';
+                } else if (transaction.type === 'initial') {
+                    typeClass = 'transaction-initial';
+                }
+                
+                let passengerName = transaction.passengerName || transaction.description || '-';
+                if (passengerName.length > 20) {
+                    passengerName = passengerName.substring(0, 20) + '...';
+                }
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${transaction.date}</td>
+                    <td>${transaction.company}</td>
+                    <td><span class="transaction-type ${typeClass}">${typeText}</span></td>
+                    <td>${passengerName}</td>
+                    <td>${formatCurrency(transaction.amount)}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn action-btn-edit" data-id="${transaction.id}">
+                                <i class="fas fa-edit"></i> تعديل
+                            </button>
+                            <button class="action-btn action-btn-delete" data-id="${transaction.id}">
+                                <i class="fas fa-trash"></i> حذف
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                manageTransactionsBody.appendChild(row);
+            });
+            
+            document.querySelectorAll('.action-btn-edit').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const transactionId = this.getAttribute('data-id');
+                    openEditForm(transactionId);
+                });
+            });
+            
+            document.querySelectorAll('.action-btn-delete').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const transactionId = this.getAttribute('data-id');
+                    openDeleteConfirm(transactionId);
+                });
+            });
         }
         
         // دالة تحديث كشف الحساب
@@ -1556,19 +2628,16 @@
                 const row = document.createElement('tr');
                 
                 let typeClass = '';
-                let typeText = '';
+                let typeText = getTypeName(transaction.type);
+                
                 if (transaction.type === 'ticket') {
                     typeClass = 'transaction-ticket';
-                    typeText = 'تذكرة';
                 } else if (transaction.type === 'fine') {
                     typeClass = 'transaction-fine';
-                    typeText = 'غرامة';
                 } else if (transaction.type === 'payment') {
                     typeClass = 'transaction-payment';
-                    typeText = 'تسليم';
                 } else if (transaction.type === 'initial') {
                     typeClass = 'transaction-initial';
-                    typeText = 'افتتاحي';
                 }
                 
                 let passengerName = transaction.passengerName || '-';
@@ -1670,6 +2739,17 @@
             window.print();
         }
         
+        // دالة الحصول على اسم النوع
+        function getTypeName(type) {
+            switch(type) {
+                case 'ticket': return 'تذكرة';
+                case 'fine': return 'غرامة';
+                case 'payment': return 'تسليم';
+                case 'initial': return 'افتتاحي';
+                default: return type;
+            }
+        }
+        
         // دالة توليد معرف فريد
         function generateId() {
             return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -1707,6 +2787,7 @@
             if (savedCompanies) {
                 companies = JSON.parse(savedCompanies);
                 updateCompanySelect();
+                updateFilterCompanySelect();
                 updateCompanyList();
             }
         }
@@ -1723,8 +2804,16 @@
         
         // إغلاق النافذة بمفتاح ESC
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && !addCompanyModal.classList.contains('hidden')) {
-                closeAddCompanyModal();
+            if (e.key === 'Escape') {
+                if (!addCompanyModal.classList.contains('hidden')) {
+                    closeAddCompanyModal();
+                }
+                if (editFormContainer.classList.contains('hidden') === false) {
+                    cancelEdit();
+                }
+                if (deleteConfirmContainer.classList.contains('hidden') === false) {
+                    cancelDelete();
+                }
             }
         });
     </script>
