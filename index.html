@@ -461,10 +461,35 @@
             border: 1px solid #eee;
             max-height: 400px;
             overflow-y: auto;
+            position: relative;
         }
         
         .manage-table-container {
             max-height: 500px;
+        }
+        
+        /* مؤشر التمرير للهواتف */
+        .scroll-indicator {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(52, 152, 219, 0.9);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 5;
+            display: none;
+            animation: fadeInOut 3s infinite;
+            white-space: nowrap;
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.9; }
         }
         
         table {
@@ -702,6 +727,20 @@
             
             th, td {
                 padding: 8px !important;
+            }
+            
+            /* إخفاء بعض الأعمدة عند الطباعة على الهواتف */
+            @media (max-width: 768px) {
+                #transactions-table th:nth-child(5),
+                #transactions-table td:nth-child(5),
+                #transactions-table th:nth-child(6),
+                #transactions-table td:nth-child(6),
+                #transactions-table th:nth-child(7),
+                #transactions-table td:nth-child(7),
+                #transactions-table th:nth-child(8),
+                #transactions-table td:nth-child(8) {
+                    display: none !important;
+                }
             }
         }
         
@@ -1241,6 +1280,395 @@
             color: #666;
             font-size: 0.9rem;
         }
+        
+        /* ======= تحسينات خاصة للهواتف ======= */
+        
+        /* تحسينات للهواتف المحمولة */
+        @media (max-width: 768px) {
+            .table-container {
+                margin: 0 -15px;
+                width: calc(100% + 30px);
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+                max-height: 450px;
+            }
+            
+            /* تحسين جدول كشف الحساب للهواتف */
+            #transactions-table {
+                min-width: 750px;
+                font-size: 0.78rem;
+            }
+            
+            #transactions-table th,
+            #transactions-table td {
+                padding: 9px 6px;
+                white-space: nowrap;
+            }
+            
+            /* إخفاء بعض الأعمدة على الهواتف لتحسين القراءة */
+            #transactions-table th:nth-child(5), /* المستند */
+            #transactions-table td:nth-child(5),
+            #transactions-table th:nth-child(7), /* الرحلة */
+            #transactions-table td:nth-child(7),
+            #transactions-table th:nth-child(8), /* السبب */
+            #transactions-table td:nth-child(8) {
+                display: none;
+            }
+            
+            /* تكبير الأعمدة المهمة على الهواتف */
+            #transactions-table th:nth-child(2), /* التاريخ */
+            #transactions-table td:nth-child(2),
+            #transactions-table th:nth-child(3), /* النوع */
+            #transactions-table td:nth-child(3),
+            #transactions-table th:nth-child(4), /* المسافر */
+            #transactions-table td:nth-child(4),
+            #transactions-table th:nth-child(6), /* الوجهة */
+            #transactions-table td:nth-child(6),
+            #transactions-table th:nth-child(9), /* المبلغ */
+            #transactions-table td:nth-child(9),
+            #transactions-table th:nth-child(10), /* الرصيد */
+            #transactions-table td:nth-child(10) {
+                min-width: 80px;
+            }
+            
+            /* تحسين عرض الوجهة على الهواتف */
+            #transactions-table td:nth-child(6) {
+                max-width: 120px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            /* تحسين عرض اسم المسافر على الهواتف */
+            #transactions-table td:nth-child(4) {
+                max-width: 100px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            /* تعديل عرض التبويبات للهواتف */
+            .tab {
+                padding: 14px 10px;
+                font-size: 0.95rem;
+            }
+            
+            /* تحسين الملخص للهواتف */
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .summary-box {
+                padding: 12px;
+            }
+            
+            .summary-box .value {
+                font-size: 1.3rem;
+            }
+            
+            .summary-box h3 {
+                font-size: 0.85rem;
+            }
+            
+            /* تحسين منطقة معلومات الشركة للهواتف */
+            .company-info {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 12px;
+            }
+            
+            .company-info h3 {
+                text-align: right;
+                font-size: 1.3rem;
+                width: 100%;
+            }
+            
+            .company-balance {
+                width: 100%;
+                text-align: center;
+                font-size: 1.4rem;
+                margin-top: 10px;
+                padding: 10px;
+            }
+            
+            /* تحسين الترويسة للهواتف */
+            header {
+                padding: 18px 12px;
+            }
+            
+            .logo h1 {
+                font-size: 1.6rem;
+            }
+            
+            .logo-icon {
+                width: 65px;
+                height: 65px;
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+            
+            /* تحسين خيارات الراديو للهواتف */
+            .radio-group {
+                flex-direction: column;
+            }
+            
+            .radio-option {
+                justify-content: flex-start;
+                padding: 12px;
+            }
+            
+            /* تحسين عرض الجدول للإدارة للهواتف */
+            #manage-transactions-table {
+                min-width: 650px;
+                font-size: 0.78rem;
+            }
+            
+            #manage-transactions-table th,
+            #manage-transactions-table td {
+                padding: 9px 6px;
+            }
+            
+            /* تحسين الأزرار في جدول الإدارة للهواتف */
+            .action-buttons {
+                flex-direction: column;
+                gap: 6px;
+                min-width: 100px;
+            }
+            
+            .action-btn {
+                padding: 8px 10px;
+                font-size: 0.75rem;
+            }
+            
+            /* إظهار مؤشر التمرير للهواتف */
+            .scroll-indicator {
+                display: block;
+            }
+            
+            /* تحسين التقرير على الهواتف */
+            .report-section {
+                padding: 15px 10px;
+            }
+            
+            .report-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .company-report-title {
+                font-size: 1.4rem;
+                text-align: center;
+            }
+            
+            .btn-print {
+                width: 100%;
+                padding: 12px;
+            }
+            
+            /* تحسين شريط التمرير للهواتف */
+            .table-container::-webkit-scrollbar {
+                height: 6px;
+            }
+            
+            .table-container::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 10px;
+                margin: 0 10px;
+            }
+            
+            .table-container::-webkit-scrollbar-thumb {
+                background: var(--secondary-color);
+                border-radius: 10px;
+            }
+            
+            /* تحسين فلاتر إدارة العمليات للهواتف */
+            .filter-controls {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            #reset-filters {
+                width: 100%;
+                margin-top: 0;
+            }
+        }
+        
+        /* تحسينات إضافية للهواتف الصغيرة جداً */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            
+            /* إخفاء المزيد من الأعمدة في كشف الحساب للهواتف الصغيرة */
+            #transactions-table th:nth-child(2), /* التاريخ */
+            #transactions-table td:nth-child(2) {
+                display: none;
+            }
+            
+            /* إظهار العناصر المهمة فقط */
+            #transactions-table {
+                min-width: 600px;
+                font-size: 0.75rem;
+            }
+            
+            #transactions-table th,
+            #transactions-table td {
+                padding: 8px 5px;
+            }
+            
+            /* تحسين الملخص للهواتف الصغيرة */
+            .summary {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .summary-box {
+                padding: 10px;
+            }
+            
+            .summary-box .value {
+                font-size: 1.5rem;
+            }
+            
+            /* تحسين التبويبات للهواتف الصغيرة */
+            .tabs {
+                flex-direction: column;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            
+            .tab {
+                border-bottom: 1px solid #eee;
+                border-right: 3px solid transparent;
+                padding: 16px;
+                text-align: right;
+            }
+            
+            .tab.active {
+                border-bottom: 1px solid #eee;
+                border-right: 3px solid var(--secondary-color);
+                background-color: #f0f7ff;
+            }
+            
+            /* تحسين منطقة إضافة عملية للهواتف الصغيرة */
+            .form-section {
+                padding: 15px 12px;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            h2 span {
+                margin-top: 5px;
+                font-size: 0.9rem;
+            }
+            
+            /* تحسين الأزرار للهواتف الصغيرة */
+            .btn {
+                padding: 14px 16px;
+                font-size: 1rem;
+                margin-top: 10px;
+            }
+            
+            /* تحسين مربع الشركة للهواتف الصغيرة */
+            .company-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .company-item-actions {
+                width: 100%;
+            }
+            
+            .delete-company {
+                width: 100%;
+                padding: 10px;
+            }
+            
+            /* تحسين مؤشر التمرير للهواتف الصغيرة */
+            .scroll-indicator {
+                font-size: 0.65rem;
+                padding: 5px 10px;
+                right: 5px;
+            }
+            
+            /* تحسين عرض الشركة الحالية للهواتف الصغيرة */
+            .company-info h3 {
+                font-size: 1.2rem;
+            }
+            
+            .company-balance {
+                font-size: 1.3rem;
+            }
+            
+            /* تحسين النافذة المنبثقة للهواتف الصغيرة */
+            .modal-content {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .modal-header h3 {
+                font-size: 1.3rem;
+            }
+        }
+        
+        /* تحسينات للأجهزة اللوحية */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            #transactions-table {
+                min-width: 900px;
+                font-size: 0.82rem;
+            }
+            
+            #transactions-table th,
+            #transactions-table td {
+                padding: 11px 8px;
+            }
+            
+            /* إخفاء بعض الأعمدة على الأجهزة اللوحية لتحسين القراءة */
+            #transactions-table th:nth-child(7), /* الرحلة */
+            #transactions-table td:nth-child(7),
+            #transactions-table th:nth-child(8), /* السبب */
+            #transactions-table td:nth-child(8) {
+                display: none;
+            }
+        }
+        
+        /* تحسينات للطابعة على الهواتف */
+        @media print and (max-width: 768px) {
+            #transactions-table {
+                font-size: 9px !important;
+                min-width: 100% !important;
+            }
+            
+            #transactions-table th,
+            #transactions-table td {
+                padding: 5px 3px !important;
+            }
+            
+            /* إخفاء الأعمدة غير الضرورية عند الطباعة */
+            #transactions-table th:nth-child(5),
+            #transactions-table td:nth-child(5),
+            #transactions-table th:nth-child(7),
+            #transactions-table td:nth-child(7),
+            #transactions-table th:nth-child(8),
+            #transactions-table td:nth-child(8) {
+                display: none !important;
+            }
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -1431,6 +1859,7 @@
             </div>
             
             <div class="table-container">
+                <div class="scroll-indicator">← اسحب لرؤية المزيد →</div>
                 <table id="transactions-table">
                     <thead>
                         <tr>
@@ -1589,6 +2018,7 @@
             </div>
             
             <div class="table-container manage-table-container">
+                <div class="scroll-indicator">← اسحب لرؤية المزيد →</div>
                 <table id="manage-transactions-table">
                     <thead>
                         <tr>
@@ -1805,6 +2235,9 @@
                 if (tabId === 'add') {
                     updateActiveTypeIndicator();
                 }
+                
+                // تحسين العرض للهواتف
+                optimizeForMobile();
             });
         });
         
@@ -1829,6 +2262,7 @@
             reportCompanyNameElement.textContent = companyName === '--' ? 'كشف الحساب' : `كشف حساب: ${companyName}`;
             updateCompanyBalance(this.value);
             updateReport();
+            optimizeForMobile();
         });
         
         destinationSelect.addEventListener('change', function() {
@@ -1885,6 +2319,43 @@
         updateReport();
         updateActiveTypeIndicator();
         updateActiveTypeClasses('ticket'); // تذكرة هي الافتراضية
+        
+        // دالة تحسين العرض للهواتف
+        function optimizeForMobile() {
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // تحسين عرض الوجهة على الهواتف
+                document.querySelectorAll('#transactions-table td:nth-child(6)').forEach(td => {
+                    const content = td.textContent;
+                    if (content.includes('-')) {
+                        const parts = content.split('-');
+                        if (parts.length >= 2) {
+                            td.innerHTML = parts[0].trim();
+                            td.title = content; // إضافة تلميح عند التمرير
+                        }
+                    }
+                });
+                
+                // تحسين عرض السبب/الوصف
+                document.querySelectorAll('#transactions-table td:nth-child(8)').forEach(td => {
+                    const content = td.textContent;
+                    if (content.length > 15) {
+                        td.textContent = content.substring(0, 15) + '...';
+                        td.title = content; // إضافة تلميح عند التمرير
+                    }
+                });
+                
+                // تحسين عرض اسم المسافر
+                document.querySelectorAll('#transactions-table td:nth-child(4)').forEach(td => {
+                    const content = td.textContent;
+                    if (content.length > 12) {
+                        td.textContent = content.substring(0, 12) + '...';
+                        td.title = content;
+                    }
+                });
+            }
+        }
         
         // دالة تحديث فئات النوع النشط
         function updateActiveTypeClasses(activeType) {
@@ -2030,6 +2501,7 @@
             
             updateReport();
             updateManageTable();
+            optimizeForMobile();
             
             alert('تم إضافة الشركة بنجاح!');
         }
@@ -2158,6 +2630,7 @@
             updateReport();
             updateCompanyList();
             updateManageTable();
+            optimizeForMobile();
             
             resetForm();
             
@@ -2267,6 +2740,7 @@
             updateReport();
             updateManageTable();
             saveData();
+            optimizeForMobile();
             
             alert('تم حذف الشركة وعملياتها بنجاح!');
         }
@@ -2449,6 +2923,7 @@
             updateReport();
             updateCompanyList();
             updateManageTable();
+            optimizeForMobile();
             
             editFormContainer.classList.add('hidden');
             currentEditTransactionId = null;
@@ -2497,6 +2972,7 @@
                 updateReport();
                 updateCompanyList();
                 updateManageTable();
+                optimizeForMobile();
                 
                 deleteConfirmContainer.classList.add('hidden');
                 currentDeleteTransactionId = null;
@@ -2679,6 +3155,7 @@
             transactionsBody.appendChild(totalRow);
             
             updateSummary(filteredTransactions, balance);
+            optimizeForMobile();
         }
         
         // دالة تحديث الملخص
@@ -2789,6 +3266,7 @@
                 updateCompanySelect();
                 updateFilterCompanySelect();
                 updateCompanyList();
+                optimizeForMobile();
             }
         }
         
@@ -2815,6 +3293,14 @@
                     cancelDelete();
                 }
             }
+        });
+        
+        // تحديث تحسينات الهواتف عند تغيير حجم النافذة
+        window.addEventListener('resize', optimizeForMobile);
+        
+        // تهيئة التحسينات عند تحميل الصفحة
+        window.addEventListener('load', function() {
+            optimizeForMobile();
         });
     </script>
 </body>
