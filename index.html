@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>نظام تذاكر - إدارة البيانات والمبالغ</title>
     <style>
         * {
@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         :root {
@@ -25,187 +26,169 @@
             background-color: #f5f7fa;
             color: #333;
             line-height: 1.6;
-            padding: 20px;
-            max-width: 1300px;
-            margin: 0 auto;
+            padding: 15px;
+            min-height: 100vh;
+            -webkit-text-size-adjust: 100%;
         }
         
         header {
             background: linear-gradient(135deg, var(--primary-color), #1a5276);
             color: white;
-            padding: 20px;
-            border-radius: 15px;
+            padding: 20px 15px;
+            border-radius: 12px;
             text-align: center;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
         }
         
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
-            opacity: 0.3;
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
         }
         
-        .logo {
+        .logo-row {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 2;
+            margin-bottom: 10px;
+            width: 100%;
         }
         
         .logo h1 {
-            font-size: 2.8rem;
-            margin-right: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            letter-spacing: 1px;
+            font-size: 1.8rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            margin: 0 10px;
+            text-align: center;
         }
         
         .logo-icon {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             background: linear-gradient(135deg, #e74c3c, #3498db);
             color: white;
-            width: 90px;
-            height: 90px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             animation: float 3s ease-in-out infinite;
-            position: relative;
-        }
-        
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
-            background: linear-gradient(135deg, #e74c3c, #3498db);
-            border-radius: 50%;
-            z-index: -1;
-            opacity: 0.5;
-            filter: blur(10px);
         }
         
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(45deg); }
-            50% { transform: translateY(-10px) rotate(45deg); }
+            50% { transform: translateY(-5px) rotate(45deg); }
         }
         
         .subtitle {
-            font-size: 1.3rem;
+            font-size: 1rem;
             opacity: 0.9;
-            position: relative;
-            z-index: 2;
-            margin-top: 10px;
+            margin-top: 5px;
+            padding: 0 10px;
         }
         
         .container {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 30px;
-        }
-        
-        @media (max-width: 992px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
         
         .form-section, .report-section {
             background-color: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
+            padding: 20px 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
             border: 1px solid #eaeaea;
         }
         
         h2 {
             color: var(--primary-color);
-            padding-bottom: 12px;
+            padding-bottom: 10px;
             margin-bottom: 20px;
-            border-bottom: 3px solid var(--light-color);
-            font-size: 1.9rem;
+            border-bottom: 2px solid var(--light-color);
+            font-size: 1.5rem;
             position: relative;
         }
         
         h2::after {
             content: '';
             position: absolute;
-            bottom: -3px;
+            bottom: -2px;
             right: 0;
-            width: 100px;
-            height: 3px;
+            width: 70px;
+            height: 2px;
             background: linear-gradient(to left, var(--secondary-color), var(--success-color));
         }
         
         .form-group {
-            margin-bottom: 22px;
-            transition: all 0.3s;
+            margin-bottom: 18px;
         }
         
         label {
             display: block;
-            margin-bottom: 10px;
-            font-weight: 700;
+            margin-bottom: 8px;
+            font-weight: 600;
             color: var(--dark-color);
-            font-size: 1.05rem;
+            font-size: 1rem;
         }
         
         input, select, textarea {
             width: 100%;
-            padding: 14px 18px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1.05rem;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
             transition: all 0.3s;
             background-color: #fafafa;
+            -webkit-appearance: none;
+            appearance: none;
         }
         
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
             background-color: white;
         }
         
         .radio-group {
             display: flex;
-            gap: 25px;
-            margin-top: 10px;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        
+        @media (min-width: 480px) {
+            .radio-group {
+                flex-direction: row;
+            }
         }
         
         .radio-option {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 10px 15px;
-            border-radius: 8px;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 6px;
             background-color: #f8f9fa;
             transition: all 0.3s;
             flex: 1;
         }
         
-        .radio-option:hover {
-            background-color: #e9ecef;
+        .radio-option input {
+            width: auto;
+            margin-left: 5px;
         }
         
-        .radio-option input:checked + label {
-            color: var(--secondary-color);
-            font-weight: 700;
+        .radio-option label {
+            margin-bottom: 0;
+            flex: 1;
         }
         
         .btn {
@@ -213,38 +196,21 @@
             background: linear-gradient(135deg, var(--secondary-color), #2980b9);
             color: white;
             border: none;
-            padding: 16px 28px;
-            border-radius: 8px;
+            padding: 14px 20px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 1rem;
+            font-weight: 600;
             transition: all 0.3s;
             text-align: center;
             width: 100%;
-            margin-top: 10px;
-            letter-spacing: 0.5px;
-            position: relative;
-            overflow: hidden;
+            margin-top: 8px;
+            touch-action: manipulation;
         }
         
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-        
-        .btn:hover::before {
-            left: 100%;
-        }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
+        .btn:hover, .btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         
         .btn-add {
@@ -255,50 +221,48 @@
             background: linear-gradient(135deg, var(--primary-color), #1a252f);
             width: auto;
             margin: 0;
-            padding: 12px 25px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
         }
         
         .btn-reset {
             background: linear-gradient(135deg, var(--accent-color), #c0392b);
-            margin-top: 15px;
+            margin-top: 12px;
         }
         
         .btn-add-company {
             background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+        }
+        
+        /* تحسينات للجدول على الهاتف */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-top: 15px;
+            border-radius: 8px;
+            border: 1px solid #eee;
         }
         
         table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin-top: 20px;
-            font-size: 0.95rem;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-collapse: collapse;
+            min-width: 800px; /* الحد الأدنى لعرض الجدول */
+            font-size: 0.85rem;
         }
         
         th {
             background: linear-gradient(135deg, var(--primary-color), #34495e);
             color: white;
-            padding: 16px 14px;
+            padding: 12px 10px;
             text-align: right;
-            font-weight: 700;
-            font-size: 1rem;
-            border: none;
-        }
-        
-        th:first-child {
-            border-top-right-radius: 10px;
-        }
-        
-        th:last-child {
-            border-top-left-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
         
         td {
-            padding: 14px;
+            padding: 10px;
             border-bottom: 1px solid #eee;
             text-align: right;
             background-color: white;
@@ -308,15 +272,11 @@
             background-color: #fafafa;
         }
         
-        tr:hover td {
-            background-color: #f1f8ff;
-        }
-        
         .total-row {
             font-weight: bold;
             background: linear-gradient(135deg, #e8f4fc, #d4eaf7) !important;
             color: var(--primary-color);
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
         
         .total-row td {
@@ -325,11 +285,11 @@
         
         .transaction-type {
             display: inline-block;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
         }
         
         .transaction-ticket {
@@ -354,34 +314,35 @@
         
         .summary {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .summary {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
         
         .summary-box {
             background: linear-gradient(135deg, white, #f8f9fa);
-            padding: 25px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 8px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
             border: 1px solid #eaeaea;
-            transition: transform 0.3s;
-        }
-        
-        .summary-box:hover {
-            transform: translateY(-5px);
         }
         
         .summary-box h3 {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             color: var(--dark-color);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-weight: 600;
         }
         
         .summary-box .value {
-            font-size: 2.2rem;
+            font-size: 1.5rem;
             font-weight: bold;
         }
         
@@ -402,53 +363,69 @@
         }
         
         .company-selector {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .company-info {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
+            flex-direction: column;
+            gap: 15px;
+            padding: 15px;
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border-left: 5px solid var(--secondary-color);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-right: 4px solid var(--secondary-color);
+        }
+        
+        @media (min-width: 480px) {
+            .company-info {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
         }
         
         .company-info h3 {
             color: var(--primary-color);
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             margin: 0;
+            text-align: center;
+        }
+        
+        @media (min-width: 480px) {
+            .company-info h3 {
+                text-align: right;
+            }
         }
         
         .company-balance {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             font-weight: bold;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 8px 15px;
+            border-radius: 6px;
             background-color: white;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         
         .positive-balance {
             color: var(--success-color);
-            border-right: 4px solid var(--success-color);
+            border-right: 3px solid var(--success-color);
         }
         
         .negative-balance {
             color: var(--accent-color);
-            border-right: 4px solid var(--accent-color);
+            border-right: 3px solid var(--accent-color);
         }
         
         footer {
             text-align: center;
-            margin-top: 50px;
-            padding-top: 25px;
-            border-top: 2px solid #eee;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
             color: #7f8c8d;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
+            padding-bottom: 20px;
         }
         
         @media print {
@@ -472,12 +449,13 @@
             }
             
             table {
-                font-size: 12px !important;
+                font-size: 11px !important;
                 box-shadow: none !important;
+                min-width: 100% !important;
             }
             
             th, td {
-                padding: 10px 12px !important;
+                padding: 8px !important;
             }
         }
         
@@ -485,69 +463,61 @@
             display: none !important;
         }
         
-        .company-management {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-        
-        .company-management input {
-            flex: 1;
-        }
-        
-        .company-management button {
-            width: auto;
-            margin: 0;
-        }
-        
         .company-list {
-            margin-top: 20px;
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .company-item {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
+            flex-direction: column;
+            gap: 10px;
+            padding: 12px;
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            margin-bottom: 10px;
-            border-radius: 8px;
-            border-left: 4px solid var(--secondary-color);
-            transition: all 0.3s;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border-right: 3px solid var(--secondary-color);
         }
         
-        .company-item:hover {
-            background: linear-gradient(135deg, #e9ecef, #dee2e6);
-            transform: translateX(-5px);
+        @media (min-width: 480px) {
+            .company-item {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
         }
         
         .company-name {
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-weight: 600;
+            font-size: 1rem;
             color: var(--primary-color);
         }
         
         .company-item-balance {
             font-weight: bold;
-            padding: 6px 12px;
-            border-radius: 6px;
+            padding: 5px 10px;
+            border-radius: 5px;
             background-color: white;
+            font-size: 0.9rem;
+        }
+        
+        .company-item-actions {
+            display: flex;
+            gap: 8px;
         }
         
         .delete-company {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
             border: none;
-            padding: 6px 15px;
-            border-radius: 5px;
+            padding: 6px 12px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .delete-company:hover {
-            transform: scale(1.05);
+            flex: 1;
         }
         
         /* نافذة إضافة شركة جديدة */
@@ -557,21 +527,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(0, 0, 0, 0.7);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            backdrop-filter: blur(3px);
+            padding: 15px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .modal-content {
             background: linear-gradient(135deg, white, #f8f9fa);
-            padding: 35px;
-            border-radius: 15px;
-            width: 90%;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
             max-width: 500px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             border: 1px solid #eaeaea;
         }
         
@@ -579,74 +553,76 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #eee;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
             padding-bottom: 15px;
         }
         
         .modal-header h3 {
             color: var(--primary-color);
             margin: 0;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
         }
         
         .close-modal {
             background: none;
             border: none;
-            font-size: 2rem;
+            font-size: 1.8rem;
             cursor: pointer;
             color: #7f8c8d;
-            transition: color 0.3s;
-        }
-        
-        .close-modal:hover {
-            color: var(--accent-color);
+            line-height: 1;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .balance-type {
             display: flex;
-            gap: 15px;
+            flex-direction: column;
+            gap: 10px;
             margin-top: 10px;
+        }
+        
+        @media (min-width: 480px) {
+            .balance-type {
+                flex-direction: row;
+            }
         }
         
         .debit-option, .credit-option {
             flex: 1;
-            padding: 20px 15px;
-            border: 3px solid #e0e0e0;
-            border-radius: 10px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
             background-color: white;
         }
         
-        .debit-option:hover, .credit-option:hover {
-            border-color: var(--secondary-color);
-            transform: translateY(-3px);
-        }
-        
         .debit-option.selected {
             border-color: var(--accent-color);
             background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.05));
             color: var(--accent-color);
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.2);
         }
         
         .credit-option.selected {
             border-color: var(--success-color);
             background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(39, 174, 96, 0.05));
             color: var(--success-color);
-            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.2);
         }
         
         .balance-explanation {
             margin-top: 15px;
-            padding: 15px;
+            padding: 12px;
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-radius: 8px;
-            font-size: 0.95rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
             color: #555;
-            border-right: 4px solid var(--secondary-color);
+            border-right: 3px solid var(--secondary-color);
         }
         
         .explanation-positive {
@@ -660,37 +636,172 @@
         }
         
         .initial-balance-section {
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 2px solid #eee;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
         }
         
         .report-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        
+        @media (min-width: 480px) {
+            .report-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
         }
         
         .company-report-title {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: var(--primary-color);
             margin: 0;
+            text-align: center;
         }
         
-        .company-report-title::before {
-            content: '📋 ';
+        @media (min-width: 480px) {
+            .company-report-title {
+                text-align: right;
+            }
         }
         
         .destination-abbr {
             font-family: 'Courier New', monospace;
             font-weight: bold;
             background-color: #f0f0f0;
-            padding: 3px 8px;
-            border-radius: 4px;
+            padding: 2px 6px;
+            border-radius: 3px;
             color: #333;
+            font-size: 0.8rem;
+        }
+        
+        /* تحسينات للشاشات الصغيرة جداً */
+        @media (max-width: 360px) {
+            header {
+                padding: 15px 10px;
+            }
+            
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .logo-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+            
+            .form-section, .report-section {
+                padding: 15px 10px;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            .summary {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .summary-box {
+                padding: 12px;
+            }
+            
+            .summary-box .value {
+                font-size: 1.3rem;
+            }
+        }
+        
+        /* تحسينات للشاشات المتوسطة */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            .container {
+                flex-direction: row;
+            }
+            
+            .form-section {
+                flex: 1;
+            }
+            
+            .report-section {
+                flex: 2;
+            }
+            
+            header {
+                padding: 25px 20px;
+            }
+            
+            .logo {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .logo h1 {
+                font-size: 2.2rem;
+            }
+            
+            .logo-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 3rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* منع التكبير التلقائي على الحقول */
+        input, select, textarea {
+            font-size: 16px !important; /* يمنع التكبير التلقائي في iOS */
+        }
+        
+        /* تحسينات للأجهزة التي تدعم اللمس */
+        @media (hover: none) and (pointer: coarse) {
+            .btn, .delete-company, .radio-option, .debit-option, .credit-option {
+                min-height: 44px; /* الحجم الأدنى للمس */
+            }
+            
+            input, select, textarea {
+                min-height: 44px;
+            }
+        }
+        
+        /* إخفاء شريط التمرير في بعض المتصفحات */
+        .company-list::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .company-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .company-list::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+        
+        .company-list::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
+        
+        /* رسالة عدم وجود بيانات */
+        #no-data, #no-companies {
+            padding: 20px;
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -698,9 +809,11 @@
 <body>
     <header>
         <div class="logo">
-            <h1>نظام تذاكر</h1>
-            <div class="logo-icon">
-                <i class="fas fa-plane airplane-icon"></i>
+            <div class="logo-row">
+                <div class="logo-icon">
+                    <i class="fas fa-plane airplane-icon"></i>
+                </div>
+                <h1>نظام تذاكر</h1>
             </div>
         </div>
         <p class="subtitle">برنامج إدارة بيانات التذاكر والمبالغ - متابعة العمليات المالية مع الشركات</p>
@@ -716,8 +829,7 @@
             </button>
             
             <div class="company-list" id="company-list">
-                <!-- قائمة الشركات ستضاف هنا -->
-                <p style="text-align: center; color: #7f8c8d;" id="no-companies">لا توجد شركات مضافة بعد</p>
+                <p id="no-companies">لا توجد شركات مضافة بعد</p>
             </div>
             
             <div class="company-selector">
@@ -730,7 +842,7 @@
             <div class="company-info">
                 <div>
                     <h3 id="current-company">--</h3>
-                    <p style="color: #666; margin-top: 5px;">الرصيد الحالي</p>
+                    <p style="color: #666; margin-top: 5px; font-size: 0.9rem;">الرصيد الحالي</p>
                 </div>
                 <div class="company-balance" id="company-balance">0 دينار</div>
             </div>
@@ -796,7 +908,7 @@
             <div id="fine-only-fields" class="hidden">
                 <div class="form-group">
                     <label for="fine-reason">سبب الغرامة</label>
-                    <textarea id="fine-reason" placeholder="أدخل سبب الغرامة" rows="3"></textarea>
+                    <textarea id="fine-reason" placeholder="أدخل سبب الغرامة" rows="2"></textarea>
                 </div>
             </div>
             
@@ -811,7 +923,7 @@
             <!-- حقول مشتركة -->
             <div class="form-group">
                 <label for="amount">المبلغ (دينار)</label>
-                <input type="number" id="amount" placeholder="أدخل المبلغ" min="0" step="0.01">
+                <input type="number" id="amount" placeholder="أدخل المبلغ" min="0" step="0.01" inputmode="decimal">
             </div>
             
             <div class="form-group">
@@ -860,28 +972,29 @@
                 </div>
             </div>
             
-            <table id="transactions-table">
-                <thead>
-                    <tr>
-                        <th>رقم</th>
-                        <th>التاريخ</th>
-                        <th>نوع العملية</th>
-                        <th>اسم المسافر</th>
-                        <th>رقم المستند</th>
-                        <th>الوجهة</th>
-                        <th>نوع الرحلة</th>
-                        <th>سبب/وصف</th>
-                        <th>المبلغ</th>
-                        <th>الرصيد</th>
-                        <th>ملاحظات</th>
-                    </tr>
-                </thead>
-                <tbody id="transactions-body">
-                    <!-- البيانات ستضاف هنا بواسطة الجافاسكريبت -->
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table id="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>التاريخ</th>
+                            <th>النوع</th>
+                            <th>المسافر</th>
+                            <th>المستند</th>
+                            <th>الوجهة</th>
+                            <th>الرحلة</th>
+                            <th>السبب</th>
+                            <th>المبلغ</th>
+                            <th>الرصيد</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactions-body">
+                        <!-- البيانات ستضاف هنا بواسطة الجافاسكريبت -->
+                    </tbody>
+                </table>
+            </div>
             
-            <div style="text-align: center; margin-top: 30px; font-style: italic; color: #7f8c8d;" id="no-data">
+            <div id="no-data">
                 لا توجد عمليات مسجلة بعد. قم بإضافة عمليات جديدة باستخدام النموذج.
             </div>
         </div>
@@ -902,35 +1015,33 @@
             
             <div class="initial-balance-section">
                 <label>الرصيد الافتتاحي</label>
-                <p style="margin-bottom: 15px; color: #666; font-size: 0.95rem;">حدد إذا كانت الشركة تحتاج منك أو أنت تحتاج من الشركة</p>
+                <p style="margin-bottom: 15px; color: #666; font-size: 0.9rem;">حدد إذا كانت الشركة تحتاج منك أو أنت تحتاج من الشركة</p>
                 
                 <div class="balance-type">
                     <div class="credit-option" id="credit-option">
                         <i class="fas fa-hand-holding-usd"></i>
-                        <div style="margin-top: 8px; font-size: 1.1rem;">دائن</div>
-                        <div style="font-size: 0.9rem; margin-top: 5px;">الشركة تحتاج منك</div>
+                        <div style="margin-top: 8px; font-size: 1rem;">دائن</div>
+                        <div style="font-size: 0.85rem; margin-top: 5px;">الشركة تحتاج منك</div>
                     </div>
                     <div class="debit-option" id="debit-option">
                         <i class="fas fa-money-bill-wave"></i>
-                        <div style="margin-top: 8px; font-size: 1.1rem;">مدين</div>
-                        <div style="font-size: 0.9rem; margin-top: 5px;">أنت تحتاج من الشركة</div>
+                        <div style="margin-top: 8px; font-size: 1rem;">مدين</div>
+                        <div style="font-size: 0.85rem; margin-top: 5px;">أنت تحتاج من الشركة</div>
                     </div>
                 </div>
                 
                 <div class="balance-explanation">
                     <div id="credit-explanation" class="hidden">
                         <p><strong class="explanation-positive">دائن:</strong> الشركة تحتاج منك مبلغاً (لديك رصيد موجب لدى الشركة)</p>
-                        <p>مثال: إذا دفعت للشركة مقدماً مقابل تذاكر مستقبلية</p>
                     </div>
                     <div id="debit-explanation" class="hidden">
                         <p><strong class="explanation-negative">مدين:</strong> أنت تحتاج من الشركة مبلغاً (لديك رصيد سالب لدى الشركة)</p>
-                        <p>مثال: إذا أخذت من الشركة تذاكر وستدفع لها لاحقاً</p>
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="initial-balance">المبلغ (دينار)</label>
-                    <input type="number" id="initial-balance" placeholder="أدخل المبلغ" min="0" step="0.01">
+                    <input type="number" id="initial-balance" placeholder="أدخل المبلغ" min="0" step="0.01" inputmode="decimal">
                 </div>
             </div>
             
@@ -948,10 +1059,10 @@
     <script>
         // بيانات التطبيق
         let transactions = [];
-        let companies = {}; // بداية فارغة
+        let companies = {};
         
         // حالة نافذة إضافة الشركة
-        let balanceType = 'credit'; // دائن افتراضياً (الشركة تحتاج مني)
+        let balanceType = 'credit';
         let initialBalance = 0;
         
         // عناصر DOM
@@ -1014,6 +1125,9 @@
         const today = new Date().toISOString().split('T')[0];
         dateInput.value = today;
         
+        // منع التكبير التلقائي في iOS
+        document.addEventListener('touchstart', function() {}, {passive: true});
+        
         // أحداث التحكم
         openAddCompanyModalBtn.addEventListener('click', openAddCompanyModal);
         closeAddCompanyModalBtn.addEventListener('click', closeAddCompanyModal);
@@ -1064,16 +1178,17 @@
         // دالة فتح نافذة إضافة شركة
         function openAddCompanyModal() {
             addCompanyModal.classList.remove('hidden');
-            // تعيين القيم الافتراضية
+            document.body.style.overflow = 'hidden';
             newCompanyNameInput.value = '';
-            selectBalanceType('credit'); // دائن افتراضياً (الشركة تحتاج مني)
+            selectBalanceType('credit');
             initialBalanceInput.value = '';
-            newCompanyNameInput.focus();
+            setTimeout(() => newCompanyNameInput.focus(), 100);
         }
         
         // دالة إغلاق نافذة إضافة شركة
         function closeAddCompanyModal() {
             addCompanyModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
         }
         
         // دالة اختيار نوع الرصيد
@@ -1110,14 +1225,10 @@
             }
             
             // حساب الرصيد الافتتاحي
-            // دائن: الشركة تحتاج مني (رصيد موجب)
-            // مدين: أنا أحتاج من الشركة (رصيد سالب)
             let openingBalance = balance;
             if (balanceType === 'debit') {
-                // مدين: أنا أحتاج من الشركة (رصيد سالب)
                 openingBalance = -balance;
             }
-            // دائن: الشركة تحتاج مني (رصيد موجب) - نتركه كما هو
             
             // إضافة الشركة مع الرصيد الافتتاحي
             companies[companyName] = openingBalance;
@@ -1210,7 +1321,6 @@
             
             // إضافة بيانات إضافية حسب نوع العملية
             if (transactionType === 'ticket') {
-                // بيانات التذكرة
                 let destination = destinationSelect.value;
                 if (destination === 'other') {
                     destination = otherDestinationInput.value.trim();
@@ -1227,7 +1337,6 @@
                 transaction.tripType = tripTypeSelect.value;
                 transaction.notes = notesInput.value.trim();
                 
-                // التحقق من إدخال البيانات الأساسية للتذكرة
                 if (transaction.passengerName === '') {
                     alert('يرجى إدخال اسم المسافر للتذكرة');
                     passengerNameInput.focus();
@@ -1241,14 +1350,12 @@
                 }
                 
             } else if (transactionType === 'fine') {
-                // بيانات الغرامة
                 transaction.passengerName = passengerNameInput.value.trim();
                 transaction.documentNumber = documentNumberInput.value.trim();
                 transaction.destination = destinationSelect.value;
                 transaction.tripType = tripTypeSelect.value;
                 transaction.reason = fineReasonInput.value.trim();
                 
-                // التحقق من إدخال سبب الغرامة
                 if (transaction.reason === '') {
                     alert('يرجى إدخال سبب الغرامة');
                     fineReasonInput.focus();
@@ -1256,10 +1363,8 @@
                 }
                 
             } else if (transactionType === 'payment') {
-                // بيانات التسليم
                 transaction.description = paymentDescriptionInput.value.trim();
                 
-                // التحقق من إدخال وصف الدفعة
                 if (transaction.description === '') {
                     alert('يرجى إدخال وصف الدفعة');
                     paymentDescriptionInput.focus();
@@ -1289,7 +1394,6 @@
         
         // دالة التحقق من صحة البيانات
         function validateForm() {
-            // التحقق من المبلغ
             if (amountInput.value === '' || parseFloat(amountInput.value) <= 0) {
                 alert('يرجى إدخال مبلغ صحيح أكبر من صفر');
                 amountInput.focus();
@@ -1302,10 +1406,8 @@
         // دالة تحديث رصيد الشركة بعد العملية
         function updateCompanyBalanceAfterTransaction(company, type, amount) {
             if (type === 'ticket' || type === 'fine') {
-                // تذكرة أو غرامة: الشركة تحتاج مني (تزيد رصيدها لدي)
                 companies[company] += amount;
             } else if (type === 'payment') {
-                // تسليم دفعة: أنا أدفع للشركة (أقلل رصيدها لدي)
                 companies[company] -= amount;
             }
         }
@@ -1321,13 +1423,10 @@
             let balance = companies[company] || 0;
             let balanceText = formatCurrency(Math.abs(balance));
             
-            // تحديد النوع واللون
             if (balance > 0) {
-                // رصيد موجب: الشركة تحتاج مني (دائن)
                 companyBalanceElement.className = 'company-balance positive-balance';
                 companyBalanceElement.textContent = balanceText + ' (دائن)';
             } else if (balance < 0) {
-                // رصيد سالب: أنا أحتاج من الشركة (مدين)
                 companyBalanceElement.className = 'company-balance negative-balance';
                 companyBalanceElement.textContent = balanceText + ' (مدين)';
             } else {
@@ -1340,7 +1439,7 @@
         function updateCompanyList() {
             if (Object.keys(companies).length === 0) {
                 noCompaniesMsg.style.display = 'block';
-                companyList.innerHTML = '';
+                companyList.innerHTML = '<p id="no-companies">لا توجد شركات مضافة بعد</p>';
                 return;
             }
             
@@ -1365,7 +1464,9 @@
                 companyItem.innerHTML = `
                     <div class="company-name">${company}</div>
                     <div class="company-item-balance ${balanceClass}">${balanceText}</div>
-                    <button class="delete-company" data-company="${company}">حذف</button>
+                    <div class="company-item-actions">
+                        <button class="delete-company" data-company="${company}">حذف</button>
+                    </div>
                 `;
                 
                 companyList.appendChild(companyItem);
@@ -1386,20 +1487,12 @@
                 return;
             }
             
-            // حذف الشركة
             delete companies[companyName];
-            
-            // حذف جميع عمليات هذه الشركة
             transactions = transactions.filter(t => t.company !== companyName);
             
-            // تحديث واجهة المستخدم
             updateCompanyList();
             updateCompanySelect();
-            
-            // تحديث التقرير
             updateReport();
-            
-            // حفظ البيانات
             saveData();
             
             alert('تم حذف الشركة وعملياتها بنجاح!');
@@ -1407,13 +1500,10 @@
         
         // دالة تحديث قائمة الشركات في الـ select
         function updateCompanySelect() {
-            // حفظ القيمة الحالية
             const currentValue = companySelect.value;
             
-            // مسح الخيارات الحالية
             companySelect.innerHTML = '<option value="">-- اختر الشركة --</option>';
             
-            // إضافة الشركات من الكائن
             Object.keys(companies).sort().forEach(company => {
                 const option = document.createElement('option');
                 option.value = company;
@@ -1421,7 +1511,6 @@
                 companySelect.appendChild(option);
             });
             
-            // استعادة القيمة الحالية إذا كانت موجودة
             if (currentValue && companies.hasOwnProperty(currentValue)) {
                 companySelect.value = currentValue;
             }
@@ -1429,7 +1518,6 @@
         
         // دالة تحديث كشف الحساب
         function updateReport() {
-            // تحديث اسم الشركة في التقرير
             const currentCompany = companySelect.value;
             if (currentCompany) {
                 reportCompanyNameElement.textContent = `كشف حساب: ${currentCompany}`;
@@ -1437,10 +1525,8 @@
                 reportCompanyNameElement.textContent = 'كشف الحساب';
             }
             
-            // تحديث الشركة الحالية
             updateCompanyBalance(currentCompany);
             
-            // إخفاء رسالة "لا توجد بيانات" إذا كانت هناك عمليات
             if (transactions.length > 0) {
                 noDataElement.style.display = 'none';
                 transactionsBody.innerHTML = '';
@@ -1451,7 +1537,6 @@
                 return;
             }
             
-            // تصفية العمليات حسب الشركة المحددة
             let filteredTransactions = [];
             
             if (currentCompany) {
@@ -1460,10 +1545,8 @@
                 filteredTransactions = [...transactions];
             }
             
-            // إضافة الصفوف للجدول
             let balance = 0;
             filteredTransactions.forEach((transaction, index) => {
-                // تحديث الرصيد حسب نوع العملية
                 if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
                     balance += transaction.amount;
                 } else if (transaction.type === 'payment') {
@@ -1472,7 +1555,6 @@
                 
                 const row = document.createElement('tr');
                 
-                // تحديد لون وعنوان نوع العملية
                 let typeClass = '';
                 let typeText = '';
                 if (transaction.type === 'ticket') {
@@ -1489,14 +1571,11 @@
                     typeText = 'افتتاحي';
                 }
                 
-                // إنشاء نص البيانات حسب نوع العملية
                 let passengerName = transaction.passengerName || '-';
                 let documentNumber = transaction.documentNumber || '-';
                 
-                // تنسيق الوجهة مع الاختصارات الإنجليزية
                 let destination = transaction.destination || '-';
                 if (destination.includes('(')) {
-                    // استخراج الاختصار من النص
                     const match = destination.match(/\(([^)]+)\)/);
                     if (match) {
                         destination = `<span class="destination-abbr">${match[1]}</span>`;
@@ -1505,7 +1584,6 @@
                 
                 let tripType = transaction.tripType || '-';
                 let reasonDesc = transaction.reason || transaction.description || '-';
-                let notes = transaction.notes || '-';
                 
                 row.innerHTML = `
                     <td>${index + 1}</td>
@@ -1518,23 +1596,19 @@
                     <td>${reasonDesc}</td>
                     <td>${formatCurrency(transaction.amount)}</td>
                     <td>${formatCurrency(balance)}</td>
-                    <td>${notes}</td>
                 `;
                 
                 transactionsBody.appendChild(row);
             });
             
-            // إضافة صف الإجمالي النهائي (الرصيد فقط)
             const totalRow = document.createElement('tr');
             totalRow.className = 'total-row';
             totalRow.innerHTML = `
                 <td colspan="8">الرصيد النهائي</td>
                 <td colspan="2">${formatCurrency(balance)}</td>
-                <td></td>
             `;
             transactionsBody.appendChild(totalRow);
             
-            // تحديث الملخص
             updateSummary(filteredTransactions, balance);
         }
         
@@ -1542,7 +1616,6 @@
         function updateSummary(filteredTransactions = null, finalBalance = 0) {
             const transactionsToCalculate = filteredTransactions || transactions;
             
-            // حساب الإحصائيات
             let totalTickets = 0;
             let totalFines = 0;
             let totalPayments = 0;
@@ -1557,13 +1630,11 @@
                 }
             });
             
-            // تحديث العناصر
             totalTicketsElement.textContent = totalTickets;
             totalFinesElement.textContent = formatCurrency(totalFines);
             totalPaymentsElement.textContent = formatCurrency(totalPayments);
             totalBalanceElement.textContent = formatCurrency(finalBalance);
             
-            // تلوين الرصيد النهائي
             if (finalBalance > 0) {
                 totalBalanceElement.style.color = 'var(--success-color)';
             } else if (finalBalance < 0) {
@@ -1575,7 +1646,6 @@
         
         // دالة إعادة تعيين النموذج
         function resetForm() {
-            // إعادة تعيين جميع الحقول
             passengerNameInput.value = '';
             documentNumberInput.value = '';
             destinationSelect.value = 'TIP - IST';
@@ -1590,7 +1660,6 @@
             dateInput.value = today;
             notesInput.value = '';
             
-            // التركيز على أول حقل
             if (companySelect.value) {
                 passengerNameInput.focus();
             }
@@ -1614,7 +1683,6 @@
                 maximumFractionDigits: 2
             }).format(absAmount) + ' دينار';
             
-            // إضافة إشارة إذا كان المبلغ سالباً
             if (amount < 0) {
                 return '-' + formatted;
             }
@@ -1650,8 +1718,15 @@
             }
         });
         
-        // اختيار نوع الرصيد الافتراضي (دائن: الشركة تحتاج مني)
+        // اختيار نوع الرصيد الافتراضي
         selectBalanceType('credit');
+        
+        // إغلاق النافذة بمفتاح ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !addCompanyModal.classList.contains('hidden')) {
+                closeAddCompanyModal();
+            }
+        });
     </script>
 </body>
 </html>
