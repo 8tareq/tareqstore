@@ -699,156 +699,357 @@
             padding-bottom: 20px;
         }
         
+        /* =========================================== */
+        /* تحسينات الطباعة الاحترافية */
+        /* =========================================== */
+        
         @media print {
             body {
-                padding: 0;
-                background-color: white;
-                font-size: 12px;
-                line-height: 1.4;
+                padding: 5mm !important;
+                background-color: white !important;
+                font-size: 12px !important;
+                line-height: 1.4 !important;
+                color: black !important;
             }
             
             .no-print {
                 display: none !important;
             }
             
-            .form-section, .summary, .manage-section, .tabs {
+            /* إخفاء جميع العناصر غير المرغوبة */
+            .form-section, .summary, .manage-section, .tabs,
+            .scroll-indicator, .company-info {
                 display: none !important;
             }
             
-            .report-section {
-                box-shadow: none !important;
-                padding: 0 !important;
-                border: none !important;
-                margin: 0 !important;
+            /* تصميم الصفحة للطباعة */
+            .print-page {
+                display: block !important;
                 width: 100% !important;
                 max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                page-break-inside: avoid;
             }
             
-            .company-info {
-                box-shadow: none !important;
-                border: 1px solid #ddd !important;
-                margin: 10px 0 !important;
-                padding: 10px !important;
-            }
-            
-            /* تصميم جديد للطباعة على الهواتف */
+            /* ترويسة الطباعة الجميلة */
             .print-header {
-                display: block !important;
+                display: flex !important;
+                flex-direction: column;
+                align-items: center;
                 text-align: center;
                 padding: 15px 0;
-                border-bottom: 2px solid #333;
-                margin-bottom: 15px;
-                background: white !important;
-                color: black !important;
+                margin-bottom: 20px;
+                border-bottom: 3px double #2c3e50;
+                background: linear-gradient(to right, #f8f9fa, #e9ecef) !important;
+                border-radius: 8px;
+                page-break-after: avoid;
             }
             
-            .print-header h1 {
-                font-size: 20px;
+            .print-logo {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                gap: 15px;
+                margin-bottom: 10px;
+            }
+            
+            .print-logo-icon {
+                width: 60px;
+                height: 60px;
+                background: linear-gradient(135deg, #e74c3c, #3498db);
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                font-weight: bold;
+                box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            }
+            
+            .print-title {
+                text-align: center;
+                margin: 0;
+            }
+            
+            .print-title h1 {
+                font-size: 24px !important;
+                color: #2c3e50 !important;
                 margin-bottom: 5px;
-                color: #2c3e50;
+                font-weight: bold;
+                text-shadow: none !important;
             }
             
-            .print-header p {
-                font-size: 14px;
-                color: #666;
+            .print-title p {
+                font-size: 14px !important;
+                color: #666 !important;
+                margin: 0;
+            }
+            
+            /* معلومات الشركة في الطباعة */
+            .print-company-info {
+                display: block !important;
+                text-align: center;
+                margin: 15px 0;
+                padding: 12px;
+                background: #f8f9fa;
+                border-radius: 6px;
+                border: 1px solid #dee2e6;
+                page-break-after: avoid;
+            }
+            
+            .print-company-name {
+                font-size: 20px !important;
+                color: #2c3e50 !important;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            
+            .print-company-details {
+                font-size: 14px !important;
+                color: #666 !important;
+                margin: 5px 0;
             }
             
             /* تحسين الجدول للطباعة */
             #transactions-table {
-                font-size: 10px !important;
+                font-size: 11px !important;
                 min-width: 100% !important;
                 width: 100% !important;
                 max-width: 100% !important;
-                border: 1px solid #ddd !important;
-                margin: 0 !important;
+                border: 1px solid #dee2e6 !important;
+                border-collapse: collapse !important;
+                margin: 15px 0 !important;
+                page-break-inside: auto;
             }
             
-            #transactions-table th,
-            #transactions-table td {
-                padding: 6px 4px !important;
-                font-size: 9px !important;
-                border: 1px solid #ddd !important;
+            #transactions-table thead {
+                display: table-header-group !important;
             }
             
             #transactions-table th {
-                background-color: #f5f5f5 !important;
-                color: #333 !important;
-                font-weight: bold;
-                font-size: 9px !important;
+                background: linear-gradient(135deg, #2c3e50, #34495e) !important;
+                color: white !important;
+                font-weight: bold !important;
+                font-size: 11px !important;
+                padding: 8px 6px !important;
+                border: 1px solid #2c3e50 !important;
+                text-align: center !important;
+                white-space: nowrap !important;
             }
             
-            /* إظهار جميع الأعمدة عند الطباعة */
+            #transactions-table td {
+                padding: 6px 5px !important;
+                font-size: 10px !important;
+                border: 1px solid #dee2e6 !important;
+                text-align: center !important;
+                vertical-align: middle !important;
+            }
+            
+            #transactions-table tr:nth-child(even) td {
+                background-color: #f8f9fa !important;
+            }
+            
+            /* جعل جميع الأعمدة تظهر عند الطباعة */
             #transactions-table th,
             #transactions-table td {
                 display: table-cell !important;
             }
             
-            /* تقليل عرض الأعمدة عند الطباعة */
-            #transactions-table th:nth-child(1),
-            #transactions-table td:nth-child(1) { width: 5%; } /* # */
-            #transactions-table th:nth-child(2),
-            #transactions-table td:nth-child(2) { width: 10%; } /* التاريخ */
-            #transactions-table th:nth-child(3),
-            #transactions-table td:nth-child(3) { width: 10%; } /* النوع */
-            #transactions-table th:nth-child(4),
-            #transactions-table td:nth-child(4) { width: 15%; } /* المسافر */
-            #transactions-table th:nth-child(5),
-            #transactions-table td:nth-child(5) { width: 10%; } /* المستند */
-            #transactions-table th:nth-child(6),
-            #transactions-table td:nth-child(6) { width: 15%; } /* الوجهة */
-            #transactions-table th:nth-child(7),
-            #transactions-table td:nth-child(7) { width: 10%; } /* الرحلة */
-            #transactions-table th:nth-child(8),
-            #transactions-table td:nth-child(8) { width: 15%; } /* السبب */
-            #transactions-table th:nth-child(9),
-            #transactions-table td:nth-child(9) { width: 10%; } /* المبلغ */
-            #transactions-table th:nth-child(10),
-            #transactions-table td:nth-child(10) { width: 10%; } /* الرصيد */
-            
             /* تحسين عرض أنواع العمليات عند الطباعة */
             .transaction-type {
-                padding: 2px 6px !important;
-                font-size: 8px !important;
-                border: 1px solid #ccc !important;
-                background: white !important;
-                color: #333 !important;
+                padding: 3px 8px !important;
+                font-size: 9px !important;
+                font-weight: bold !important;
+                border-radius: 10px !important;
+                display: inline-block !important;
+                min-width: 60px !important;
+                text-align: center !important;
             }
             
-            /* قسم الرصيد النهائي عند الطباعة */
-            .print-final-balance {
+            .transaction-ticket {
+                background: linear-gradient(135deg, #d4edda, #c3e6cb) !important;
+                color: #155724 !important;
+                border: 1px solid #c3e6cb !important;
+            }
+            
+            .transaction-fine {
+                background: linear-gradient(135deg, #f8d7da, #f5c6cb) !important;
+                color: #721c24 !important;
+                border: 1px solid #f5c6cb !important;
+            }
+            
+            .transaction-payment {
+                background: linear-gradient(135deg, #d1ecf1, #bee5eb) !important;
+                color: #0c5460 !important;
+                border: 1px solid #bee5eb !important;
+            }
+            
+            .transaction-initial {
+                background: linear-gradient(135deg, #fff3cd, #ffeaa7) !important;
+                color: #856404 !important;
+                border: 1px solid #ffeaa7 !important;
+            }
+            
+            /* قسم الرصيد النهائي في الطباعة */
+            .print-balance-summary {
                 display: block !important;
-                text-align: center;
-                padding: 15px;
                 margin-top: 20px;
-                border-top: 2px solid #333;
-                font-size: 14px;
+                padding: 15px;
+                background: linear-gradient(135deg, #e8f4fc, #d4eaf7);
+                border-radius: 8px;
+                border: 2px solid #3498db;
+                text-align: center;
+                page-break-before: avoid;
+                page-break-after: avoid;
+            }
+            
+            .print-balance-row {
+                display: flex !important;
+                justify-content: space-between;
+                align-items: center;
+                margin: 10px 0;
+                padding: 8px 0;
+                border-bottom: 1px dashed #ccc;
+            }
+            
+            .print-balance-label {
+                font-size: 14px !important;
                 font-weight: bold;
-                background-color: #f8f9fa;
-            }
-            
-            .final-balance-amount {
-                font-size: 18px;
                 color: #2c3e50;
-                margin-top: 5px;
             }
             
-            .positive-final-balance {
+            .print-balance-value {
+                font-size: 15px !important;
+                font-weight: bold;
+            }
+            
+            .print-total-balance {
+                font-size: 18px !important;
+                font-weight: bold;
+                color: #2c3e50;
+                margin-top: 10px;
+                padding-top: 10px;
+                border-top: 2px solid #3498db;
+            }
+            
+            .positive-balance-print {
                 color: #27ae60 !important;
             }
             
-            .negative-final-balance {
+            .negative-balance-print {
                 color: #e74c3c !important;
             }
             
-            /* تذييل الصفحة عند الطباعة */
+            .neutral-balance-print {
+                color: #2c3e50 !important;
+            }
+            
+            /* قسم الدائن والمدين في الطباعة */
+            .print-balance-types {
+                display: flex !important;
+                justify-content: center;
+                gap: 30px;
+                margin-top: 15px;
+                padding: 12px;
+                background: #f8f9fa;
+                border-radius: 6px;
+                border: 1px solid #dee2e6;
+            }
+            
+            .print-credit, .print-debit {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 15px;
+                border-radius: 6px;
+                font-weight: bold;
+            }
+            
+            .print-credit {
+                background: linear-gradient(135deg, #d4edda, #c3e6cb);
+                color: #155724;
+                border: 2px solid #28a745;
+            }
+            
+            .print-debit {
+                background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+                color: #721c24;
+                border: 2px solid #dc3545;
+            }
+            
+            /* تذييل الصفحة في الطباعة */
             .print-footer {
                 display: block !important;
                 text-align: center;
-                padding: 10px 0;
+                margin-top: 30px;
+                padding-top: 15px;
+                border-top: 1px solid #dee2e6;
+                font-size: 10px !important;
+                color: #666 !important;
+                page-break-before: avoid;
+            }
+            
+            .print-footer p {
+                margin: 3px 0;
+            }
+            
+            .print-signature {
                 margin-top: 20px;
-                border-top: 1px solid #ddd;
-                font-size: 9px;
-                color: #666;
+                padding-top: 15px;
+                border-top: 1px dashed #999;
+                text-align: center;
+            }
+            
+            .signature-line {
+                width: 200px;
+                border-bottom: 1px solid #333;
+                margin: 20px auto 5px;
+                padding-bottom: 15px;
+            }
+            
+            .signature-label {
+                font-size: 11px;
+                color: #333;
+            }
+            
+            /* تحسينات للطباعة على الهواتف */
+            @media (max-width: 768px) and print {
+                body {
+                    padding: 3mm !important;
+                    font-size: 10px !important;
+                }
+                
+                .print-title h1 {
+                    font-size: 20px !important;
+                }
+                
+                .print-company-name {
+                    font-size: 18px !important;
+                }
+                
+                #transactions-table {
+                    font-size: 9px !important;
+                }
+                
+                #transactions-table th,
+                #transactions-table td {
+                    padding: 4px 3px !important;
+                    font-size: 9px !important;
+                }
+                
+                #transactions-table th:nth-child(5),
+                #transactions-table td:nth-child(5),
+                #transactions-table th:nth-child(7),
+                #transactions-table td:nth-child(7) {
+                    display: none !important;
+                }
+                
+                .transaction-type {
+                    font-size: 8px !important;
+                    padding: 2px 6px !important;
+                }
             }
             
             /* إخفاء حاوية التمرير */
@@ -857,11 +1058,7 @@
                 max-height: none !important;
                 border: none !important;
                 margin: 0 !important;
-            }
-            
-            /* إخفاء مؤشر التمرير */
-            .scroll-indicator {
-                display: none !important;
+                padding: 0 !important;
             }
             
             /* إخفاء رسالة عدم وجود بيانات */
@@ -874,57 +1071,24 @@
                 display: none !important;
             }
             
-            /* جعل الصفحة تملأ الورقة */
+            /* إخفاء قسم التقرير العادي */
+            .report-section {
+                box-shadow: none !important;
+                padding: 0 !important;
+                border: none !important;
+                margin: 0 !important;
+                background: white !important;
+            }
+            
+            /* ضبط هوامش الصفحة */
             @page {
                 margin: 10mm;
                 size: auto;
             }
             
-            /* الطباعة في اتجاه أفقي للهواتف إذا كان الجدول كبيراً */
-            @media (max-width: 768px) and print {
-                body {
-                    transform: rotate(0deg);
-                }
-                
-                #transactions-table {
-                    font-size: 8px !important;
-                }
-                
-                #transactions-table th,
-                #transactions-table td {
-                    padding: 4px 2px !important;
-                    font-size: 8px !important;
-                }
-                
-                #transactions-table th:nth-child(5),
-                #transactions-table td:nth-child(5),
-                #transactions-table th:nth-child(7),
-                #transactions-table td:nth-child(7) {
-                    display: none !important;
-                }
-            }
-            
-            /* تحسين للطباعة على الهواتف الصغيرة جداً */
-            @media (max-width: 480px) and print {
-                #transactions-table {
-                    font-size: 7px !important;
-                }
-                
-                #transactions-table th,
-                #transactions-table td {
-                    padding: 3px 1px !important;
-                }
-                
-                #transactions-table th:nth-child(5),
-                #transactions-table td:nth-child(5),
-                #transactions-table th:nth-child(6),
-                #transactions-table td:nth-child(6),
-                #transactions-table th:nth-child(7),
-                #transactions-table td:nth-child(7),
-                #transactions-table th:nth-child(8),
-                #transactions-table td:nth-child(8) {
-                    display: none !important;
-                }
+            /* منع تقسيم الصفوف بين الصفحات */
+            tr {
+                page-break-inside: avoid;
             }
         }
         
@@ -1150,328 +1314,6 @@
             font-size: 0.8rem;
         }
         
-        /* عناصر الطباعة المخفية */
-        .print-header,
-        .print-final-balance,
-        .print-footer {
-            display: none;
-        }
-        
-        /* تحسينات للشاشات الصغيرة جداً */
-        @media (max-width: 360px) {
-            header {
-                padding: 15px 10px;
-            }
-            
-            .logo h1 {
-                font-size: 1.5rem;
-            }
-            
-            .logo-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 2rem;
-            }
-            
-            .form-section, .report-section, .manage-section {
-                padding: 15px 10px;
-            }
-            
-            h2 {
-                font-size: 1.3rem;
-            }
-            
-            .summary {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
-            .summary-box {
-                padding: 12px;
-            }
-            
-            .summary-box .value {
-                font-size: 1.3rem;
-            }
-            
-            .radio-option {
-                padding: 10px;
-            }
-            
-            .radio-icon {
-                font-size: 1rem;
-            }
-        }
-        
-        /* تحسينات للشاشات المتوسطة */
-        @media (min-width: 768px) {
-            body {
-                padding: 20px;
-            }
-            
-            .container {
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-            
-            .form-section {
-                flex: 1;
-                min-width: 300px;
-            }
-            
-            .report-section, .manage-section {
-                flex: 2;
-                min-width: 300px;
-            }
-            
-            header {
-                padding: 25px 20px;
-            }
-            
-            .logo {
-                flex-direction: row;
-                justify-content: center;
-            }
-            
-            .logo h1 {
-                font-size: 2.2rem;
-            }
-            
-            .logo-icon {
-                width: 80px;
-                height: 80px;
-                font-size: 3rem;
-            }
-            
-            .subtitle {
-                font-size: 1.1rem;
-            }
-        }
-        
-        /* منع التكبير التلقائي على الحقول */
-        input, select, textarea {
-            font-size: 16px !important;
-        }
-        
-        /* تحسينات للأجهزة التي تدعم اللمس */
-        @media (hover: none) and (pointer: coarse) {
-            .btn, .delete-company, .radio-option, .debit-option, .credit-option, .action-btn {
-                min-height: 44px;
-            }
-            
-            input, select, textarea {
-                min-height: 44px;
-            }
-        }
-        
-        /* إخفاء شريط التمرير في بعض المتصفحات */
-        .company-list::-webkit-scrollbar,
-        .table-container::-webkit-scrollbar {
-            width: 5px;
-        }
-        
-        .company-list::-webkit-scrollbar-track,
-        .table-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        
-        .company-list::-webkit-scrollbar-thumb,
-        .table-container::-webkit-scrollbar-thumb {
-            background: #ccc;
-            border-radius: 10px;
-        }
-        
-        .company-list::-webkit-scrollbar-thumb:hover,
-        .table-container::-webkit-scrollbar-thumb:hover {
-            background: #aaa;
-        }
-        
-        /* رسالة عدم وجود بيانات */
-        #no-data, #no-companies, #no-transactions {
-            padding: 20px;
-            text-align: center;
-            color: #7f8c8d;
-            font-style: italic;
-        }
-        
-        /* قسم إدارة العمليات */
-        .filter-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        @media (min-width: 480px) {
-            .filter-controls {
-                flex-direction: row;
-                align-items: flex-end;
-            }
-            
-            .filter-group {
-                flex: 1;
-            }
-        }
-        
-        .filter-group {
-            margin-bottom: 0;
-        }
-        
-        .filter-group label {
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-        
-        .edit-form {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-right: 4px solid var(--warning-color);
-        }
-        
-        .edit-form h3 {
-            color: var(--warning-color);
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .edit-form-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .edit-form-buttons .btn {
-            margin-top: 0;
-            flex: 1;
-        }
-        
-        /* تأثيرات للعمليات */
-        .transaction-row {
-            transition: all 0.3s;
-        }
-        
-        .transaction-row:hover {
-            background-color: #f1f8ff !important;
-        }
-        
-        /* رسالة تأكيد الحذف */
-        .confirm-delete {
-            background: linear-gradient(135deg, #fde0dc, #f9c9c2);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-right: 4px solid var(--accent-color);
-            text-align: center;
-        }
-        
-        .confirm-delete h4 {
-            color: var(--accent-color);
-            margin-bottom: 10px;
-        }
-        
-        .confirm-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .confirm-buttons button {
-            flex: 1;
-        }
-        
-        /* قسم العنوان مع تمييز النوع */
-        .active-type-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .active-type-ticket {
-            background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(39, 174, 96, 0.05));
-            border-right: 4px solid var(--success-color);
-        }
-        
-        .active-type-fine {
-            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.05));
-            border-right: 4px solid var(--accent-color);
-        }
-        
-        .active-type-payment {
-            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.05));
-            border-right: 4px solid var(--secondary-color);
-        }
-        
-        .active-type-icon {
-            font-size: 1.8rem;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-        
-        .active-type-ticket .active-type-icon {
-            background: linear-gradient(135deg, var(--success-color), #219653);
-            color: white;
-            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
-        }
-        
-        .active-type-fine .active-type-icon {
-            background: linear-gradient(135deg, var(--accent-color), #c0392b);
-            color: white;
-            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
-        }
-        
-        .active-type-payment .active-type-icon {
-            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
-            color: white;
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
-        }
-        
-        .active-type-text {
-            flex: 1;
-        }
-        
-        .active-type-text h3 {
-            margin: 0;
-            color: var(--dark-color);
-            font-size: 1.3rem;
-        }
-        
-        .active-type-ticket .active-type-text h3 {
-            color: var(--success-color);
-        }
-        
-        .active-type-fine .active-type-text h3 {
-            color: var(--accent-color);
-        }
-        
-        .active-type-payment .active-type-text h3 {
-            color: var(--secondary-color);
-        }
-        
-        .active-type-text p {
-            margin: 5px 0 0 0;
-            color: #666;
-            font-size: 0.9rem;
-        }
-        
         /* ======= تحسينات خاصة للهواتف ======= */
         
         /* تحسينات للهواتف المحمولة */
@@ -1694,6 +1536,20 @@
             }
         }
         
+        /* عناصر الطباعة المخفية */
+        .print-page,
+        .print-header,
+        .print-logo,
+        .print-logo-icon,
+        .print-title,
+        .print-company-info,
+        .print-balance-summary,
+        .print-balance-types,
+        .print-footer,
+        .print-signature {
+            display: none;
+        }
+        
         /* تحسينات إضافية للهواتف الصغيرة جداً */
         @media (max-width: 480px) {
             body {
@@ -1842,24 +1698,59 @@
 </head>
 <body>
     <!-- عناصر الطباعة المخفية -->
-    <div class="print-header hidden">
-        <h1>نظام تذاكر</h1>
-        <p>برنامج إدارة بيانات التذاكر والمبالغ - متابعة العمليات المالية مع الشركات</p>
-        <div id="print-company-info">
-            <h2 id="print-company-name">كشف الحساب</h2>
-            <p id="print-date">تاريخ الطباعة: <span id="current-print-date"></span></p>
+    <div class="print-page">
+        <div class="print-header">
+            <div class="print-logo">
+                <div class="print-logo-icon">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <div class="print-title">
+                    <h1>نظام تذاكر</h1>
+                    <p>برنامج إدارة بيانات التذاكر والمبالغ - متابعة العمليات المالية مع الشركات</p>
+                </div>
+            </div>
         </div>
-    </div>
-    
-    <div class="print-final-balance hidden">
-        <p>الرصيد النهائي</p>
-        <div id="print-final-balance-amount" class="final-balance-amount">0 دينار</div>
-    </div>
-    
-    <div class="print-footer hidden">
-        <p>نظام تذاكر &copy; 2023 - برنامج إدارة بيانات التذاكر والمبالغ</p>
-        <p>جميع العمليات المالية مسجلة ومتابعة بشكل آمن</p>
-        <p>صفحة 1 من 1</p>
+        
+        <div class="print-company-info">
+            <h2 class="print-company-name" id="print-company-name">كشف الحساب</h2>
+            <div class="print-company-details">
+                <p>تاريخ الطباعة: <span id="current-print-date"></span></p>
+                <p id="print-company-balance-info">الرصيد الحالي: <span id="print-current-balance">0 دينار</span></p>
+            </div>
+        </div>
+        
+        <div class="print-balance-summary">
+            <div class="print-balance-row">
+                <span class="print-balance-label">عدد التذاكر:</span>
+                <span class="print-balance-value" id="print-total-tickets">0</span>
+            </div>
+            <div class="print-balance-row">
+                <span class="print-balance-label">إجمالي الغرامات:</span>
+                <span class="print-balance-value" id="print-total-fines">0 دينار</span>
+            </div>
+            <div class="print-balance-row">
+                <span class="print-balance-label">إجمالي التسليمات:</span>
+                <span class="print-balance-value" id="print-total-payments">0 دينار</span>
+            </div>
+            <div class="print-total-balance">
+                الرصيد النهائي: <span id="print-final-balance-amount" class="neutral-balance-print">0 دينار</span>
+            </div>
+        </div>
+        
+        <div class="print-balance-types" id="print-balance-types">
+            <!-- سيتم تعبئتها بواسطة الجافاسكريبت -->
+        </div>
+        
+        <div class="print-footer">
+            <p>نظام تذاكر &copy; 2023 - برنامج إدارة بيانات التذاكر والمبالغ</p>
+            <p>جميع العمليات المالية مسجلة ومتابعة بشكل آمن</p>
+            <p>صفحة 1 من 1 - تم إنشاء هذا التقرير تلقائياً</p>
+            
+            <div class="print-signature">
+                <div class="signature-line"></div>
+                <div class="signature-label">التوقيع والختم</div>
+            </div>
+        </div>
     </div>
     
     <header class="no-print">
@@ -2328,13 +2219,15 @@
         const transactionTypeRadios = document.querySelectorAll('input[name="transaction-type"]');
         
         // عناصر الطباعة
-        const printHeader = document.querySelector('.print-header');
+        const printPage = document.querySelector('.print-page');
         const printCompanyName = document.getElementById('print-company-name');
-        const printDate = document.getElementById('print-date');
+        const printCurrentBalance = document.getElementById('print-current-balance');
         const currentPrintDate = document.getElementById('current-print-date');
-        const printFinalBalance = document.querySelector('.print-final-balance');
+        const printTotalTickets = document.getElementById('print-total-tickets');
+        const printTotalFines = document.getElementById('print-total-fines');
+        const printTotalPayments = document.getElementById('print-total-payments');
         const printFinalBalanceAmount = document.getElementById('print-final-balance-amount');
-        const printFooter = document.querySelector('.print-footer');
+        const printBalanceTypes = document.getElementById('print-balance-types');
         
         // عناصر خيارات نوع العملية
         const ticketOption = document.getElementById('ticket-option');
@@ -2506,7 +2399,13 @@
         resetFormButton.addEventListener('click', resetForm);
         printReportButton.addEventListener('click', function() {
             preparePrint();
-            window.print();
+            setTimeout(() => {
+                window.print();
+                // إعادة إخفاء عناصر الطباعة بعد الطباعة
+                setTimeout(() => {
+                    printPage.style.display = 'none';
+                }, 100);
+            }, 500);
         });
         cancelEditBtn.addEventListener('click', cancelEdit);
         saveEditBtn.addEventListener('click', saveEdit);
@@ -3388,37 +3287,76 @@
             totalPaymentsElement.textContent = formatCurrency(totalPayments);
             totalBalanceElement.textContent = formatCurrency(finalBalance);
             
-            // تحديث الرصيد النهائي للطباعة
+            // تحديث عناصر الطباعة
+            printTotalTickets.textContent = totalTickets;
+            printTotalFines.textContent = formatCurrency(totalFines);
+            printTotalPayments.textContent = formatCurrency(totalPayments);
             printFinalBalanceAmount.textContent = formatCurrency(finalBalance);
+            
+            const currentCompany = companySelect.value;
+            if (currentCompany) {
+                const balance = companies[currentCompany] || 0;
+                printCurrentBalance.textContent = formatCurrency(Math.abs(balance)) + (balance > 0 ? ' (دائن)' : balance < 0 ? ' (مدين)' : '');
+            } else {
+                printCurrentBalance.textContent = '0 دينار';
+            }
+            
+            // تحديث ألوان الرصيد النهائي
             if (finalBalance > 0) {
                 totalBalanceElement.style.color = 'var(--success-color)';
-                printFinalBalanceAmount.classList.add('positive-final-balance');
-                printFinalBalanceAmount.classList.remove('negative-final-balance');
+                printFinalBalanceAmount.className = 'positive-balance-print';
             } else if (finalBalance < 0) {
                 totalBalanceElement.style.color = 'var(--accent-color)';
-                printFinalBalanceAmount.classList.add('negative-final-balance');
-                printFinalBalanceAmount.classList.remove('positive-final-balance');
+                printFinalBalanceAmount.className = 'negative-balance-print';
             } else {
                 totalBalanceElement.style.color = 'var(--primary-color)';
-                printFinalBalanceAmount.classList.remove('positive-final-balance', 'negative-final-balance');
+                printFinalBalanceAmount.className = 'neutral-balance-print';
             }
         }
         
         // دالة إعداد الطباعة
         function preparePrint() {
+            // إظهار صفحة الطباعة
+            printPage.style.display = 'block';
+            
             // تحديث تاريخ الطباعة
             const now = new Date();
             const formattedDate = now.toLocaleDateString('ar-LY', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
+            }) + ' - ' + now.toLocaleTimeString('ar-LY', {
+                hour: '2-digit',
+                minute: '2-digit'
             });
             currentPrintDate.textContent = formattedDate;
             
-            // إظهار عناصر الطباعة
-            printHeader.classList.remove('hidden');
-            printFinalBalance.classList.remove('hidden');
-            printFooter.classList.remove('hidden');
+            // تحديث قسم الدائن والمدين
+            const currentCompany = companySelect.value;
+            let creditText = 'دائن: 0 دينار';
+            let debitText = 'مدين: 0 دينار';
+            
+            if (currentCompany) {
+                const balance = companies[currentCompany] || 0;
+                if (balance > 0) {
+                    creditText = `دائن: ${formatCurrency(balance)}`;
+                    debitText = 'مدين: 0 دينار';
+                } else if (balance < 0) {
+                    creditText = 'دائن: 0 دينار';
+                    debitText = `مدين: ${formatCurrency(Math.abs(balance))}`;
+                }
+            }
+            
+            printBalanceTypes.innerHTML = `
+                <div class="print-credit">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <span>${creditText}</span>
+                </div>
+                <div class="print-debit">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>${debitText}</span>
+                </div>
+            `;
         }
         
         // دالة إعادة تعيين النموذج
@@ -3531,9 +3469,7 @@
         
         // إخفاء عناصر الطباعة بعد الطباعة
         window.addEventListener('afterprint', function() {
-            printHeader.classList.add('hidden');
-            printFinalBalance.classList.add('hidden');
-            printFooter.classList.add('hidden');
+            printPage.style.display = 'none';
         });
     </script>
 </body>
