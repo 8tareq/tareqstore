@@ -779,8 +779,8 @@
             body {
                 padding: 5mm !important;
                 background-color: white !important;
-                font-size: 12px !important;
-                line-height: 1.4 !important;
+                font-size: 11px !important;
+                line-height: 1.3 !important;
                 color: black !important;
             }
             
@@ -790,7 +790,8 @@
             
             /* إخفاء جميع العناصر غير المرغوبة */
             .form-section, .summary-below-table, .manage-section, .tabs,
-            .scroll-indicator, .company-info, .main-header {
+            .scroll-indicator, .company-info, .main-header, footer,
+            .report-header-actions, .company-selector-report {
                 display: none !important;
             }
             
@@ -810,11 +811,9 @@
                 flex-direction: column;
                 align-items: center;
                 text-align: center;
-                padding: 15px 0;
-                margin-bottom: 20px;
-                border-bottom: 3px double #2c3e50;
-                background: linear-gradient(to right, #f8f9fa, #e9ecef) !important;
-                border-radius: 8px;
+                padding: 10px 0;
+                margin-bottom: 15px;
+                border-bottom: 2px solid #2c3e50;
                 page-break-after: avoid;
             }
             
@@ -822,22 +821,21 @@
                 display: flex !important;
                 align-items: center;
                 justify-content: center;
-                gap: 15px;
-                margin-bottom: 10px;
+                gap: 10px;
+                margin-bottom: 8px;
             }
             
             .print-logo-icon {
-                width: 60px;
-                height: 60px;
+                width: 50px;
+                height: 50px;
                 background: linear-gradient(135deg, #ff9800, #ff5722);
                 color: white;
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 24px;
+                font-size: 20px;
                 font-weight: bold;
-                box-shadow: 0 3px 6px rgba(0,0,0,0.2);
             }
             
             .print-title {
@@ -846,15 +844,15 @@
             }
             
             .print-title h1 {
-                font-size: 24px !important;
+                font-size: 18px !important;
                 color: #1a237e !important;
-                margin-bottom: 5px;
+                margin-bottom: 3px;
                 font-weight: bold;
                 text-shadow: none !important;
             }
             
             .print-title p {
-                font-size: 14px !important;
+                font-size: 12px !important;
                 color: #666 !important;
                 margin: 0;
             }
@@ -863,54 +861,59 @@
             .print-company-info {
                 display: block !important;
                 text-align: center;
-                margin: 15px 0;
-                padding: 12px;
+                margin: 12px 0;
+                padding: 10px;
                 background: #f8f9fa;
-                border-radius: 6px;
+                border-radius: 5px;
                 border: 1px solid #dee2e6;
                 page-break-after: avoid;
             }
             
             .print-company-name {
-                font-size: 20px !important;
+                font-size: 16px !important;
                 color: #2c3e50 !important;
                 font-weight: bold;
                 margin-bottom: 5px;
             }
             
             .print-company-details {
-                font-size: 14px !important;
+                font-size: 12px !important;
                 color: #666 !important;
-                margin: 5px 0;
+                margin: 3px 0;
             }
             
             /* جدول الطباعة */
             .print-table-container {
-                margin: 20px 0;
+                margin: 15px 0;
                 border: 1px solid #dee2e6;
-                border-radius: 8px;
+                border-radius: 6px;
                 overflow: hidden;
             }
             
             #print-transactions-table {
-                width: 100%;
-                border-collapse: collapse;
-                font-size: 12px;
+                width: 100% !important;
+                border-collapse: collapse !important;
+                font-size: 10px !important;
+                table-layout: fixed !important;
             }
             
             #print-transactions-table th {
-                background: linear-gradient(135deg, #2c3e50, #34495e);
-                color: white;
-                padding: 10px 8px;
-                text-align: center;
-                font-weight: bold;
-                border: 1px solid #2c3e50;
+                background: linear-gradient(135deg, #2c3e50, #34495e) !important;
+                color: white !important;
+                padding: 6px 4px !important;
+                text-align: center !important;
+                font-weight: bold !important;
+                border: 1px solid #2c3e50 !important;
+                font-size: 10px !important;
             }
             
             #print-transactions-table td {
-                padding: 8px 6px;
-                border: 1px solid #dee2e6;
-                text-align: center;
+                padding: 5px 4px !important;
+                border: 1px solid #dee2e6 !important;
+                text-align: center !important;
+                font-size: 9px !important;
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
             }
             
             #print-transactions-table tr:nth-child(even) td {
@@ -919,12 +922,12 @@
             
             /* تحسين عرض أنواع العمليات عند الطباعة */
             .transaction-type {
-                padding: 3px 8px !important;
-                font-size: 9px !important;
+                padding: 2px 5px !important;
+                font-size: 8px !important;
                 font-weight: bold !important;
-                border-radius: 10px !important;
+                border-radius: 8px !important;
                 display: inline-block !important;
-                min-width: 60px !important;
+                min-width: 50px !important;
                 text-align: center !important;
             }
             
@@ -955,23 +958,24 @@
             /* قسم الرصيد النهائي في الطباعة */
             .print-balance-summary {
                 display: block !important;
-                margin-top: 20px;
-                padding: 15px;
+                margin-top: 15px;
+                padding: 10px;
                 background: linear-gradient(135deg, #e8f4fc, #d4eaf7);
-                border-radius: 8px;
-                border: 2px solid #3498db;
+                border-radius: 6px;
+                border: 1px solid #3498db;
                 text-align: center;
                 page-break-before: avoid;
                 page-break-after: avoid;
+                font-size: 11px !important;
             }
             
             .print-total-balance {
-                font-size: 18px !important;
+                font-size: 14px !important;
                 font-weight: bold;
                 color: #2c3e50;
-                margin-top: 10px;
-                padding-top: 10px;
-                border-top: 2px solid #3498db;
+                margin-top: 8px;
+                padding-top: 8px;
+                border-top: 1px solid #3498db;
             }
             
             .positive-balance-print {
@@ -990,34 +994,34 @@
             .print-footer {
                 display: block !important;
                 text-align: center;
-                margin-top: 30px;
-                padding-top: 15px;
+                margin-top: 20px;
+                padding-top: 10px;
                 border-top: 1px solid #dee2e6;
-                font-size: 10px !important;
+                font-size: 9px !important;
                 color: #666 !important;
                 page-break-before: avoid;
             }
             
             .print-footer p {
-                margin: 3px 0;
+                margin: 2px 0;
             }
             
             .print-signature {
-                margin-top: 20px;
-                padding-top: 15px;
+                margin-top: 15px;
+                padding-top: 10px;
                 border-top: 1px dashed #999;
                 text-align: center;
             }
             
             .signature-line {
-                width: 200px;
+                width: 150px;
                 border-bottom: 1px solid #333;
-                margin: 20px auto 5px;
-                padding-bottom: 15px;
+                margin: 15px auto 3px;
+                padding-bottom: 10px;
             }
             
             .signature-label {
-                font-size: 11px;
+                font-size: 10px;
                 color: #333;
             }
             
@@ -1025,35 +1029,34 @@
             @media (max-width: 768px) and print {
                 body {
                     padding: 3mm !important;
-                    font-size: 10px !important;
+                    font-size: 9px !important;
                 }
                 
                 .print-title h1 {
-                    font-size: 20px !important;
+                    font-size: 16px !important;
                 }
                 
                 .print-company-name {
-                    font-size: 18px !important;
+                    font-size: 14px !important;
                 }
                 
                 #print-transactions-table {
-                    font-size: 9px !important;
+                    font-size: 8px !important;
                 }
                 
                 #print-transactions-table th,
                 #print-transactions-table td {
-                    padding: 4px 3px !important;
-                    font-size: 9px !important;
-                }
-                
-                #print-transactions-table th:nth-child(5),
-                #print-transactions-table td:nth-child(5) {
-                    display: none !important;
+                    padding: 4px 2px !important;
+                    font-size: 8px !important;
                 }
                 
                 .transaction-type {
-                    font-size: 8px !important;
-                    padding: 2px 6px !important;
+                    font-size: 7px !important;
+                    padding: 1px 4px !important;
+                }
+                
+                .print-balance-summary {
+                    font-size: 9px !important;
                 }
             }
             
@@ -1071,11 +1074,6 @@
                 display: none !important;
             }
             
-            /* إخفاء ترويسة التقرير العادية */
-            .report-header {
-                display: none !important;
-            }
-            
             /* إخفاء قسم التقرير العادي */
             .report-section {
                 box-shadow: none !important;
@@ -1087,7 +1085,7 @@
             
             /* ضبط هوامش الصفحة */
             @page {
-                margin: 10mm;
+                margin: 8mm;
                 size: auto;
             }
             
@@ -1319,6 +1317,31 @@
             font-size: 0.8rem;
         }
         
+        /* تحسينات لزر اختيار الشركة في التقرير */
+        .report-header-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        @media (min-width: 768px) {
+            .report-header-actions {
+                flex-direction: row;
+                gap: 15px;
+            }
+        }
+        
+        .company-selector-report {
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .company-selector-report {
+                width: 250px;
+            }
+        }
+        
         /* ======= تحسينات خاصة للهواتف ======= */
         
         /* تحسينات للهواتف المحمولة */
@@ -1362,32 +1385,209 @@
                 white-space: nowrap;
             }
             
-            /* إخفاء بعض الأعمدة على الهواتف لتحسين القراءة */
-            #transactions-table th:nth-child(5), /* المستند */
-            #transactions-table td:nth-child(5),
-            #transactions-table th:nth-child(7), /* الرحلة */
-            #transactions-table td:nth-child(7),
-            #transactions-table th:nth-child(8), /* السبب */
-            #transactions-table td:nth-child(8) {
-                display: none;
-            }
-            
-            /* تكبير الأعمدة المهمة على الهواتف */
-            #transactions-table th:nth-child(2), /* التاريخ */
-            #transactions-table td:nth-child(2),
-            #transactions-table th:nth-child(3), /* النوع */
-            #transactions-table td:nth-child(3),
-            #transactions-table th:nth-child(4), /* المسافر */
-            #transactions-table td:nth-child(4),
-            #transactions-table th:nth-child(6), /* الوجهة */
-            #transactions-table td:nth-child(6),
-            #transactions-table th:nth-child(9), /* المبلغ */
-            #transactions-table td:nth-child(9),
-            #transactions-table th:nth-child(10), /* الرصيد */
-            #transactions-table td:nth-child(10) {
-                min-width: 80px;
-            }
-            
+             /* إخفاء بعض الأعمدة على الهواتف لتحسين القراءة */
+    #transactions-table th:nth-child(7), /* الرحلة */
+    #transactions-table td:nth-child(7),
+    #transactions-table th:nth-child(8), /* السبب */
+    #transactions-table td:nth-child(8) {
+        display: none;
+    }
+    
+    /* تكبير الأعمدة المهمة على الهواتف */
+    #transactions-table th:nth-child(2), /* التاريخ */
+    #transactions-table td:nth-child(2) {
+        min-width: 70px;
+    }
+    
+    #transactions-table th:nth-child(3), /* النوع */
+    #transactions-table td:nth-child(3) {
+        min-width: 60px;
+    }
+    
+    #transactions-table th:nth-child(4), /* المسافر */
+    #transactions-table td:nth-child(4) {
+        min-width: 100px;
+        max-width: 120px;
+    }
+    
+    #transactions-table th:nth-child(5), /* المستند */
+    #transactions-table td:nth-child(5) {
+        min-width: 80px;
+        max-width: 90px;
+    }
+    
+    #transactions-table th:nth-child(6), /* الوجهة */
+    #transactions-table td:nth-child(6) {
+        min-width: 70px;
+        max-width: 80px;
+    }
+    
+    #transactions-table th:nth-child(9), /* المبلغ */
+    #transactions-table td:nth-child(9) {
+        min-width: 70px;
+    }
+    
+    #transactions-table th:nth-child(10), /* الرصيد */
+    #transactions-table td:nth-child(10) {
+        min-width: 70px;
+    }
+    
+        /* تحسين عرض الاسم ورقم المستند على الهواتف */
+    #transactions-table td:nth-child(4),
+    #transactions-table td:nth-child(5) {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    /* تقليل حجم الوجهة والسبب على الهواتف */
+    #transactions-table td:nth-child(6) {
+        max-width: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.75rem;
+    }
+    
+    /* تحسين عرض السبب عند عرضه */
+    #transactions-table td:nth-child(8) {
+        max-width: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.75rem;
+    }
+    
+    /* تعديل عرض التبويبات للهواتف */
+    .tab {
+        padding: 14px 10px;
+        font-size: 0.95rem;
+    }
+    
+    /* تحسين الملخص تحت الجدول للهواتف */
+    .summary-items {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .summary-item {
+        padding: 10px;
+    }
+    
+    .summary-item .value {
+        font-size: 1.2rem;
+    }
+    
+    /* تحسين منطقة معلومات الشركة للهواتف */
+    .company-info {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px;
+    }
+    
+    .company-info h3 {
+        text-align: right;
+        font-size: 1.3rem;
+        width: 100%;
+    }
+    
+    .company-balance {
+        width: 100%;
+        text-align: center;
+        font-size: 1.4rem;
+        margin-top: 10px;
+        padding: 10px;
+    }
+    
+    /* تحسين خيارات الراديو للهواتف */
+    .radio-group {
+        flex-direction: column;
+    }
+    
+    .radio-option {
+        justify-content: flex-start;
+        padding: 12px;
+    }
+    
+    /* تحسين عرض الجدول للإدارة للهواتف */
+    #manage-transactions-table {
+        min-width: 650px;
+        font-size: 0.78rem;
+    }
+    
+    #manage-transactions-table th,
+    #manage-transactions-table td {
+        padding: 9px 6px;
+    }
+    
+    /* تحسين الأزرار في جدول الإدارة للهواتف */
+    .action-buttons {
+        flex-direction: column;
+        gap: 6px;
+        min-width: 100px;
+    }
+    
+    .action-btn {
+        padding: 8px 10px;
+        font-size: 0.75rem;
+    }
+    
+    /* إظهار مؤشر التمرير للهواتف */
+    .scroll-indicator {
+        display: block;
+    }
+    
+    /* تحسين التقرير على الهواتف */
+    .report-section {
+        padding: 15px 10px;
+    }
+    
+    .report-header {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .company-report-title {
+        font-size: 1.4rem;
+        text-align: center;
+    }
+    
+    .btn-print {
+        width: 100%;
+        padding: 12px;
+    }
+    
+    /* تحسين شريط التمرير للهواتف */
+    .table-container::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .table-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+        margin: 0 10px;
+    }
+    
+    .table-container::-webkit-scrollbar-thumb {
+        background: var(--secondary-color);
+        border-radius: 10px;
+    }
+    
+    /* تحسين فلاتر إدارة العمليات للهواتف */
+    .filter-controls {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    #reset-filters {
+        width: 100%;
+        margin-top: 0;
+    }
+}    
             /* تحسين عرض الوجهة على الهواتف */
             #transactions-table td:nth-child(6) {
                 max-width: 120px;
@@ -1745,14 +1945,12 @@
             <table id="print-transactions-table">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>التاريخ</th>
-                        <th>النوع</th>
-                        <th>المسافر</th>
-                        <th>المستند</th>
-                        <th>الوجهة</th>
-                        <th>المبلغ</th>
-                        <th>الرصيد</th>
+                        <th style="width: 5%;">#</th>
+                        <th style="width: 12%;">التاريخ</th>
+                        <th style="width: 15%;">المسافر</th>
+                        <th style="width: 12%;">المستند</th>
+                        <th style="width: 15%;">المبلغ</th>
+                        <th style="width: 15%;">الاجمالي</th>
                     </tr>
                 </thead>
                 <tbody id="print-transactions-body">
@@ -1881,16 +2079,7 @@
                 <div class="form-group">
                     <label for="destination">الوجهة</label>
                     <select id="destination">
-                        <option value="TIP - IST">طرابلس - اسطنبول (TIP - IST)</option>
-                        <option value="TIP - ANK">طرابلس - أنقرة (TIP - ANK)</option>
-                        <option value="TIP - IZM">طرابلس - إزمير (TIP - IZM)</option>
-                        <option value="TIP - BJV">طرابلس - بودروم (TIP - BJV)</option>
-                        <option value="TIP - DXB">طرابلس - دبي (TIP - DXB)</option>
-                        <option value="TIP - CAI">طرابلس - القاهرة (TIP - CAI)</option>
-                        <option value="TIP - MED">طرابلس - المدينة (TIP - MED)</option>
-                        <option value="TIP - JED">طرابلس - جدة (TIP - JED)</option>
-                        <option value="TIP - TUN">طرابلس - تونس (TIP - TUN)</option>
-                        <option value="TIP - ALG">طرابلس - الجزائر (TIP - ALG)</option>
+                        <option value="TIP - IST">(TIP - IST)</option>
                         <option value="other">وجهة أخرى</option>
                     </select>
                     <input type="text" id="other-destination" placeholder="أدخل الوجهة (مثال: TIP - ROM)" class="hidden">
@@ -1950,9 +2139,16 @@
         <div class="tab-content report-section" id="report-tab">
             <div class="report-header no-print">
                 <h2 class="company-report-title" id="report-company-name">كشف الحساب</h2>
-                <button class="btn btn-print no-print" id="print-report">
-                    <i class="fas fa-print"></i> طباعة الكشف
-                </button>
+                <div class="report-header-actions">
+                    <div class="company-selector-report">
+                        <select id="report-company" class="no-print">
+                            <option value="">-- اختر الشركة --</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-print no-print" id="print-report">
+                        <i class="fas fa-print"></i> طباعة الكشف
+                    </button>
+                </div>
             </div>
             
             <div class="table-container">
@@ -2061,12 +2257,7 @@
                         <div class="form-group">
                             <label for="edit-destination">الوجهة</label>
                             <select id="edit-destination">
-                                <option value="TIP - IST">طرابلس - اسطنبول (TIP - IST)</option>
-                                <option value="TIP - ANK">طرابلس - أنقرة (TIP - ANK)</option>
-                                <option value="TIP - IZM">طرابلس - إزمير (TIP - IZM)</option>
-                                <option value="TIP - BJV">طرابلس - بودروم (TIP - BJV)</option>
-                                <option value="TIP - DXB">طرابلس - دبي (TIP - DXB)</option>
-                                <option value="TIP - CAI">طرابلس - القاهرة (TIP - CAI)</option>
+                                <option value="TIP - IST">(TIP - IST)</option>
                                 <option value="other">وجهة أخرى</option>
                             </select>
                             <input type="text" id="edit-other-destination" placeholder="أدخل الوجهة" class="hidden">
@@ -2253,6 +2444,7 @@
         const companyList = document.getElementById('company-list');
         const noCompaniesMsg = document.getElementById('no-companies');
         const companySelect = document.getElementById('company');
+        const reportCompanySelect = document.getElementById('report-company');
         const currentCompanyElement = document.getElementById('current-company');
         const companyBalanceElement = document.getElementById('company-balance');
         const reportCompanyNameElement = document.getElementById('report-company-name');
@@ -2392,6 +2584,11 @@
             updateCompanyBalance(this.value);
             updateReport();
             optimizeForMobile();
+        });
+        
+        // حدث اختيار الشركة في التقرير
+        reportCompanySelect.addEventListener('change', function() {
+            updateReport();
         });
         
         destinationSelect.addEventListener('change', function() {
@@ -2627,6 +2824,7 @@
             
             updateCompanyList();
             updateCompanySelect();
+            updateReportCompanySelect();
             updateFilterCompanySelect();
             
             companySelect.value = companyName;
@@ -2874,6 +3072,7 @@
             
             updateCompanyList();
             updateCompanySelect();
+            updateReportCompanySelect();
             updateFilterCompanySelect();
             updateReport();
             updateManageTable();
@@ -2898,6 +3097,24 @@
             
             if (currentValue && companies.hasOwnProperty(currentValue)) {
                 companySelect.value = currentValue;
+            }
+        }
+        
+        // دالة تحديث قائمة الشركات في select التقرير
+        function updateReportCompanySelect() {
+            const currentValue = reportCompanySelect.value;
+            
+            reportCompanySelect.innerHTML = '<option value="">-- اختر الشركة --</option>';
+            
+            Object.keys(companies).sort().forEach(company => {
+                const option = document.createElement('option');
+                option.value = company;
+                option.textContent = company;
+                reportCompanySelect.appendChild(option);
+            });
+            
+            if (currentValue && companies.hasOwnProperty(currentValue)) {
+                reportCompanySelect.value = currentValue;
             }
         }
         
@@ -3204,16 +3421,17 @@
         
         // دالة تحديث كشف الحساب
         function updateReport() {
-            const currentCompany = companySelect.value;
-            if (currentCompany) {
-                reportCompanyNameElement.textContent = `كشف حساب: ${currentCompany}`;
-                printCompanyName.textContent = `كشف حساب: ${currentCompany}`;
+            const selectedCompany = reportCompanySelect.value || companySelect.value;
+            
+            if (selectedCompany) {
+                reportCompanyNameElement.textContent = `كشف حساب: ${selectedCompany}`;
+                printCompanyName.textContent = `كشف حساب: ${selectedCompany}`;
             } else {
                 reportCompanyNameElement.textContent = 'كشف الحساب';
                 printCompanyName.textContent = 'كشف الحساب';
             }
             
-            updateCompanyBalance(currentCompany);
+            updateCompanyBalance(selectedCompany);
             
             if (transactions.length > 0) {
                 noDataElement.style.display = 'none';
@@ -3230,9 +3448,9 @@
             let filteredTransactions = [];
             let finalBalance = 0;
             
-            if (currentCompany) {
-                filteredTransactions = transactions.filter(t => t.company === currentCompany);
-                finalBalance = companies[currentCompany] || 0;
+            if (selectedCompany) {
+                filteredTransactions = transactions.filter(t => t.company === selectedCompany);
+                finalBalance = companies[selectedCompany] || 0;
             } else {
                 filteredTransactions = [...transactions];
                 finalBalance = Object.values(companies).reduce((sum, balance) => sum + balance, 0);
@@ -3339,7 +3557,7 @@
         
         // دالة تحديث جدول الطباعة
         function updatePrintTable(filteredTransactions = null, finalBalance = 0) {
-            const currentCompany = companySelect.value;
+            const currentCompany = reportCompanySelect.value || companySelect.value;
             const transactionsToShow = filteredTransactions || transactions.filter(t => !currentCompany || t.company === currentCompany);
             
             printTransactionsBody.innerHTML = '';
@@ -3358,38 +3576,11 @@
                 
                 const row = document.createElement('tr');
                 
-                let typeClass = '';
-                let typeText = getTypeName(transaction.type);
-                
-                if (transaction.type === 'ticket') {
-                    typeClass = 'transaction-ticket';
-                } else if (transaction.type === 'fine') {
-                    typeClass = 'transaction-fine';
-                } else if (transaction.type === 'payment') {
-                    typeClass = 'transaction-payment';
-                } else if (transaction.type === 'initial') {
-                    typeClass = 'transaction-initial';
-                }
-                
-                let passengerName = transaction.passengerName || '-';
-                let documentNumber = transaction.documentNumber || '-';
-                
-                // اختصار الوجهة للطباعة
-                let destination = transaction.destination || '-';
-                if (destination.includes('(')) {
-                    const match = destination.match(/\(([^)]+)\)/);
-                    if (match) {
-                        destination = match[1];
-                    }
-                }
-                
                 row.innerHTML = `
                     <td>${index + 1}</td>
                     <td>${transaction.date}</td>
-                    <td><span class="transaction-type ${typeClass}">${typeText}</span></td>
-                    <td>${passengerName}</td>
-                    <td>${documentNumber}</td>
-                    <td>${destination}</td>
+                    <td>${transaction.passengerName || '-'}</td>
+                    <td>${transaction.documentNumber || '-'}</td>
                     <td>${formatCurrency(transaction.amount)}</td>
                     <td>${formatCurrency(runningBalance)}</td>
                 `;
@@ -3428,7 +3619,7 @@
             currentPrintDate.textContent = formattedDate;
             
             // تحديث الرصيد الحالي
-            const currentCompany = companySelect.value;
+            const currentCompany = reportCompanySelect.value || companySelect.value;
             if (currentCompany) {
                 const balance = companies[currentCompany] || 0;
                 printCurrentBalance.textContent = formatCurrency(Math.abs(balance)) + (balance > 0 ? ' (دائن)' : balance < 0 ? ' (مدين)' : '');
@@ -3520,6 +3711,7 @@
             if (savedCompanies) {
                 companies = JSON.parse(savedCompanies);
                 updateCompanySelect();
+                updateReportCompanySelect();
                 updateFilterCompanySelect();
                 updateCompanyList();
                 optimizeForMobile();
