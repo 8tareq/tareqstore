@@ -2515,7 +2515,7 @@
             <!-- حقول مشتركة -->
             <div class="form-group">
                 <label for="amount">المبلغ (دينار)</label>
-                <input type="number" id="amount" placeholder="أدخل المبلغ" min="0" step="0.01" inputmode="decimal">
+                <input type="number" id="amount" placeholder="أدخل المبلغ" min="0" step="0.001" pattern="[0-9]*[.,]?[0-9]{0,3}" inputmode="decimal">
             </div>
             
             <div class="form-group">
@@ -2690,7 +2690,7 @@
                     
                     <div class="form-group">
                         <label for="edit-amount">المبلغ (دينار)</label>
-                        <input type="number" id="edit-amount" placeholder="المبلغ" min="0" step="0.01">
+                        <input type="number" id="edit-amount" placeholder="المبلغ" min="0" step="0.001" pattern="[0-9]*[.,]?[0-9]{0,3}">
                     </div>
                     
                     <div class="form-group">
@@ -2797,7 +2797,7 @@
                 
                 <div class="form-group">
                     <label for="initial-balance">المبلغ (دينار)</label>
-                    <input type="number" id="initial-balance" placeholder="أدخل المبلغ" min="0" step="0.01" inputmode="decimal">
+                    <input type="number" id="initial-balance" placeholder="أدخل المبلغ" min="0" step="0.001" pattern="[0-9]*[.,]?[0-9]{0,3}" inputmode="decimal">
                 </div>
             </div>
             
@@ -2813,7 +2813,7 @@
     </footer>
 
     <script>
-        // بيانات التطبيق - نفس الكود مع الحفاظ على البيانات
+        // بيانات التطبيق
         let transactions = [];
         let companies = {};
         
@@ -2931,7 +2931,7 @@
         dateInput.value = today;
         editDateInput.value = today;
         
-        // أحداث التحكم - نفس الوظائف مع تحسينات بصرية
+        // أحداث التحكم
         // التبويبات
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
@@ -4089,8 +4089,8 @@
         function formatCurrency(amount) {
             const absAmount = Math.abs(amount);
             const formatted = new Intl.NumberFormat('ar-LY', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
+                minimumFractionDigits: 3,
+                maximumFractionDigits: 3
             }).format(absAmount) + ' دينار';
             
             if (amount < 0) {
@@ -4168,6 +4168,3 @@
     </script>
 </body>
 </html>
-
-
-
