@@ -3466,12 +3466,11 @@
         // دالة تحديث رصيد الشركة بعد العملية
         function updateCompanyBalanceAfterTransaction(company, type, amount) {
             if (type === 'ticket' || type === 'fine') {
+                // تذكرة وغرامة تدخل في حساب الشركة (تزيد رصيد الشركة)
                 companies[company] += amount;
-            } else if (type === 'payment') {
+            } else if (type === 'payment' || type === 'cancel') {
+                // تسليم دفعة وإلغاء تخرج من حساب الشركة (تنقص رصيد الشركة)
                 companies[company] -= amount;
-            } else if (type === 'cancel') {
-                // لا يتغير الرصيد مع عملية الإلغاء لأنها عملية معاكسة
-                // يتم تحديث الرصيد عند إضافة العملية الأصلية
             }
         }
         
@@ -3665,9 +3664,10 @@
             const oldAmount = oldTransaction.amount;
             const oldType = oldTransaction.type;
             
+            // التراجع عن تأثير العملية القديمة
             if (oldType === 'ticket' || oldType === 'fine') {
                 companies[oldTransaction.company] -= oldAmount;
-            } else if (oldType === 'payment') {
+            } else if (oldType === 'payment' || oldType === 'cancel') {
                 companies[oldTransaction.company] += oldAmount;
             }
             
@@ -3749,9 +3749,10 @@
                 }
             }
             
+            // تطبيق تأثير العملية الجديدة
             if (transactionType === 'ticket' || transactionType === 'fine') {
                 companies[updatedTransaction.company] += amount;
-            } else if (transactionType === 'payment') {
+            } else if (transactionType === 'payment' || transactionType === 'cancel') {
                 companies[updatedTransaction.company] -= amount;
             }
             
@@ -3801,10 +3802,8 @@
             if (confirm(`هل أنت متأكد من حذف هذه العملية؟\n\nالتفاصيل:\n- الشركة: ${transaction.company}\n- النوع: ${getTypeName(transaction.type)}\n- المبلغ: ${formatCurrency(transaction.amount)}\n\nهذا الإجراء لا يمكن التراجع عنه.`)) {
                 if (transaction.type === 'ticket' || transaction.type === 'fine') {
                     companies[transaction.company] -= transaction.amount;
-                } else if (transaction.type === 'payment') {
+                } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
                     companies[transaction.company] += transaction.amount;
-                } else if (transaction.type === 'cancel') {
-                    // لا يتغير الرصيد عند حذف عملية إلغاء
                 }
                 
                 transactions.splice(transactionIndex, 1);
@@ -3904,6 +3903,8 @@
             }
             
             // تحديث رصيد الشركة (عملية معاكسة)
+            // تذكرة وغرامة كانت تزيد الرصيد، فالإلغاء ينقص الرصيد
+            // دفعة كانت تنقص الرصيد، فالإلغاء يزيد الرصيد
             if (originalTransaction.type === 'ticket' || originalTransaction.type === 'fine') {
                 companies[originalTransaction.company] -= originalTransaction.amount;
             } else if (originalTransaction.type === 'payment') {
@@ -4067,13 +4068,17 @@
                 finalBalance = Object.values(companies).reduce((sum, balance) => sum + balance, 0);
             }
             
+            // ترتيب العمليات حسب التاريخ
+            filteredTransactions.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
             let runningBalance = 0;
             filteredTransactions.forEach((transaction, index) => {
+                // حساب الرصيد المتجدد بناءً على نوع العملية
                 if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
+                    // تذكرة وغرامة ورصيد افتتاحي تزيد الرصيد (تدخل في الحساب)
                     runningBalance += transaction.amount;
-                } else if (transaction.type === 'payment') {
-                    runningBalance -= transaction.amount;
-                } else if (transaction.type === 'cancel') {
+                } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
+                    // تسليم دفعة وإلغاء تنقص الرصيد (تخرج من الحساب)
                     runningBalance -= transaction.amount;
                 }
                 
@@ -4128,6 +4133,8 @@
             // إضافة صف الرصيد النهائي في الجدول
             const totalRow = document.createElement('tr');
             totalRow.className = 'total-row';
+            totalRow.style.fontWeight = 'bold';
+            totalRow.style.background = 'linear-gradient(135deg, #F0F4FF, #E8EDFF)';
             totalRow.innerHTML = `
                 <td colspan="8">الرصيد النهائي</td>
                 <td colspan="2">${formatCurrency(finalBalance)}</td>
@@ -4185,11 +4192,17 @@
                 return;
             }
             
+            // ترتيب العمليات حسب التاريخ
+            transactionsToShow.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
             let runningBalance = 0;
             transactionsToShow.forEach((transaction, index) => {
+                // حساب الرصيد المتجدد بناءً على نوع العملية
                 if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
+                    // تذكرة وغرامة ورصيد افتتاحي تزيد الرصيد
                     runningBalance += transaction.amount;
                 } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
+                    // تسليم دفعة وإلغاء تنقص الرصيد
                     runningBalance -= transaction.amount;
                 }
                 
