@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TAREK </title>
+    <title>TAREK Tickets</title>
     <style>
         * {
             box-sizing: border-box;
@@ -19,6 +19,7 @@
             --accent-color: #FF416C;
             --success-color: #00D2A0;
             --warning-color: #FFA62E;
+            --cancel-color: #8E44AD;
             --light-color: #F8F9FF;
             --dark-color: #1A1A2E;
             --card-bg: #FFFFFF;
@@ -26,6 +27,7 @@
             --gradient-secondary: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%);
             --gradient-success: linear-gradient(135deg, #00D2A0 0%, #00B894 100%);
             --gradient-warning: linear-gradient(135deg, #FFA62E 0%, #FF9A3D 100%);
+            --gradient-cancel: linear-gradient(135deg, #8E44AD 0%, #6C3483 100%);
             --gradient-dark: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
             --shadow-light: 0 10px 30px rgba(74, 0, 224, 0.08);
             --shadow-medium: 0 15px 35px rgba(74, 0, 224, 0.12);
@@ -747,6 +749,15 @@
             box-shadow: 0 15px 35px rgba(255, 65, 108, 0.3);
         }
         
+        .btn-cancel-transaction {
+            background: var(--gradient-cancel);
+            box-shadow: 0 10px 25px rgba(142, 68, 173, 0.2);
+        }
+        
+        .btn-cancel-transaction:hover {
+            box-shadow: 0 15px 35px rgba(142, 68, 173, 0.3);
+        }
+        
         .btn-print {
             background: var(--gradient-dark);
             width: auto;
@@ -921,9 +932,16 @@
             box-shadow: 0 5px 15px rgba(255, 166, 46, 0.2);
         }
         
+        .transaction-cancel {
+            background: var(--gradient-cancel);
+            color: white;
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.2);
+        }
+        
         .action-buttons {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
         
         .action-btn {
@@ -951,6 +969,10 @@
         
         .action-btn-delete {
             background: var(--gradient-secondary);
+        }
+        
+        .action-btn-cancel {
+            background: var(--gradient-cancel);
         }
         
         .action-btn:hover {
@@ -1316,6 +1338,12 @@
                 background: var(--gradient-warning) !important;
                 color: white !important;
                 border: 1px solid #FFA62E !important;
+            }
+            
+            .transaction-cancel {
+                background: var(--gradient-cancel) !important;
+                color: white !important;
+                border: 1px solid #8E44AD !important;
             }
             
             /* قسم الرصيد النهائي في الطباعة */
@@ -2302,6 +2330,22 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        /* نافذة تأكيد الإلغاء */
+        .confirm-cancel {
+            background: linear-gradient(135deg, #F8F0FF, #F0E5FF);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border: 2px solid rgba(142, 68, 173, 0.2);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .cancel-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -2357,14 +2401,14 @@
         
         <!-- قسم الرصيد النهائي في الطباعة -->
         <div class="print-balance-summary" id="print-balance-summary">
-    <div class="print-total-balance">
-        الرصيد النهائي: <span id="print-summary-balance">0 دينار</span>
-    </div>
-</div>
+            <div class="print-total-balance">
+                الرصيد النهائي: <span id="print-summary-balance">0 دينار</span>
+            </div>
+        </div>
         
         <div class="print-footer">
-            <p>TARE Tickets &copy; 2023</p>
-            <p>@rto8qa</p>
+            <p>TAREK Tickets &copy; 2023</p>
+            <p>@tro8qa</p>
             <p>طارق الطيف للبرمجيات</p>
             <p> - </p>
             <div class="print-signature">
@@ -2624,6 +2668,7 @@
                         <option value="fine">غرامة</option>
                         <option value="payment">تسليم دفعة</option>
                         <option value="initial">رصيد افتتاحي</option>
+                        <option value="cancel">إلغاء</option>
                     </select>
                 </div>
                 
@@ -2730,6 +2775,25 @@
                 </div>
             </div>
             
+            <!-- تأكيد الإلغاء -->
+            <div id="cancel-transaction-container" class="hidden">
+                <div class="confirm-cancel">
+                    <h4><i class="fas fa-exchange-alt"></i> تأكيد إلغاء العملية</h4>
+                    <p>سيتم إضافة عملية جديدة معكوسة بنفس البيانات لتحييد المبلغ.</p>
+                    <div class="cancel-details" id="cancel-details">
+                        <!-- سيتم تعبئته بواسطة الجافاسكريبت -->
+                    </div>
+                    <div class="cancel-buttons">
+                        <button class="btn btn-cancel" id="cancel-cancel">
+                            <i class="fas fa-times"></i> إلغاء
+                        </button>
+                        <button class="btn btn-cancel-transaction" id="confirm-cancel">
+                            <i class="fas fa-exchange-alt"></i> نعم، ألغ العملية
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
             <div class="table-container manage-table-container">
                 <div class="scroll-indicator">← اسحب لرؤية المزيد →</div>
                 <table id="manage-transactions-table">
@@ -2808,8 +2872,8 @@
     </div>
     
     <footer class="no-print">
-        <p>  TAREKTickets &copy; 2023 </p>
-       
+        <p>TAREK Tickets &copy; 2023</p>
+        <p>@tro8qa | طارق الطيف للبرمجيات</p>
     </footer>
 
     <script>
@@ -2822,6 +2886,7 @@
         let initialBalance = 0;
         let currentEditTransactionId = null;
         let currentDeleteTransactionId = null;
+        let currentCancelTransactionId = null;
         
         // عناصر DOM
         const tabs = document.querySelectorAll('.tab');
@@ -2901,6 +2966,10 @@
         // تأكيد الحذف
         const deleteConfirmContainer = document.getElementById('delete-confirm-container');
         
+        // تأكيد الإلغاء
+        const cancelTransactionContainer = document.getElementById('cancel-transaction-container');
+        const cancelDetails = document.getElementById('cancel-details');
+        
         // فلاتر إدارة العمليات
         const filterCompanySelect = document.getElementById('filter-company');
         const filterTypeSelect = document.getElementById('filter-type');
@@ -2914,6 +2983,8 @@
         const saveEditBtn = document.getElementById('save-edit');
         const cancelDeleteBtn = document.getElementById('cancel-delete');
         const confirmDeleteBtn = document.getElementById('confirm-delete');
+        const cancelCancelBtn = document.getElementById('cancel-cancel');
+        const confirmCancelBtn = document.getElementById('confirm-cancel');
         
         // عناصر التقرير
         const transactionsBody = document.getElementById('transactions-body');
@@ -3052,6 +3123,8 @@
         saveEditBtn.addEventListener('click', saveEdit);
         cancelDeleteBtn.addEventListener('click', cancelDelete);
         confirmDeleteBtn.addEventListener('click', confirmDelete);
+        cancelCancelBtn.addEventListener('click', cancelCancel);
+        confirmCancelBtn.addEventListener('click', confirmCancel);
         
         // تحميل البيانات من localStorage
         loadData();
@@ -3396,6 +3469,9 @@
                 companies[company] += amount;
             } else if (type === 'payment') {
                 companies[company] -= amount;
+            } else if (type === 'cancel') {
+                // لا يتغير الرصيد مع عملية الإلغاء لأنها عملية معاكسة
+                // يتم تحديث الرصيد عند إضافة العملية الأصلية
             }
         }
         
@@ -3545,6 +3621,7 @@
             
             editFormContainer.classList.remove('hidden');
             deleteConfirmContainer.classList.add('hidden');
+            cancelTransactionContainer.classList.add('hidden');
             
             editTransactionTypeSelect.value = transaction.type;
             updateEditFormFields(transaction.type);
@@ -3701,6 +3778,7 @@
             
             deleteConfirmContainer.classList.remove('hidden');
             editFormContainer.classList.add('hidden');
+            cancelTransactionContainer.classList.add('hidden');
             
             deleteConfirmContainer.scrollIntoView({ behavior: 'smooth' });
         }
@@ -3725,6 +3803,8 @@
                     companies[transaction.company] -= transaction.amount;
                 } else if (transaction.type === 'payment') {
                     companies[transaction.company] += transaction.amount;
+                } else if (transaction.type === 'cancel') {
+                    // لا يتغير الرصيد عند حذف عملية إلغاء
                 }
                 
                 transactions.splice(transactionIndex, 1);
@@ -3740,6 +3820,118 @@
                 
                 alert('تم حذف العملية بنجاح!');
             }
+        }
+        
+        // دالة فتح تأكيد الإلغاء
+        function openCancelConfirm(transactionId) {
+            const transaction = transactions.find(t => t.id === transactionId);
+            if (!transaction) return;
+            
+            currentCancelTransactionId = transactionId;
+            
+            // لا يمكن إلغاء عملية إلغاء
+            if (transaction.type === 'cancel') {
+                alert('لا يمكن إلغاء عملية إلغاء!');
+                return;
+            }
+            
+            // تحضير تفاصيل الإلغاء
+            const cancelType = getCancelType(transaction.type);
+            const newAmount = transaction.amount;
+            
+            cancelDetails.innerHTML = `
+                <p><strong>العملية الأصلية:</strong></p>
+                <ul>
+                    <li><strong>الشركة:</strong> ${transaction.company}</li>
+                    <li><strong>النوع:</strong> ${getTypeName(transaction.type)}</li>
+                    <li><strong>المبلغ:</strong> ${formatCurrency(transaction.amount)}</li>
+                    <li><strong>التاريخ:</strong> ${transaction.date}</li>
+                    ${transaction.passengerName ? `<li><strong>المسافر:</strong> ${transaction.passengerName}</li>` : ''}
+                    ${transaction.description ? `<li><strong>الوصف:</strong> ${transaction.description}</li>` : ''}
+                </ul>
+                <p><strong>العملية الجديدة (معكوسة):</strong></p>
+                <ul>
+                    <li><strong>النوع:</strong> ${getTypeName(cancelType)}</li>
+                    <li><strong>المبلغ:</strong> ${formatCurrency(newAmount)}</li>
+                    <li><strong>التاريخ:</strong> اليوم</li>
+                </ul>
+                <p class="warning-text" style="color: var(--cancel-color); font-weight: bold; margin-top: 10px;">
+                    سيتم إضافة عملية جديدة معكوسة لتحييد المبلغ الأصلي.
+                </p>
+            `;
+            
+            cancelTransactionContainer.classList.remove('hidden');
+            editFormContainer.classList.add('hidden');
+            deleteConfirmContainer.classList.add('hidden');
+            
+            cancelTransactionContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // دالة إلغاء عملية الإلغاء
+        function cancelCancel() {
+            cancelTransactionContainer.classList.add('hidden');
+            currentCancelTransactionId = null;
+        }
+        
+        // دالة تأكيد الإلغاء
+        function confirmCancel() {
+            if (!currentCancelTransactionId) return;
+            
+            const originalTransaction = transactions.find(t => t.id === currentCancelTransactionId);
+            if (!originalTransaction) return;
+            
+            // إنشاء عملية إلغاء معاكسة
+            const cancelTransaction = {
+                id: generateId(),
+                date: today,
+                type: 'cancel',
+                company: originalTransaction.company,
+                amount: originalTransaction.amount,
+                originalTransactionId: originalTransaction.id,
+                cancelType: getCancelType(originalTransaction.type)
+            };
+            
+            // نسخ البيانات من العملية الأصلية
+            if (originalTransaction.type === 'ticket' || originalTransaction.type === 'fine') {
+                cancelTransaction.passengerName = originalTransaction.passengerName;
+                cancelTransaction.documentNumber = originalTransaction.documentNumber;
+                cancelTransaction.destination = originalTransaction.destination;
+                cancelTransaction.tripType = originalTransaction.tripType;
+                cancelTransaction.reason = originalTransaction.reason;
+                cancelTransaction.notes = `إلغاء عملية ${getTypeName(originalTransaction.type)} بتاريخ ${originalTransaction.date}`;
+            } else if (originalTransaction.type === 'payment') {
+                cancelTransaction.description = `إلغاء دفعة: ${originalTransaction.description}`;
+            }
+            
+            // تحديث رصيد الشركة (عملية معاكسة)
+            if (originalTransaction.type === 'ticket' || originalTransaction.type === 'fine') {
+                companies[originalTransaction.company] -= originalTransaction.amount;
+            } else if (originalTransaction.type === 'payment') {
+                companies[originalTransaction.company] += originalTransaction.amount;
+            }
+            
+            transactions.push(cancelTransaction);
+            
+            saveData();
+            updateReport();
+            updateCompanyList();
+            updateManageTable();
+            optimizeForMobile();
+            
+            cancelTransactionContainer.classList.add('hidden');
+            currentCancelTransactionId = null;
+            
+            alert('تم إضافة عملية الإلغاء بنجاح! تم تحييد المبلغ الأصلي.');
+        }
+        
+        // دالة الحصول على نوع العملية المعاكسة للإلغاء
+        function getCancelType(originalType) {
+            if (originalType === 'ticket' || originalType === 'fine') {
+                return 'payment'; // تذاكر وغرامات تلغى بدفعات
+            } else if (originalType === 'payment') {
+                return 'ticket'; // دفعات تلغى بتذاكر
+            }
+            return 'cancel';
         }
         
         // دالة تحديث جدول إدارة العمليات
@@ -3781,6 +3973,9 @@
                     typeClass = 'transaction-payment';
                 } else if (transaction.type === 'initial') {
                     typeClass = 'transaction-initial';
+                } else if (transaction.type === 'cancel') {
+                    typeClass = 'transaction-cancel';
+                    typeText = 'إلغاء';
                 }
                 
                 let passengerName = transaction.passengerName || transaction.description || '-';
@@ -3800,6 +3995,9 @@
                             <button class="action-btn action-btn-edit" data-id="${transaction.id}">
                                 <i class="fas fa-edit"></i> تعديل
                             </button>
+                            <button class="action-btn action-btn-cancel" data-id="${transaction.id}">
+                                <i class="fas fa-exchange-alt"></i> إلغاء
+                            </button>
                             <button class="action-btn action-btn-delete" data-id="${transaction.id}">
                                 <i class="fas fa-trash"></i> حذف
                             </button>
@@ -3814,6 +4012,13 @@
                 btn.addEventListener('click', function() {
                     const transactionId = this.getAttribute('data-id');
                     openEditForm(transactionId);
+                });
+            });
+            
+            document.querySelectorAll('.action-btn-cancel').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const transactionId = this.getAttribute('data-id');
+                    openCancelConfirm(transactionId);
                 });
             });
             
@@ -3868,6 +4073,8 @@
                     runningBalance += transaction.amount;
                 } else if (transaction.type === 'payment') {
                     runningBalance -= transaction.amount;
+                } else if (transaction.type === 'cancel') {
+                    runningBalance -= transaction.amount;
                 }
                 
                 const row = document.createElement('tr');
@@ -3883,6 +4090,9 @@
                     typeClass = 'transaction-payment';
                 } else if (transaction.type === 'initial') {
                     typeClass = 'transaction-initial';
+                } else if (transaction.type === 'cancel') {
+                    typeClass = 'transaction-cancel';
+                    typeText = 'إلغاء';
                 }
                 
                 let passengerName = transaction.passengerName || '-';
@@ -3935,6 +4145,7 @@
             let totalTickets = 0;
             let totalFines = 0;
             let totalPayments = 0;
+            let totalCancels = 0;
             
             transactionsToCalculate.forEach(transaction => {
                 if (transaction.type === 'ticket') {
@@ -3943,6 +4154,8 @@
                     totalFines += transaction.amount;
                 } else if (transaction.type === 'payment') {
                     totalPayments += transaction.amount;
+                } else if (transaction.type === 'cancel') {
+                    totalCancels += transaction.amount;
                 }
             });
             
@@ -3976,7 +4189,7 @@
             transactionsToShow.forEach((transaction, index) => {
                 if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
                     runningBalance += transaction.amount;
-                } else if (transaction.type === 'payment') {
+                } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
                     runningBalance -= transaction.amount;
                 }
                 
@@ -4076,6 +4289,7 @@
                 case 'fine': return 'غرامة';
                 case 'payment': return 'تسليم';
                 case 'initial': return 'افتتاحي';
+                case 'cancel': return 'إلغاء';
                 default: return type;
             }
         }
@@ -4145,6 +4359,9 @@
                 }
                 if (deleteConfirmContainer.classList.contains('hidden') === false) {
                     cancelDelete();
+                }
+                if (cancelTransactionContainer.classList.contains('hidden') === false) {
+                    cancelCancel();
                 }
             }
         });
