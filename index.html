@@ -3466,11 +3466,12 @@
         // دالة تحديث رصيد الشركة بعد العملية
         function updateCompanyBalanceAfterTransaction(company, type, amount) {
             if (type === 'ticket' || type === 'fine') {
-                // تذكرة وغرامة تدخل في حساب الشركة (تزيد رصيد الشركة)
                 companies[company] += amount;
-            } else if (type === 'payment' || type === 'cancel') {
-                // تسليم دفعة وإلغاء تخرج من حساب الشركة (تنقص رصيد الشركة)
+            } else if (type === 'payment') {
                 companies[company] -= amount;
+            } else if (type === 'cancel') {
+                // لا يتغير الرصيد مع عملية الإلغاء لأنها عملية معاكسة
+                // يتم تحديث الرصيد عند إضافة العملية الأصلية
             }
         }
         
@@ -3664,10 +3665,9 @@
             const oldAmount = oldTransaction.amount;
             const oldType = oldTransaction.type;
             
-            // التراجع عن تأثير العملية القديمة
             if (oldType === 'ticket' || oldType === 'fine') {
                 companies[oldTransaction.company] -= oldAmount;
-            } else if (oldType === 'payment' || oldType === 'cancel') {
+            } else if (oldType === 'payment') {
                 companies[oldTransaction.company] += oldAmount;
             }
             
@@ -3749,10 +3749,9 @@
                 }
             }
             
-            // تطبيق تأثير العملية الجديدة
             if (transactionType === 'ticket' || transactionType === 'fine') {
                 companies[updatedTransaction.company] += amount;
-            } else if (transactionType === 'payment' || transactionType === 'cancel') {
+            } else if (transactionType === 'payment') {
                 companies[updatedTransaction.company] -= amount;
             }
             
@@ -3802,8 +3801,10 @@
             if (confirm(`هل أنت متأكد من حذف هذه العملية؟\n\nالتفاصيل:\n- الشركة: ${transaction.company}\n- النوع: ${getTypeName(transaction.type)}\n- المبلغ: ${formatCurrency(transaction.amount)}\n\nهذا الإجراء لا يمكن التراجع عنه.`)) {
                 if (transaction.type === 'ticket' || transaction.type === 'fine') {
                     companies[transaction.company] -= transaction.amount;
-                } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
+                } else if (transaction.type === 'payment') {
                     companies[transaction.company] += transaction.amount;
+                } else if (transaction.type === 'cancel') {
+                    // لا يتغير الرصيد عند حذف عملية إلغاء
                 }
                 
                 transactions.splice(transactionIndex, 1);
@@ -3903,8 +3904,6 @@
             }
             
             // تحديث رصيد الشركة (عملية معاكسة)
-            // تذكرة وغرامة كانت تزيد الرصيد، فالإلغاء ينقص الرصيد
-            // دفعة كانت تنقص الرصيد، فالإلغاء يزيد الرصيد
             if (originalTransaction.type === 'ticket' || originalTransaction.type === 'fine') {
                 companies[originalTransaction.company] -= originalTransaction.amount;
             } else if (originalTransaction.type === 'payment') {
@@ -4031,7 +4030,7 @@
             });
         }
         
-        // دالة تحديث كشف الحساب - الإصدار المعدل والمصحح
+        // دالة تحديث كشف الحساب
         function updateReport() {
             const selectedCompany = reportCompanySelect.value || companySelect.value;
             
@@ -4045,23 +4044,7 @@
             
             updateCompanyBalance(selectedCompany);
             
-            let filteredTransactions = [];
-            let companyInitialBalance = 0;
-            
-            if (selectedCompany) {
-                filteredTransactions = transactions.filter(t => t.company === selectedCompany);
-                
-                // الحصول على الرصيد الافتتاحي للشركة
-                const initialTransaction = filteredTransactions.find(t => t.type === 'initial');
-                companyInitialBalance = initialTransaction ? parseFloat(initialTransaction.amount) : 0;
-                if (initialTransaction && initialTransaction.description && initialTransaction.description.includes('مدين')) {
-                    companyInitialBalance = -companyInitialBalance;
-                }
-            } else {
-                filteredTransactions = [...transactions];
-            }
-            
-            if (filteredTransactions.length > 0) {
+            if (transactions.length > 0) {
                 noDataElement.style.display = 'none';
                 summaryBelowTable.style.display = 'block';
                 transactionsBody.innerHTML = '';
@@ -4069,38 +4052,30 @@
                 noDataElement.style.display = 'block';
                 summaryBelowTable.style.display = 'none';
                 transactionsBody.innerHTML = '';
-                updateSummary(filteredTransactions, 0);
+                updateSummary();
                 return;
             }
             
-            // ترتيب العمليات حسب التاريخ
-            filteredTransactions.sort((a, b) => {
-                const dateA = new Date(a.date);
-                const dateB = new Date(b.date);
-                return dateA - dateB;
-            });
+            let filteredTransactions = [];
+            let finalBalance = 0;
             
-            let runningBalance = 0;
-            
-            // إذا كانت هناك شركة محددة، نبدأ بالرصيد الافتتاحي
             if (selectedCompany) {
-                runningBalance = companyInitialBalance;
+                filteredTransactions = transactions.filter(t => t.company === selectedCompany);
+                finalBalance = companies[selectedCompany] || 0;
+            } else {
+                filteredTransactions = [...transactions];
+                finalBalance = Object.values(companies).reduce((sum, balance) => sum + balance, 0);
             }
             
+            let runningBalance = 0;
             filteredTransactions.forEach((transaction, index) => {
-                // حساب الرصيد المتجدد بناءً على نوع العملية
-                const transactionAmount = parseFloat(transaction.amount);
-                
                 if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
-                    // تذكرة وغرامة ورصيد افتتاحي تزيد الرصيد (تدخل في الحساب)
-                    runningBalance += transactionAmount;
-                } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
-                    // تسليم دفعة وإلغاء تنقص الرصيد (تخرج من الحساب)
-                    runningBalance -= transactionAmount;
+                    runningBalance += transaction.amount;
+                } else if (transaction.type === 'payment') {
+                    runningBalance -= transaction.amount;
+                } else if (transaction.type === 'cancel') {
+                    runningBalance -= transaction.amount;
                 }
-                
-                // تقريب الرصيد لثلاث منازل عشرية لتجنب مشاكل الفاصلة العائمة
-                runningBalance = Math.round(runningBalance * 1000) / 1000;
                 
                 const row = document.createElement('tr');
                 
@@ -4143,7 +4118,7 @@
                     <td>${destination}</td>
                     <td>${tripType}</td>
                     <td>${reasonDesc}</td>
-                    <td>${formatCurrency(transactionAmount)}</td>
+                    <td>${formatCurrency(transaction.amount)}</td>
                     <td>${formatCurrency(runningBalance)}</td>
                 `;
                 
@@ -4153,39 +4128,34 @@
             // إضافة صف الرصيد النهائي في الجدول
             const totalRow = document.createElement('tr');
             totalRow.className = 'total-row';
-            totalRow.style.fontWeight = 'bold';
-            totalRow.style.background = 'linear-gradient(135deg, #F0F4FF, #E8EDFF)';
             totalRow.innerHTML = `
                 <td colspan="8">الرصيد النهائي</td>
-                <td colspan="2">${formatCurrency(runningBalance)}</td>
+                <td colspan="2">${formatCurrency(finalBalance)}</td>
             `;
             transactionsBody.appendChild(totalRow);
             
-            // تحديث الملخص باستخدام الرصيد النهائي الصحيح
-            updateSummary(filteredTransactions, runningBalance);
+            updateSummary(filteredTransactions, finalBalance);
             optimizeForMobile();
         }
         
-        // دالة تحديث الملخص تحت الجدول - الإصدار المعدل والمصحح
+        // دالة تحديث الملخص تحت الجدول
         function updateSummary(filteredTransactions = null, finalBalance = 0) {
             const transactionsToCalculate = filteredTransactions || transactions;
             
             let totalTickets = 0;
             let totalFines = 0;
             let totalPayments = 0;
-            let totalInitial = 0;
+            let totalCancels = 0;
             
             transactionsToCalculate.forEach(transaction => {
-                const transactionAmount = parseFloat(transaction.amount);
-                
                 if (transaction.type === 'ticket') {
                     totalTickets++;
                 } else if (transaction.type === 'fine') {
-                    totalFines += transactionAmount;
+                    totalFines += transaction.amount;
                 } else if (transaction.type === 'payment') {
-                    totalPayments += transactionAmount;
-                } else if (transaction.type === 'initial') {
-                    totalInitial += transactionAmount;
+                    totalPayments += transaction.amount;
+                } else if (transaction.type === 'cancel') {
+                    totalCancels += transaction.amount;
                 }
             });
             
@@ -4202,12 +4172,9 @@
             } else {
                 totalBalanceElement.className = 'value';
             }
-            
-            // تحديث الطباعة أيضًا
-            updatePrintSummary(finalBalance);
         }
         
-        // دالة تحديث جدول الطباعة - الإصدار المعدل والمصحح
+        // دالة تحديث جدول الطباعة
         function updatePrintTable(filteredTransactions = null, finalBalance = 0) {
             const currentCompany = reportCompanySelect.value || companySelect.value;
             const transactionsToShow = filteredTransactions || transactions.filter(t => !currentCompany || t.company === currentCompany);
@@ -4218,40 +4185,13 @@
                 return;
             }
             
-            // ترتيب العمليات حسب التاريخ
-            transactionsToShow.sort((a, b) => {
-                const dateA = new Date(a.date);
-                const dateB = new Date(b.date);
-                return dateA - dateB;
-            });
-            
             let runningBalance = 0;
-            let companyInitialBalance = 0;
-            
-            // إذا كانت هناك شركة محددة، نبدأ بالرصيد الافتتاحي
-            if (currentCompany) {
-                const initialTransaction = transactionsToShow.find(t => t.type === 'initial');
-                companyInitialBalance = initialTransaction ? parseFloat(initialTransaction.amount) : 0;
-                if (initialTransaction && initialTransaction.description && initialTransaction.description.includes('مدين')) {
-                    companyInitialBalance = -companyInitialBalance;
-                }
-                runningBalance = companyInitialBalance;
-            }
-            
             transactionsToShow.forEach((transaction, index) => {
-                // حساب الرصيد المتجدد بناءً على نوع العملية
-                const transactionAmount = parseFloat(transaction.amount);
-                
                 if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
-                    // تذكرة وغرامة ورصيد افتتاحي تزيد الرصيد
-                    runningBalance += transactionAmount;
+                    runningBalance += transaction.amount;
                 } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
-                    // تسليم دفعة وإلغاء تنقص الرصيد
-                    runningBalance -= transactionAmount;
+                    runningBalance -= transaction.amount;
                 }
-                
-                // تقريب الرصيد لثلاث منازل عشرية
-                runningBalance = Math.round(runningBalance * 1000) / 1000;
                 
                 const row = document.createElement('tr');
                 
@@ -4260,7 +4200,7 @@
                     <td>${transaction.date}</td>
                     <td>${transaction.passengerName || '-'}</td>
                     <td>${transaction.documentNumber || '-'}</td>
-                    <td>${formatCurrency(transactionAmount)}</td>
+                    <td>${formatCurrency(transaction.amount)}</td>
                     <td>${formatCurrency(runningBalance)}</td>
                 `;
                 
@@ -4280,21 +4220,7 @@
             }
         }
         
-        // دالة تحديث ملخص الطباعة
-        function updatePrintSummary(finalBalance) {
-            printSummaryBalance.textContent = formatCurrency(finalBalance);
-            
-            // تحديث لون الرصيد النهائي
-            if (finalBalance > 0) {
-                printSummaryBalance.className = 'positive-balance-print';
-            } else if (finalBalance < 0) {
-                printSummaryBalance.className = 'negative-balance-print';
-            } else {
-                printSummaryBalance.className = 'neutral-balance-print';
-            }
-        }
-        
-        // دالة إعداد الطباعة - الإصدار المعدل والمصحح
+        // دالة إعداد الطباعة
         function preparePrint() {
             // إظهار صفحة الطباعة
             printPage.style.display = 'block';
@@ -4314,44 +4240,8 @@
             // تحديث الرصيد الحالي
             const currentCompany = reportCompanySelect.value || companySelect.value;
             if (currentCompany) {
-                // حساب الرصيد الحالي بشكل صحيح
-                let finalBalance = 0;
-                const companyTransactions = transactions.filter(t => t.company === currentCompany);
-                
-                if (companyTransactions.length > 0) {
-                    // حساب الرصيد النهائي
-                    let runningBalance = 0;
-                    
-                    // الحصول على الرصيد الافتتاحي
-                    const initialTransaction = companyTransactions.find(t => t.type === 'initial');
-                    let companyInitialBalance = initialTransaction ? parseFloat(initialTransaction.amount) : 0;
-                    if (initialTransaction && initialTransaction.description && initialTransaction.description.includes('مدين')) {
-                        companyInitialBalance = -companyInitialBalance;
-                    }
-                    runningBalance = companyInitialBalance;
-                    
-                    // ترتيب العمليات حسب التاريخ
-                    const sortedTransactions = [...companyTransactions].sort((a, b) => {
-                        const dateA = new Date(a.date);
-                        const dateB = new Date(b.date);
-                        return dateA - dateB;
-                    });
-                    
-                    sortedTransactions.forEach(transaction => {
-                        const transactionAmount = parseFloat(transaction.amount);
-                        
-                        if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
-                            runningBalance += transactionAmount;
-                        } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
-                            runningBalance -= transactionAmount;
-                        }
-                    });
-                    
-                    finalBalance = Math.round(runningBalance * 1000) / 1000;
-                }
-                
-                printCurrentBalance.textContent = formatCurrency(Math.abs(finalBalance)) + 
-                    (finalBalance > 0 ? ' (دائن)' : finalBalance < 0 ? ' (مدين)' : '');
+                const balance = companies[currentCompany] || 0;
+                printCurrentBalance.textContent = formatCurrency(Math.abs(balance)) + (balance > 0 ? ' (دائن)' : balance < 0 ? ' (مدين)' : '');
             } else {
                 printCurrentBalance.textContent = '0 دينار';
             }
@@ -4362,42 +4252,10 @@
             
             if (currentCompany) {
                 filteredTransactions = transactions.filter(t => t.company === currentCompany);
-                
-                // حساب الرصيد النهائي
-                let runningBalance = 0;
-                
-                // الحصول على الرصيد الافتتاحي
-                const initialTransaction = filteredTransactions.find(t => t.type === 'initial');
-                let companyInitialBalance = initialTransaction ? parseFloat(initialTransaction.amount) : 0;
-                if (initialTransaction && initialTransaction.description && initialTransaction.description.includes('مدين')) {
-                    companyInitialBalance = -companyInitialBalance;
-                }
-                runningBalance = companyInitialBalance;
-                
-                // ترتيب العمليات حسب التاريخ
-                const sortedTransactions = [...filteredTransactions].sort((a, b) => {
-                    const dateA = new Date(a.date);
-                    const dateB = new Date(b.date);
-                    return dateA - dateB;
-                });
-                
-                sortedTransactions.forEach(transaction => {
-                    const transactionAmount = parseFloat(transaction.amount);
-                    
-                    if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
-                        runningBalance += transactionAmount;
-                    } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
-                        runningBalance -= transactionAmount;
-                    }
-                });
-                
-                finalBalance = Math.round(runningBalance * 1000) / 1000;
+                finalBalance = companies[currentCompany] || 0;
             } else {
                 filteredTransactions = [...transactions];
-                
-                // حساب الرصيد النهائي لجميع الشركات
                 finalBalance = Object.values(companies).reduce((sum, balance) => sum + balance, 0);
-                finalBalance = Math.round(finalBalance * 1000) / 1000;
             }
             
             updatePrintTable(filteredTransactions, finalBalance);
