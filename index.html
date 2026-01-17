@@ -1346,6 +1346,45 @@
                 border: 1px solid #8E44AD !important;
             }
             
+            /* قسم أرصدة العملات في الطباعة */
+            .print-currency-balances {
+                display: block !important;
+                margin-top: 15px;
+                padding: 10px;
+                background: #f8f9fa;
+                border-radius: 6px;
+                border: 1px solid #dee2e6;
+                page-break-inside: avoid;
+            }
+            
+            .currency-balance-item {
+                display: flex !important;
+                justify-content: space-between !important;
+                padding: 6px 0 !important;
+                border-bottom: 1px solid #dee2e6 !important;
+                font-size: 11px !important;
+            }
+            
+            .currency-balance-item:last-child {
+                border-bottom: none !important;
+            }
+            
+            .currency-balance-name {
+                font-weight: bold !important;
+            }
+            
+            .currency-balance-value {
+                font-weight: bold !important;
+            }
+            
+            .positive-print {
+                color: #00D2A0 !important;
+            }
+            
+            .negative-print {
+                color: #FF416C !important;
+            }
+            
             /* قسم الرصيد النهائي في الطباعة */
             .print-balance-summary {
                 display: block !important;
@@ -1850,59 +1889,49 @@
                 min-width: 80px;
             }
             
-            #transactions-table th:nth-child(3), /* النوع */
+            #transactions-table th:nth-child(3), /* العملة */
             #transactions-table td:nth-child(3) {
-                min-width: 70px;
+                min-width: 50px;
             }
             
-            #transactions-table th:nth-child(4), /* المسافر */
+            #transactions-table th:nth-child(4), /* النوع */
             #transactions-table td:nth-child(4) {
-                min-width: 120px;
-                max-width: 140px;
+                min-width: 60px;
             }
             
-            #transactions-table th:nth-child(5), /* المستند */
+            #transactions-table th:nth-child(5), /* المسافر */
             #transactions-table td:nth-child(5) {
                 min-width: 100px;
-                max-width: 110px;
+                max-width: 120px;
             }
             
-            #transactions-table th:nth-child(6), /* الوجهة */
+            #transactions-table th:nth-child(6), /* المستند */
             #transactions-table td:nth-child(6) {
-                min-width: 90px;
-                max-width: 100px;
+                min-width: 80px;
+                max-width: 90px;
             }
             
-            #transactions-table th:nth-child(9), /* المبلغ */
-            #transactions-table td:nth-child(9) {
-                min-width: 90px;
-            }
-            
-            #transactions-table th:nth-child(10), /* الرصيد */
+            #transactions-table th:nth-child(10), /* المبلغ */
             #transactions-table td:nth-child(10) {
-                min-width: 90px;
+                min-width: 80px;
+            }
+            
+            #transactions-table th:nth-child(11), /* الرصيد */
+            #transactions-table td:nth-child(11) {
+                min-width: 80px;
             }
             
             /* تحسين عرض الاسم ورقم المستند على الهواتف */
-            #transactions-table td:nth-child(4),
-            #transactions-table td:nth-child(5) {
+            #transactions-table td:nth-child(5),
+            #transactions-table td:nth-child(6) {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
             
             /* تقليل حجم الوجهة والسبب على الهواتف */
-            #transactions-table td:nth-child(6) {
-                max-width: 100px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                font-size: 0.8rem;
-            }
-            
-            /* تحسين عرض السبب عند عرضه */
-            #transactions-table td:nth-child(8) {
-                max-width: 100px;
+            #transactions-table td:nth-child(7) {
+                max-width: 80px;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -2425,6 +2454,44 @@
             font-weight: 800;
         }
         
+        /* تحسينات الطباعة للعملات المتعددة */
+        .print-currency-balances {
+            display: none;
+            margin-top: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+            page-break-inside: avoid;
+        }
+        
+        .currency-balance-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .currency-balance-item:last-child {
+            border-bottom: none;
+        }
+        
+        .currency-balance-name {
+            font-weight: bold;
+        }
+        
+        .currency-balance-value {
+            font-weight: bold;
+        }
+        
+        .positive-print {
+            color: #00D2A0 !important;
+        }
+        
+        .negative-print {
+            color: #FF416C !important;
+        }
+        
         /* ترويسة الطباعة */
         .print-currency-section {
             margin-bottom: 15px;
@@ -2432,6 +2499,7 @@
             background: #f8f9fa;
             border-radius: 6px;
             border: 1px solid #dee2e6;
+            display: none;
         }
         
         .print-currency-title {
@@ -2470,14 +2538,13 @@
             <h2 class="print-company-name" id="print-company-name">كشف الحساب</h2>
             <div class="print-company-details">
                 <p>تاريخ الطباعة: <span id="current-print-date"></span></p>
-                <p>العملة: <span id="print-currency">دينار</span></p>
-                <p id="print-company-balance-info"><span id="print-current-balance"></span></p>
+                <p id="print-company-balance-info"></p>
             </div>
         </div>
         
         <!-- قسم العملة في الطباعة -->
         <div class="print-currency-section" id="print-currency-section">
-            <div class="print-currency-title">كشف الحساب بالعملة: <span id="print-active-currency">دينار</span></div>
+            <div class="print-currency-title">كشف الحساب بالعملة: <span id="print-active-currency">جميع العملات</span></div>
         </div>
         
         <!-- جدول الطباعة -->
@@ -2499,10 +2566,20 @@
             </table>
         </div>
         
+        <!-- قسم الرصيد النهائي لكل عملة في الطباعة -->
+        <div class="print-currency-balances" id="print-currency-balances">
+            <div class="print-total-balance" style="font-size: 12px !important; margin-bottom: 10px;">
+                <strong>الرصيد النهائي لكل عملة:</strong>
+            </div>
+            <div id="print-currency-balances-list">
+                <!-- سيتم تعبئته بواسطة الجافاسكريبت -->
+            </div>
+        </div>
+        
         <!-- قسم الرصيد النهائي في الطباعة -->
         <div class="print-balance-summary" id="print-balance-summary">
             <div class="print-total-balance">
-                الرصيد النهائي: <span id="print-summary-balance">0 دينار</span>
+                الرصيد النهائي الإجمالي: <span id="print-summary-balance">0 دينار</span>
             </div>
         </div>
         
@@ -3073,6 +3150,8 @@
         const printSummaryBalance = document.getElementById('print-summary-balance');
         const printActiveCurrency = document.getElementById('print-active-currency');
         const printCurrencySection = document.getElementById('print-currency-section');
+        const printCurrencyBalances = document.getElementById('print-currency-balances');
+        const printCurrencyBalancesList = document.getElementById('print-currency-balances-list');
         
         // عناصر خيارات نوع العملية
         const ticketOption = document.getElementById('ticket-option');
@@ -4512,7 +4591,7 @@
             const currentCompany = reportCompanySelect.value || companySelect.value;
             const transactionsToShow = filteredTransactions || transactions.filter(t => !currentCompany || t.company === currentCompany);
             
-            // تطبيق فلتر العملة
+            // تحديث عنوان العملة في الطباعة
             if (currentCurrency !== 'all') {
                 printActiveCurrency.textContent = currentCurrency;
                 printCurrencySection.style.display = 'block';
@@ -4557,29 +4636,55 @@
             });
             
             // تحديث الرصيد النهائي في الطباعة
-            if (currentCurrency === 'all') {
-                const totalBalance = finalBalance['دينار'] + finalBalance['دولار'] + finalBalance['يورو'];
-                printSummaryBalance.textContent = formatCurrency(totalBalance, 'دينار');
+            updatePrintCurrencyBalances(finalBalance);
+        }
+        
+        // دالة تحديث أرصدة العملات في الطباعة
+        function updatePrintCurrencyBalances(balances) {
+            printCurrencyBalancesList.innerHTML = '';
+            
+            const currencies = ['دينار', 'دولار', 'يورو'];
+            let hasNonZeroBalance = false;
+            let totalBalance = 0;
+            
+            currencies.forEach(currency => {
+                const balance = balances[currency] || 0;
+                totalBalance += balance;
                 
-                // تحديث لون الرصيد النهائي
-                if (totalBalance > 0) {
-                    printSummaryBalance.className = 'positive-balance-print';
-                } else if (totalBalance < 0) {
-                    printSummaryBalance.className = 'negative-balance-print';
-                } else {
-                    printSummaryBalance.className = 'neutral-balance-print';
+                // عرض العملة فقط إذا كان لها رصيد
+                if (balance !== 0) {
+                    hasNonZeroBalance = true;
+                    const balanceItem = document.createElement('div');
+                    balanceItem.className = 'currency-balance-item';
+                    
+                    const balanceClass = balance > 0 ? 'positive-print' : 'negative-print';
+                    
+                    balanceItem.innerHTML = `
+                        <span class="currency-balance-name">${currency}</span>
+                        <span class="currency-balance-value ${balanceClass}">${formatCurrency(balance, currency)}</span>
+                    `;
+                    
+                    printCurrencyBalancesList.appendChild(balanceItem);
                 }
+            });
+            
+            // إذا لم يكن هناك أرصدة، إخفاء القسم
+            if (!hasNonZeroBalance) {
+                printCurrencyBalances.style.display = 'none';
             } else {
-                printSummaryBalance.textContent = formatCurrency(finalBalance[currentCurrency], currentCurrency);
-                
-                // تحديث لون الرصيد النهائي
-                if (finalBalance[currentCurrency] > 0) {
-                    printSummaryBalance.className = 'positive-balance-print';
-                } else if (finalBalance[currentCurrency] < 0) {
-                    printSummaryBalance.className = 'negative-balance-print';
-                } else {
-                    printSummaryBalance.className = 'neutral-balance-print';
-                }
+                printCurrencyBalances.style.display = 'block';
+            }
+            
+            // إظهار الرصيد الإجمالي
+            printSummaryBalance.textContent = formatCurrency(totalBalance, 'دينار');
+            
+            // تحديث لون الرصيد النهائي
+            if (totalBalance > 0) {
+                printSummaryBalance.className = 'positive-balance-print';
+            } else if (totalBalance < 0) {
+                printSummaryBalance.className = 'negative-balance-print';
+            } else {
+                printSummaryBalance.className = 'neutral-balance-print';
             }
         }
         
@@ -4602,16 +4707,6 @@
             
             // تحديث الرصيد الحالي
             const currentCompany = reportCompanySelect.value || companySelect.value;
-            if (currentCompany) {
-                const balance = companies[currentCompany] ? 
-                    (companies[currentCompany]['دينار'] + companies[currentCompany]['دولار'] + companies[currentCompany]['يورو']) : 0;
-                printCurrentBalance.textContent = formatCurrency(Math.abs(balance), 'دينار') + (balance > 0 ? ' (دائن)' : balance < 0 ? ' (مدين)' : '');
-            } else {
-                printCurrentBalance.textContent = '0 دينار';
-            }
-            
-            // تحديث جدول الطباعة
-            let filteredTransactions = [];
             let finalBalance = {
                 دينار: 0,
                 دولار: 0,
@@ -4619,24 +4714,38 @@
             };
             
             if (currentCompany) {
-                filteredTransactions = transactions.filter(t => t.company === currentCompany);
                 if (companies[currentCompany]) {
                     finalBalance = companies[currentCompany];
                 }
+                const totalBalance = finalBalance['دينار'] + finalBalance['دولار'] + finalBalance['يورو'];
+                printCurrentBalance.textContent = formatCurrency(Math.abs(totalBalance), 'دينار') + (totalBalance > 0 ? ' (دائن)' : totalBalance < 0 ? ' (مدين)' : '');
             } else {
-                filteredTransactions = [...transactions];
-                
-                // حساب إجمالي الرصيد لكل شركة
+                // حساب إجمالي الرصيد لكل الشركات
                 Object.keys(companies).forEach(company => {
                     finalBalance['دينار'] += companies[company]['دينار'];
                     finalBalance['دولار'] += companies[company]['دولار'];
                     finalBalance['يورو'] += companies[company]['يورو'];
                 });
+                const totalBalance = finalBalance['دينار'] + finalBalance['دولار'] + finalBalance['يورو'];
+                printCurrentBalance.textContent = formatCurrency(Math.abs(totalBalance), 'دينار') + (totalBalance > 0 ? ' (دائن)' : totalBalance < 0 ? ' (مدين)' : '');
+            }
+            
+            // تحديث جدول الطباعة
+            let filteredTransactions = [];
+            
+            if (currentCompany) {
+                filteredTransactions = transactions.filter(t => t.company === currentCompany);
+            } else {
+                filteredTransactions = [...transactions];
             }
             
             // تطبيق فلتر العملة للطباعة
             if (currentCurrency !== 'all') {
                 filteredTransactions = filteredTransactions.filter(t => t.currency === currentCurrency);
+                // عرض رصيد العملة المحددة فقط
+                const singleCurrencyBalance = {};
+                singleCurrencyBalance[currentCurrency] = finalBalance[currentCurrency];
+                finalBalance = singleCurrencyBalance;
             }
             
             updatePrintTable(filteredTransactions, finalBalance);
