@@ -3,221 +3,2348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TAREK Tickets - متعدد العملات</title>
+    <title>TAREK Tickets</title>
     <style>
-        /* جميع أنماط CSS السابقة تظل كما هي مع إضافة التعديلات التالية فقط */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
         
-        /* تعديلات للعملات المتعددة */
-        .currency-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
+        :root {
+            --primary-color: #4A00E0;
+            --secondary-color: #8E2DE2;
+            --accent-color: #FF416C;
+            --success-color: #00D2A0;
+            --warning-color: #FFA62E;
+            --cancel-color: #8E44AD;
+            --light-color: #F8F9FF;
+            --dark-color: #1A1A2E;
+            --card-bg: #FFFFFF;
+            --gradient-primary: linear-gradient(135deg, #4A00E0 0%, #8E2DE2 100%);
+            --gradient-secondary: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%);
+            --gradient-success: linear-gradient(135deg, #00D2A0 0%, #00B894 100%);
+            --gradient-warning: linear-gradient(135deg, #FFA62E 0%, #FF9A3D 100%);
+            --gradient-cancel: linear-gradient(135deg, #8E44AD 0%, #6C3483 100%);
+            --gradient-dark: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+            --shadow-light: 0 10px 30px rgba(74, 0, 224, 0.08);
+            --shadow-medium: 0 15px 35px rgba(74, 0, 224, 0.12);
+            --shadow-heavy: 0 20px 50px rgba(74, 0, 224, 0.15);
+            --border-radius: 16px;
+            --border-radius-sm: 10px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #F8F9FF 0%, #EFF2FF 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 15px;
+            min-height: 100vh;
+            -webkit-text-size-adjust: 100%;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* خلفية متحركة */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(74, 0, 224, 0.05) 0%, rgba(142, 45, 226, 0.05) 100%);
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .bg-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+        
+        .bg-circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            bottom: -50px;
+            left: -50px;
+            animation-delay: 5s;
+        }
+        
+        .bg-circle:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            top: 30%;
+            left: 10%;
+            animation-delay: 10s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        /* ترويسة جديدة بتصميم عصري */
+        .main-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 25px 20px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-heavy);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px solid var(--accent-color);
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        @keyframes slideDown {
+            0% { transform: translateY(-50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 2;
         }
         
         @media (min-width: 768px) {
-            .currency-section {
-                grid-template-columns: 1fr 1fr 1fr;
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: right;
             }
         }
         
-        .currency-option {
-            padding: 18px;
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .logo-circle {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            animation: pulse 3s infinite ease-in-out;
+            transition: var(--transition);
+        }
+        
+        .logo-circle:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 15px 35px rgba(255, 65, 108, 0.3);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .logo-text {
+            text-align: right;
+        }
+        
+        .logo-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            color: white;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFFFFF 0%, #E0E0FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGlow 3s infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            0% { filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); }
+            100% { filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6)); }
+        }
+        
+        .logo-text p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            color: #E0E0FF;
+        }
+        
+        .header-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        @media (min-width: 768px) {
+            .header-info {
+                align-items: flex-end;
+            }
+        }
+        
+        .system-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #FFEAA7;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .system-name::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 60%;
+            height: 3px;
+            background: var(--gradient-secondary);
+            border-radius: 3px;
+            animation: widthPulse 3s infinite;
+        }
+        
+        @keyframes widthPulse {
+            0%, 100% { width: 60%; }
+            50% { width: 80%; }
+        }
+        
+        .system-description {
+            font-size: 1.2rem;
+            color: #D6C6FF;
+            max-width: 400px;
+        }
+        
+        /* تأثيرات تزيينية للترويسة */
+        .header-decoration {
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1%, transparent 70%);
+            border-radius: 50%;
+            z-index: 1;
+            animation: rotate 30s linear infinite;
+        }
+        
+        .header-decoration:nth-child(2) {
+            top: auto;
+            bottom: -80px;
+            right: -80px;
+            left: auto;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255, 65, 108, 0.1) 1%, transparent 70%);
+            animation: rotateReverse 40s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes rotateReverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        /* تبويبات جديدة بتصميم عصري */
+        .tabs {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out 0.3s both;
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 700;
+            color: #666;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            z-index: 1;
+            transform: translateY(100%);
+            transition: var(--transition);
+            opacity: 0.1;
+        }
+        
+        .tab:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .tab:hover::before {
+            transform: translateY(0);
+        }
+        
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color);
+            background-color: rgba(74, 0, 224, 0.05);
+            transform: translateY(0);
+        }
+        
+        .tab.active::before {
+            transform: translateY(0);
+        }
+        
+        .tab-icon {
+            margin-left: 10px;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .tab:hover .tab-icon {
+            transform: scale(1.2);
+        }
+        
+        .tab.active .tab-icon {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .form-section, .report-section, .manage-section {
+            background-color: var(--card-bg);
+            padding: 25px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            margin-bottom: 25px;
+            border: 1px solid rgba(74, 0, 224, 0.1);
+            animation: fadeIn 0.6s ease-out 0.4s both;
+            transition: var(--transition);
+        }
+        
+        .form-section:hover, .report-section:hover, .manage-section:hover {
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-5px);
+        }
+        
+        h2 {
+            color: var(--dark-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(74, 0, 224, 0.1);
+            font-size: 1.8rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideInRight 0.5s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            0% { opacity: 0; transform: translateX(30px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 100px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            animation: widthGrow 2s ease-out;
+        }
+        
+        @keyframes widthGrow {
+            0% { width: 0; }
+            100% { width: 100px; }
+        }
+        
+        h2 span {
+            font-size: 1rem;
+            color: #666;
+            font-weight: normal;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+            animation: fadeIn 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+        .form-group:nth-child(6) { animation-delay: 0.6s; }
+        .form-group:nth-child(7) { animation-delay: 0.7s; }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--dark-color);
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 16px 18px;
             border: 2px solid #E0E0FF;
             border-radius: var(--border-radius-sm);
-            cursor: pointer;
+            font-size: 1rem;
             transition: var(--transition);
-            text-align: center;
-            background-color: white;
+            background-color: #F8F9FF;
+            -webkit-appearance: none;
+            appearance: none;
+            color: var(--dark-color);
         }
         
-        .currency-option:hover {
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 4px rgba(142, 45, 226, 0.2);
+            background-color: white;
+            transform: translateY(-2px);
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        @media (min-width: 480px) {
+            .radio-group {
+                flex-direction: row;
+            }
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            border-radius: var(--border-radius-sm);
+            background-color: #F8F9FF;
+            transition: var(--transition);
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .radio-option:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-light);
+            border-color: #E0E0FF;
         }
         
-        .currency-option.selected {
-            border-color: var(--secondary-color);
-            background: linear-gradient(135deg, rgba(142, 45, 226, 0.1), rgba(74, 0, 224, 0.05));
-            box-shadow: 0 10px 25px rgba(74, 0, 224, 0.15);
+        /* تمييز نوع العملية النشط */
+        .radio-option.active-ticket {
+            background: linear-gradient(135deg, rgba(0, 210, 160, 0.1) 0%, rgba(0, 184, 148, 0.05) 100%);
+            border: 2px solid var(--success-color);
+            box-shadow: 0 0 25px rgba(0, 210, 160, 0.2);
+            transform: translateY(-5px);
         }
         
-        .currency-flag {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
+        .radio-option.active-fine {
+            background: linear-gradient(135deg, rgba(255, 65, 108, 0.1) 0%, rgba(255, 75, 43, 0.05) 100%);
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 25px rgba(255, 65, 108, 0.2);
+            transform: translateY(-5px);
         }
         
-        .currency-code {
+        .radio-option.active-payment {
+            background: linear-gradient(135deg, rgba(142, 45, 226, 0.1) 0%, rgba(74, 0, 224, 0.05) 100%);
+            border: 2px solid var(--secondary-color);
+            box-shadow: 0 0 25px rgba(142, 45, 226, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .radio-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 1%, transparent 20%);
+            z-index: 1;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .radio-option.active-ticket::before,
+        .radio-option.active-fine::before,
+        .radio-option.active-payment::before {
+            opacity: 1;
+        }
+        
+        .radio-option.active-ticket label {
+            color: var(--success-color);
             font-weight: 800;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+        
+        .radio-option.active-fine label {
+            color: var(--accent-color);
+            font-weight: 800;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+        
+        .radio-option.active-payment label {
+            color: var(--secondary-color);
+            font-weight: 800;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+        
+        /* أيقونات مضيئة */
+        .radio-icon {
+            font-size: 1.5rem;
+            transition: var(--transition);
+            z-index: 2;
+        }
+        
+        .active-ticket .radio-icon {
+            color: var(--success-color);
+            text-shadow: 0 0 15px rgba(0, 210, 160, 0.6);
+            transform: scale(1.3);
+            animation: pulse 2s infinite;
+        }
+        
+        .active-fine .radio-icon {
+            color: var(--accent-color);
+            text-shadow: 0 0 15px rgba(255, 65, 108, 0.6);
+            transform: scale(1.3);
+            animation: pulse 2s infinite;
+        }
+        
+        .active-payment .radio-icon {
+            color: var(--secondary-color);
+            text-shadow: 0 0 15px rgba(142, 45, 226, 0.6);
+            transform: scale(1.3);
+            animation: pulse 2s infinite;
+        }
+        
+        /* مؤشر نوع العملية */
+        .type-indicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: white;
             color: var(--primary-color);
-            font-size: 1.2rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 5px 12px;
+            border-radius: 15px;
+            z-index: 3;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: var(--transition);
         }
         
-        .currency-name {
+        .active-ticket .type-indicator,
+        .active-fine .type-indicator,
+        .active-payment .type-indicator {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .active-ticket .type-indicator {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .active-fine .type-indicator {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .active-payment .type-indicator {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        /* توهج النص */
+        .radio-text-glow {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .active-ticket .radio-text-glow {
+            animation: textGlowGreen 2s infinite alternate;
+        }
+        
+        .active-fine .radio-text-glow {
+            animation: textGlowRed 2s infinite alternate;
+        }
+        
+        .active-payment .radio-text-glow {
+            animation: textGlowBlue 2s infinite alternate;
+        }
+        
+        @keyframes textGlowGreen {
+            from { text-shadow: 0 0 5px rgba(0, 210, 160, 0.5); }
+            to { text-shadow: 0 0 20px rgba(0, 210, 160, 0.8); }
+        }
+        
+        @keyframes textGlowRed {
+            from { text-shadow: 0 0 5px rgba(255, 65, 108, 0.5); }
+            to { text-shadow: 0 0 20px rgba(255, 65, 108, 0.8); }
+        }
+        
+        @keyframes textGlowBlue {
+            from { text-shadow: 0 0 5px rgba(142, 45, 226, 0.5); }
+            to { text-shadow: 0 0 20px rgba(142, 45, 226, 0.8); }
+        }
+        
+        .radio-option input {
+            width: auto;
+            margin-left: 5px;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+        }
+        
+        .radio-option label {
+            margin-bottom: 0;
+            flex: 1;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+        }
+        
+        /* أزرار جديدة بتصميم حديث */
+        .btn {
+            display: inline-block;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 18px 25px;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: var(--transition);
+            text-align: center;
+            width: 100%;
+            margin-top: 10px;
+            touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(74, 0, 224, 0.2);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+        
+        .btn:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .btn:hover, .btn:active {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(74, 0, 224, 0.3);
+        }
+        
+        .btn-add {
+            background: var(--gradient-success);
+            box-shadow: 0 10px 25px rgba(0, 210, 160, 0.2);
+        }
+        
+        .btn-add:hover {
+            box-shadow: 0 15px 35px rgba(0, 210, 160, 0.3);
+        }
+        
+        .btn-edit {
+            background: var(--gradient-warning);
+            box-shadow: 0 10px 25px rgba(255, 166, 46, 0.2);
+        }
+        
+        .btn-edit:hover {
+            box-shadow: 0 15px 35px rgba(255, 166, 46, 0.3);
+        }
+        
+        .btn-delete {
+            background: var(--gradient-secondary);
+            box-shadow: 0 10px 25px rgba(255, 65, 108, 0.2);
+        }
+        
+        .btn-delete:hover {
+            box-shadow: 0 15px 35px rgba(255, 65, 108, 0.3);
+        }
+        
+        .btn-cancel-transaction {
+            background: var(--gradient-cancel);
+            box-shadow: 0 10px 25px rgba(142, 68, 173, 0.2);
+        }
+        
+        .btn-cancel-transaction:hover {
+            box-shadow: 0 15px 35px rgba(142, 68, 173, 0.3);
+        }
+        
+        .btn-print {
+            background: var(--gradient-dark);
+            width: auto;
+            margin: 0;
+            padding: 14px 25px;
+            font-size: 1rem;
+            box-shadow: 0 10px 25px rgba(26, 26, 46, 0.2);
+        }
+        
+        .btn-print:hover {
+            box-shadow: 0 15px 35px rgba(26, 26, 46, 0.3);
+        }
+        
+        .btn-reset {
+            background: linear-gradient(135deg, #6C757D 0%, #495057 100%);
+            margin-top: 15px;
+            box-shadow: 0 10px 25px rgba(108, 117, 125, 0.2);
+        }
+        
+        .btn-reset:hover {
+            box-shadow: 0 15px 35px rgba(108, 117, 125, 0.3);
+        }
+        
+        .btn-add-company {
+            background: linear-gradient(135deg, #9D4EDD 0%, #7B2CBF 100%);
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(157, 78, 221, 0.2);
+        }
+        
+        .btn-add-company:hover {
+            box-shadow: 0 15px 35px rgba(157, 78, 221, 0.3);
+        }
+        
+        .btn-cancel {
+            background: linear-gradient(135deg, #6C757D 0%, #495057 100%);
+        }
+        
+        .btn-save {
+            background: var(--gradient-success);
+        }
+        
+        .btn i {
+            margin-left: 10px;
+            transition: var(--transition);
+        }
+        
+        .btn:hover i {
+            transform: scale(1.2);
+        }
+        
+        /* تحسينات للجدول بتصميم عصري */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-top: 20px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(74, 0, 224, 0.1);
+            max-height: 500px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+        }
+        
+        .table-container:hover {
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .manage-table-container {
+            max-height: 600px;
+        }
+        
+        /* مؤشر التمرير */
+        .scroll-indicator {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(142, 45, 226, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 5;
+            display: none;
+            animation: fadeInOut 3s infinite;
+            white-space: nowrap;
+            box-shadow: 0 5px 15px rgba(142, 45, 226, 0.3);
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.3; transform: translateY(-50%) scale(0.95); }
+            50% { opacity: 0.9; transform: translateY(-50%) scale(1); }
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
             font-size: 0.9rem;
-            color: #666;
-            margin-top: 5px;
         }
         
-        /* رصيد الشركة بالعملات المتعددة */
-        .company-currencies {
+        th {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 16px 12px;
+            text-align: right;
+            font-weight: 700;
+            font-size: 1rem;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 3px solid var(--accent-color);
+        }
+        
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid rgba(74, 0, 224, 0.1);
+            text-align: right;
+            background-color: white;
+            transition: var(--transition);
+        }
+        
+        tr:nth-child(even) td {
+            background-color: #F8F9FF;
+        }
+        
+        tr:hover td {
+            background-color: rgba(74, 0, 224, 0.05);
+            transform: scale(1.005);
+            box-shadow: 0 5px 15px rgba(74, 0, 224, 0.1);
+        }
+        
+        .transaction-type {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        
+        .transaction-type:hover {
+            transform: scale(1.05);
+        }
+        
+        .transaction-ticket {
+            background: var(--gradient-success);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 210, 160, 0.2);
+        }
+        
+        .transaction-fine {
+            background: var(--gradient-secondary);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.2);
+        }
+        
+        .transaction-payment {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 5px 15px rgba(74, 0, 224, 0.2);
+        }
+        
+        .transaction-initial {
+            background: var(--gradient-warning);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 166, 46, 0.2);
+        }
+        
+        .transaction-cancel {
+            background: var(--gradient-cancel);
+            color: white;
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.2);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 10px 16px;
+            border-radius: var(--border-radius-sm);
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: var(--transition);
+            color: white;
+            white-space: nowrap;
+            touch-action: manipulation;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-btn-edit {
+            background: var(--gradient-warning);
+        }
+        
+        .action-btn-delete {
+            background: var(--gradient-secondary);
+        }
+        
+        .action-btn-cancel {
+            background: var(--gradient-cancel);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* ملخص بتصميم عصري */
+        .summary-below-table {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #F0F4FF 0%, #E8EDFF 100%);
+            border-radius: var(--border-radius);
+            border: 2px solid var(--secondary-color);
+            text-align: center;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+        }
+        
+        .summary-below-table:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .summary-below-table h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid rgba(142, 45, 226, 0.2);
+            padding-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .summary-items {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .summary-items {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .summary-item {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .summary-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: var(--transition);
+        }
+        
+        .summary-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .summary-item:hover::before {
+            width: 10px;
+        }
+        
+        .summary-item h4 {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        
+        .summary-item .value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            transition: var(--transition);
+        }
+        
+        .summary-item:hover .value {
+            transform: scale(1.05);
+        }
+        
+        .summary-item .value.positive {
+            color: var(--success-color);
+        }
+        
+        .summary-item .value.negative {
+            color: var(--accent-color);
+        }
+        
+        .company-selector {
+            margin-bottom: 25px;
+        }
+        
+        .company-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #F8F9FF 0%, #F0F4FF 100%);
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border-right: 5px solid var(--secondary-color);
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+        }
+        
+        .company-info:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        @media (min-width: 480px) {
+            .company-info {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        
+        .company-info h3 {
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            margin: 0;
+            text-align: center;
+        }
+        
+        @media (min-width: 480px) {
+            .company-info h3 {
+                text-align: right;
+            }
+        }
+        
+        .company-balance {
+            font-size: 1.6rem;
+            font-weight: 800;
+            padding: 12px 20px;
+            border-radius: var(--border-radius-sm);
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .company-balance:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .positive-balance {
+            color: var(--success-color);
+            border-right: 4px solid var(--success-color);
+        }
+        
+        .negative-balance {
+            color: var(--accent-color);
+            border-right: 4px solid var(--accent-color);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 2px solid rgba(74, 0, 224, 0.1);
+            color: #6C757D;
+            font-size: 0.9rem;
+            padding-bottom: 25px;
+            animation: fadeIn 0.8s ease-out 0.6s both;
+        }
+        
+        /* =========================================== */
+        /* تحسينات الطباعة الاحترافية */
+        /* =========================================== */
+        
+        @media print {
+            body {
+                padding: 5mm !important;
+                background-color: white !important;
+                font-size: 11px !important;
+                line-height: 1.3 !important;
+                color: black !important;
+            }
+            
+            .no-print, .bg-animation {
+                display: none !important;
+            }
+            
+            /* إخفاء جميع العناصر غير المرغوبة */
+            .form-section, .summary-below-table, .manage-section, .tabs,
+            .scroll-indicator, .company-info, .main-header, footer,
+            .report-header-actions, .company-selector-report {
+                display: none !important;
+            }
+            
+            /* تصميم الصفحة للطباعة */
+            .print-page {
+                display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                page-break-inside: avoid;
+            }
+            
+            /* ترويسة الطباعة الجميلة */
+            .print-header {
+                display: flex !important;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 10px 0;
+                margin-bottom: 15px;
+                border-bottom: 2px solid #4A00E0;
+                page-break-after: avoid;
+            }
+            
+            .print-logo {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                margin-bottom: 8px;
+            }
+            
+            .print-logo-icon {
+                width: 50px;
+                height: 50px;
+                background: var(--gradient-secondary);
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                font-weight: bold;
+            }
+            
+            .print-title {
+                text-align: center;
+                margin: 0;
+            }
+            
+            .print-title h1 {
+                font-size: 18px !important;
+                color: #4A00E0 !important;
+                margin-bottom: 3px;
+                font-weight: bold;
+                text-shadow: none !important;
+            }
+            
+            .print-title p {
+                font-size: 12px !important;
+                color: #666 !important;
+                margin: 0;
+            }
+            
+            /* معلومات الشركة في الطباعة */
+            .print-company-info {
+                display: block !important;
+                text-align: center;
+                margin: 12px 0;
+                padding: 10px;
+                background: #f8f9fa;
+                border-radius: 5px;
+                border: 1px solid #dee2e6;
+                page-break-after: avoid;
+            }
+            
+            .print-company-name {
+                font-size: 16px !important;
+                color: #1A1A2E !important;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            
+            .print-company-details {
+                font-size: 12px !important;
+                color: #666 !important;
+                margin: 3px 0;
+            }
+            
+            /* جدول الطباعة */
+            .print-table-container {
+                margin: 15px 0;
+                border: 1px solid #dee2e6;
+                border-radius: 6px;
+                overflow: hidden;
+            }
+            
+            #print-transactions-table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+                font-size: 10px !important;
+                table-layout: fixed !important;
+            }
+            
+            #print-transactions-table th {
+                background: var(--gradient-dark) !important;
+                color: white !important;
+                padding: 6px 4px !important;
+                text-align: center !important;
+                font-weight: bold !important;
+                border: 1px solid #1A1A2E !important;
+                font-size: 10px !important;
+            }
+            
+            #print-transactions-table td {
+                padding: 5px 4px !important;
+                border: 1px solid #dee2e6 !important;
+                text-align: center !important;
+                font-size: 9px !important;
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
+            }
+            
+            #print-transactions-table tr:nth-child(even) td {
+                background-color: #f8f9fa !important;
+            }
+            
+            /* تحسين عرض أنواع العمليات عند الطباعة */
+            .transaction-type {
+                padding: 2px 5px !important;
+                font-size: 8px !important;
+                font-weight: bold !important;
+                border-radius: 8px !important;
+                display: inline-block !important;
+                min-width: 50px !important;
+                text-align: center !important;
+            }
+            
+            .transaction-ticket {
+                background: var(--gradient-success) !important;
+                color: white !important;
+                border: 1px solid #00D2A0 !important;
+            }
+            
+            .transaction-fine {
+                background: var(--gradient-secondary) !important;
+                color: white !important;
+                border: 1px solid #FF416C !important;
+            }
+            
+            .transaction-payment {
+                background: var(--gradient-primary) !important;
+                color: white !important;
+                border: 1px solid #8E2DE2 !important;
+            }
+            
+            .transaction-initial {
+                background: var(--gradient-warning) !important;
+                color: white !important;
+                border: 1px solid #FFA62E !important;
+            }
+            
+            .transaction-cancel {
+                background: var(--gradient-cancel) !important;
+                color: white !important;
+                border: 1px solid #8E44AD !important;
+            }
+            
+            /* قسم الرصيد النهائي في الطباعة */
+            .print-balance-summary {
+                display: block !important;
+                margin-top: 15px;
+                padding: 10px;
+                background: linear-gradient(135deg, #F0F4FF, #E8EDFF);
+                border-radius: 6px;
+                border: 1px solid #8E2DE2;
+                text-align: center;
+                page-break-before: avoid;
+                page-break-after: avoid;
+                font-size: 11px !important;
+            }
+            
+            .print-total-balance {
+                font-size: 14px !important;
+                font-weight: bold;
+                color: #1A1A2E;
+                margin-top: 8px;
+                padding-top: 8px;
+                border-top: 1px solid #8E2DE2;
+            }
+            
+            .positive-balance-print {
+                color: #00D2A0 !important;
+            }
+            
+            .negative-balance-print {
+                color: #FF416C !important;
+            }
+            
+            .neutral-balance-print {
+                color: #1A1A2E !important;
+            }
+            
+            /* تذييل الصفحة في الطباعة */
+            .print-footer {
+                display: block !important;
+                text-align: center;
+                margin-top: 20px;
+                padding-top: 10px;
+                border-top: 1px solid #dee2e6;
+                font-size: 9px !important;
+                color: #666 !important;
+                page-break-before: avoid;
+            }
+            
+            .print-footer p {
+                margin: 2px 0;
+            }
+            
+            .print-signature {
+                margin-top: 15px;
+                padding-top: 10px;
+                border-top: 1px dashed #999;
+                text-align: center;
+            }
+            
+            .signature-line {
+                width: 150px;
+                border-bottom: 1px solid #333;
+                margin: 15px auto 3px;
+                padding-bottom: 10px;
+            }
+            
+            .signature-label {
+                font-size: 10px;
+                color: #333;
+            }
+            
+            /* تحسينات للطباعة على الهواتف */
+            @media (max-width: 768px) and print {
+                body {
+                    padding: 3mm !important;
+                    font-size: 9px !important;
+                }
+                
+                .print-title h1 {
+                    font-size: 16px !important;
+                }
+                
+                .print-company-name {
+                    font-size: 14px !important;
+                }
+                
+                #print-transactions-table {
+                    font-size: 8px !important;
+                }
+                
+                #print-transactions-table th,
+                #print-transactions-table td {
+                    padding: 4px 2px !important;
+                    font-size: 8px !important;
+                }
+                
+                .transaction-type {
+                    font-size: 7px !important;
+                    padding: 1px 4px !important;
+                }
+                
+                .print-balance-summary {
+                    font-size: 9px !important;
+                }
+            }
+            
+            /* إخفاء حاوية التمرير */
+            .table-container {
+                overflow: visible !important;
+                max-height: none !important;
+                border: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            /* إخفاء رسالة عدم وجود بيانات */
+            #no-data {
+                display: none !important;
+            }
+            
+            /* إخفاء قسم التقرير العادي */
+            .report-section {
+                box-shadow: none !important;
+                padding: 0 !important;
+                border: none !important;
+                margin: 0 !important;
+                background: white !important;
+            }
+            
+            /* ضبط هوامش الصفحة */
+            @page {
+                margin: 8mm;
+                size: auto;
+            }
+            
+            /* منع تقسيم الصفوف بين الصفحات */
+            tr {
+                page-break-inside: avoid;
+            }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .company-list {
+            margin-top: 20px;
+            max-height: 250px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: var(--border-radius-sm);
+            border: 2px solid #E0E0FF;
+            padding: 15px;
+            background: #F8F9FF;
+        }
+        
+        .company-item {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 18px;
+            background: white;
+            margin-bottom: 12px;
+            border-radius: var(--border-radius-sm);
+            border-right: 4px solid var(--secondary-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .company-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (min-width: 480px) {
+            .company-item {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        
+        .company-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+        
+        .company-item-balance {
+            font-weight: 800;
+            padding: 8px 16px;
+            border-radius: var(--border-radius-sm);
+            background-color: white;
+            font-size: 1rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .company-item:hover .company-item-balance {
+            transform: scale(1.05);
+        }
+        
+        .company-item-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .delete-company {
+            background: var(--gradient-secondary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 700;
+            flex: 1;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.2);
+        }
+        
+        .delete-company:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 65, 108, 0.3);
+        }
+        
+        /* نافذة إضافة شركة جديدة بتصميم حديث */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(26, 26, 46, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 15px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            animation: fadeIn 0.3s ease-out;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, white, #F8F9FF);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid rgba(74, 0, 224, 0.1);
+            animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        @keyframes slideUp {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(74, 0, 224, 0.1);
+            padding-bottom: 20px;
+        }
+        
+        .modal-header h3 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 1.8rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--accent-color);
+            line-height: 1;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            background: rgba(255, 65, 108, 0.1);
+            transform: rotate(90deg);
+        }
+        
+        .balance-type {
+            display: flex;
+            flex-direction: column;
             gap: 15px;
             margin-top: 15px;
         }
         
         @media (min-width: 480px) {
-            .company-currencies {
-                grid-template-columns: repeat(2, 1fr);
+            .balance-type {
+                flex-direction: row;
             }
         }
         
-        @media (min-width: 768px) {
-            .company-currencies {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        
-        .currency-balance-item {
-            background: white;
-            padding: 15px;
-            border-radius: var(--border-radius-sm);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        .debit-option, .credit-option {
+            flex: 1;
+            padding: 25px;
+            border: 2px solid #E0E0FF;
+            border-radius: var(--border-radius);
             text-align: center;
+            cursor: pointer;
             transition: var(--transition);
-            border-right: 3px solid var(--secondary-color);
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
         
-        .currency-balance-item:hover {
-            transform: translateY(-3px);
+        .debit-option:hover, .credit-option:hover {
+            transform: translateY(-5px);
             box-shadow: var(--shadow-light);
         }
         
-        .currency-balance-code {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--primary-color);
-            margin-bottom: 5px;
-        }
-        
-        .currency-balance-amount {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--dark-color);
-            direction: ltr;
-        }
-        
-        .currency-balance-amount.positive {
-            color: var(--success-color);
-        }
-        
-        .currency-balance-amount.negative {
+        .debit-option.selected {
+            border-color: var(--accent-color);
+            background: linear-gradient(135deg, rgba(255, 65, 108, 0.1), rgba(255, 75, 43, 0.05));
             color: var(--accent-color);
+            box-shadow: 0 10px 25px rgba(255, 65, 108, 0.15);
         }
         
-        /* تعديلات الملخص */
-        .summary-items-currency {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
+        .credit-option.selected {
+            border-color: var(--success-color);
+            background: linear-gradient(135deg, rgba(0, 210, 160, 0.1), rgba(0, 184, 148, 0.05));
+            color: var(--success-color);
+            box-shadow: 0 10px 25px rgba(0, 210, 160, 0.15);
         }
         
-        @media (min-width: 768px) {
-            .summary-items-currency {
-                grid-template-columns: repeat(3, 1fr);
+        .balance-explanation {
+            margin-top: 20px;
+            padding: 18px;
+            background: linear-gradient(135deg, #F8F9FF, #F0F4FF);
+            border-radius: var(--border-radius-sm);
+            font-size: 1rem;
+            color: #555;
+            border-right: 4px solid var(--secondary-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .explanation-positive {
+            color: var(--success-color);
+            font-weight: 800;
+        }
+        
+        .explanation-negative {
+            color: var(--accent-color);
+            font-weight: 800;
+        }
+        
+        .initial-balance-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 2px solid rgba(74, 0, 224, 0.1);
+        }
+        
+        .report-header {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(74, 0, 224, 0.1);
+        }
+        
+        @media (min-width: 480px) {
+            .report-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
             }
         }
         
-        .currency-total {
-            background: linear-gradient(135deg, #F0F4FF, #E8EDFF);
-            padding: 20px;
-            border-radius: var(--border-radius-sm);
-            text-align: center;
-            border: 2px solid var(--secondary-color);
-            margin-bottom: 10px;
-        }
-        
-        .currency-total h4 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-        
-        .currency-total .value {
+        .company-report-title {
             font-size: 1.8rem;
-            font-weight: 800;
+            color: var(--primary-color);
+            margin: 0;
+            text-align: center;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        /* تعديلات الجداول */
-        .currency-column {
+        @media (min-width: 480px) {
+            .company-report-title {
+                text-align: right;
+            }
+        }
+        
+        .destination-abbr {
             font-family: 'Courier New', monospace;
             font-weight: bold;
-            direction: ltr;
-            text-align: left;
-        }
-        
-        .currency-badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
             background-color: #F0F4FF;
+            padding: 5px 10px;
+            border-radius: var(--border-radius-sm);
             color: var(--primary-color);
-            margin-left: 5px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(74, 0, 224, 0.2);
         }
         
-        /* تعديلات الطباعة */
-        .print-currency-summary {
-            display: block !important;
-            margin: 15px 0;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 6px;
-            border: 1px solid #dee2e6;
+        /* تحسينات لزر اختيار الشركة في التقرير */
+        .report-header-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        @media (min-width: 768px) {
+            .report-header-actions {
+                flex-direction: row;
+                gap: 20px;
+            }
+        }
+        
+        .company-selector-report {
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .company-selector-report {
+                width: 300px;
+            }
+        }
+        
+        /* ======= تحسينات خاصة للهواتف ======= */
+        
+        /* تحسينات للهواتف المحمولة */
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 20px 15px;
+            }
+            
+            .logo-circle {
+                width: 70px;
+                height: 70px;
+                font-size: 32px;
+            }
+            
+            .logo-text h1 {
+                font-size: 2rem;
+            }
+            
+            .system-name {
+                font-size: 1.7rem;
+            }
+            
+            .table-container {
+                margin: 0 -15px;
+                width: calc(100% + 30px);
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+                max-height: 500px;
+            }
+            
+            /* تحسين جدول كشف الحساب للهواتف */
+            #transactions-table {
+                min-width: 750px;
+                font-size: 0.82rem;
+            }
+            
+            #transactions-table th,
+            #transactions-table td {
+                padding: 12px 8px;
+                white-space: nowrap;
+            }
+            
+             /* إخفاء بعض الأعمدة على الهواتف لتحسين القراءة */
+            #transactions-table th:nth-child(7), /* الرحلة */
+            #transactions-table td:nth-child(7),
+            #transactions-table th:nth-child(8), /* السبب */
+            #transactions-table td:nth-child(8) {
+                display: none;
+            }
+            
+            /* تكبير الأعمدة المهمة على الهواتف */
+            #transactions-table th:nth-child(2), /* التاريخ */
+            #transactions-table td:nth-child(2) {
+                min-width: 80px;
+            }
+            
+            #transactions-table th:nth-child(3), /* النوع */
+            #transactions-table td:nth-child(3) {
+                min-width: 70px;
+            }
+            
+            #transactions-table th:nth-child(4), /* المسافر */
+            #transactions-table td:nth-child(4) {
+                min-width: 120px;
+                max-width: 140px;
+            }
+            
+            #transactions-table th:nth-child(5), /* المستند */
+            #transactions-table td:nth-child(5) {
+                min-width: 100px;
+                max-width: 110px;
+            }
+            
+            #transactions-table th:nth-child(6), /* الوجهة */
+            #transactions-table td:nth-child(6) {
+                min-width: 90px;
+                max-width: 100px;
+            }
+            
+            #transactions-table th:nth-child(9), /* المبلغ */
+            #transactions-table td:nth-child(9) {
+                min-width: 90px;
+            }
+            
+            #transactions-table th:nth-child(10), /* الرصيد */
+            #transactions-table td:nth-child(10) {
+                min-width: 90px;
+            }
+            
+            /* تحسين عرض الاسم ورقم المستند على الهواتف */
+            #transactions-table td:nth-child(4),
+            #transactions-table td:nth-child(5) {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            /* تقليل حجم الوجهة والسبب على الهواتف */
+            #transactions-table td:nth-child(6) {
+                max-width: 100px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 0.8rem;
+            }
+            
+            /* تحسين عرض السبب عند عرضه */
+            #transactions-table td:nth-child(8) {
+                max-width: 100px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 0.8rem;
+            }
+            
+            /* تعديل عرض التبويبات للهواتف */
+            .tab {
+                padding: 18px 12px;
+                font-size: 1rem;
+            }
+            
+            /* تحسين الملخص تحت الجدول للهواتف */
+            .summary-items {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .summary-item {
+                padding: 15px;
+            }
+            
+            .summary-item .value {
+                font-size: 1.5rem;
+            }
+            
+            /* تحسين منطقة معلومات الشركة للهواتف */
+            .company-info {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+            }
+            
+            .company-info h3 {
+                text-align: right;
+                font-size: 1.5rem;
+                width: 100%;
+            }
+            
+            .company-balance {
+                width: 100%;
+                text-align: center;
+                font-size: 1.5rem;
+                margin-top: 15px;
+                padding: 15px;
+            }
+            
+            /* تحسين خيارات الراديو للهواتف */
+            .radio-group {
+                flex-direction: column;
+            }
+            
+            .radio-option {
+                justify-content: flex-start;
+                padding: 18px;
+            }
+            
+            /* تحسين عرض الجدول للإدارة للهواتف */
+            #manage-transactions-table {
+                min-width: 700px;
+                font-size: 0.82rem;
+            }
+            
+            #manage-transactions-table th,
+            #manage-transactions-table td {
+                padding: 12px 8px;
+            }
+            
+            /* تحسين الأزرار في جدول الإدارة للهواتف */
+            .action-buttons {
+                flex-direction: column;
+                gap: 8px;
+                min-width: 120px;
+            }
+            
+            .action-btn {
+                padding: 12px 15px;
+                font-size: 0.8rem;
+            }
+            
+            /* إظهار مؤشر التمرير للهواتف */
+            .scroll-indicator {
+                display: block;
+            }
+            
+            /* تحسين التقرير على الهواتف */
+            .report-section {
+                padding: 20px 15px;
+            }
+            
+            .report-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .company-report-title {
+                font-size: 1.6rem;
+                text-align: center;
+            }
+            
+            .btn-print {
+                width: 100%;
+                padding: 16px;
+            }
+            
+            /* تحسين شريط التمرير للهواتف */
+            .table-container::-webkit-scrollbar {
+                height: 8px;
+            }
+            
+            .table-container::-webkit-scrollbar-track {
+                background: #F0F4FF;
+                border-radius: 10px;
+                margin: 0 15px;
+            }
+            
+            .table-container::-webkit-scrollbar-thumb {
+                background: var(--gradient-primary);
+                border-radius: 10px;
+            }
+            
+            /* تحسين فلاتر إدارة العمليات للهواتف */
+            .filter-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            #reset-filters {
+                width: 100%;
+                margin-top: 0;
+            }
+        }
+        
+        /* تحسينات إضافية للهواتف الصغيرة جداً */
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .main-header {
+                padding: 15px 12px;
+            }
+            
+            .header-content {
+                gap: 15px;
+            }
+            
+            .logo-circle {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.7rem;
+            }
+            
+            .system-name {
+                font-size: 1.5rem;
+            }
+            
+            /* إخفاء المزيد من الأعمدة في كشف الحساب للهواتف الصغيرة */
+            #transactions-table th:nth-child(2), /* التاريخ */
+            #transactions-table td:nth-child(2) {
+                display: none;
+            }
+            
+            /* إظهار العناصر المهمة فقط */
+            #transactions-table {
+                min-width: 650px;
+                font-size: 0.8rem;
+            }
+            
+            #transactions-table th,
+            #transactions-table td {
+                padding: 10px 6px;
+            }
+            
+            /* تحسين الملخص تحت الجدول للهواتف الصغيرة */
+            .summary-items {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .summary-item {
+                padding: 15px;
+            }
+            
+            .summary-item .value {
+                font-size: 1.8rem;
+            }
+            
+            /* تحسين التبويبات للهواتف الصغيرة */
+            .tabs {
+                flex-direction: column;
+                border-radius: var(--border-radius);
+                overflow: hidden;
+            }
+            
+            .tab {
+                border-bottom: 2px solid #E0E0FF;
+                border-right: 4px solid transparent;
+                padding: 20px;
+                text-align: right;
+            }
+            
+            .tab.active {
+                border-bottom: 2px solid #E0E0FF;
+                border-right: 4px solid var(--accent-color);
+                background-color: rgba(74, 0, 224, 0.05);
+            }
+            
+            /* تحسين منطقة إضافة عملية للهواتف الصغيرة */
+            .form-section {
+                padding: 20px 15px;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            h2 span {
+                margin-top: 8px;
+                font-size: 1rem;
+            }
+            
+            /* تحسين الأزرار للهواتف الصغيرة */
+            .btn {
+                padding: 18px 20px;
+                font-size: 1.1rem;
+                margin-top: 15px;
+            }
+            
+            /* تحسين مربع الشركة للهواتف الصغيرة */
+            .company-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            
+            .company-item-actions {
+                width: 100%;
+            }
+            
+            .delete-company {
+                width: 100%;
+                padding: 12px;
+            }
+            
+            /* تحسين مؤشر التمرير للهواتف الصغيرة */
+            .scroll-indicator {
+                font-size: 0.7rem;
+                padding: 6px 12px;
+                right: 8px;
+            }
+            
+            /* تحسين عرض الشركة الحالية للهواتف الصغيرة */
+            .company-info h3 {
+                font-size: 1.4rem;
+            }
+            
+            .company-balance {
+                font-size: 1.5rem;
+            }
+            
+            /* تحسين النافذة المنبثقة للهواتف الصغيرة */
+            .modal-content {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .modal-header h3 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* تحسينات للأجهزة اللوحية */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            #transactions-table {
+                min-width: 950px;
+                font-size: 0.9rem;
+            }
+            
+            #transactions-table th,
+            #transactions-table td {
+                padding: 14px 10px;
+            }
+            
+            /* إخفاء بعض الأعمدة على الأجهزة اللوحية لتحسين القراءة */
+            #transactions-table th:nth-child(7), /* الرحلة */
+            #transactions-table td:nth-child(7),
+            #transactions-table th:nth-child(8), /* السبب */
+            #transactions-table td:nth-child(8) {
+                display: none;
+            }
+        }
+        
+        /* عناصر الطباعة المخفية */
+        .print-page,
+        .print-header,
+        .print-logo,
+        .print-logo-icon,
+        .print-title,
+        .print-company-info,
+        .print-table-container,
+        .print-balance-summary,
+        .print-footer,
+        .print-signature {
+            display: none;
+        }
+        
+        /* مؤشر النوع النشط */
+        .active-type-indicator {
+            background: linear-gradient(135deg, rgba(74, 0, 224, 0.05), rgba(142, 45, 226, 0.05));
+            padding: 20px;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 25px;
+            border-right: 4px solid var(--accent-color);
+            animation: slideInRight 0.5s ease-out;
+        }
+        
+        .active-type-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .active-type-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(74, 0, 224, 0.2);
+        }
+        
+        .active-type-text h3 {
+            margin: 0 0 8px 0;
+            color: var(--primary-color);
+            font-size: 1.4rem;
+        }
+        
+        .active-type-text p {
+            margin: 0;
+            color: #666;
+        }
+        
+        /* فلتر التحكم */
+        .filter-controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        /* رسالة عدم وجود بيانات */
+        #no-data, #no-transactions {
             text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #F8F9FF, #F0F4FF);
+            border-radius: var(--border-radius);
+            border: 2px dashed #E0E0FF;
         }
         
-        .print-currency-item {
+        /* تنسيق النموذج في الإدارة */
+        .edit-form {
+            background: linear-gradient(135deg, #F8F9FF, #F0F4FF);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border: 2px solid rgba(74, 0, 224, 0.1);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .edit-form-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .confirm-delete {
+            background: linear-gradient(135deg, #FFF5F5, #FFE5E5);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border: 2px solid rgba(255, 65, 108, 0.2);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .confirm-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        /* مؤشر التحميل */
+        .loading {
             display: inline-block;
-            margin: 0 10px;
-            padding: 8px 15px;
-            background: white;
-            border-radius: 5px;
-            border: 1px solid #dee2e6;
-            min-width: 120px;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(74, 0, 224, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
         }
         
-        .print-currency-code {
-            font-weight: bold;
-            color: #1A1A2E;
-            font-size: 14px;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
-        .print-currency-amount {
-            font-weight: bold;
-            font-size: 16px;
-            direction: ltr;
+        /* نافذة تأكيد الإلغاء */
+        .confirm-cancel {
+            background: linear-gradient(135deg, #F8F0FF, #F0E5FF);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border: 2px solid rgba(142, 68, 173, 0.2);
+            box-shadow: var(--shadow-light);
         }
         
-        /* رصيد الشركة في الطباعة */
-        .print-company-currencies {
-            display: block !important;
-            text-align: center;
-            margin: 15px 0;
-        }
-        
-        .print-currency-balance {
-            display: inline-block;
-            margin: 0 10px;
-            padding: 10px 15px;
-            background: white;
-            border-radius: 5px;
-            border: 1px solid #1A1A2E;
-            min-width: 140px;
-            font-weight: bold;
+        .cancel-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -239,7 +2366,7 @@
                     <i class="fas fa-plane"></i>
                 </div>
                 <div class="print-title">
-                    <h1>TAREK Tickets - متعدد العملات</h1>
+                    <h1>TAREK Tickets</h1>
                     <p>@tro8qa</p>
                 </div>
             </div>
@@ -250,11 +2377,6 @@
             <div class="print-company-details">
                 <p>تاريخ الطباعة: <span id="current-print-date"></span></p>
                 <p id="print-company-balance-info"><span id="print-current-balance"></span></p>
-            </div>
-            
-            <!-- رصيد الشركة بالعملات -->
-            <div class="print-company-currencies" id="print-company-currencies">
-                <!-- سيتم تعبئته بواسطة الجافاسكريبت -->
             </div>
         </div>
         
@@ -277,22 +2399,15 @@
             </table>
         </div>
         
-        <!-- ملخص العملات في الطباعة -->
-        <div class="print-currency-summary" id="print-currency-summary">
-            <!-- سيتم تعبئته بواسطة الجافاسكريبت -->
-        </div>
-        
         <!-- قسم الرصيد النهائي في الطباعة -->
         <div class="print-balance-summary" id="print-balance-summary">
             <div class="print-total-balance">
-                <div id="print-summary-by-currency">
-                    <!-- سيتم تعبئته بواسطة الجافاسكريبت -->
-                </div>
+                الرصيد النهائي: <span id="print-summary-balance">0 دينار</span>
             </div>
         </div>
         
         <div class="print-footer">
-            <p>TAREK Tickets - متعدد العملات &copy; 2023</p>
+            <p>TAREK Tickets &copy; 2023</p>
             <p>@tro8qa</p>
             <p>طارق الطيف للبرمجيات</p>
             <p> - </p>
@@ -313,7 +2428,7 @@
                     <i class="fas fa-plane-departure"></i>
                 </div>
                 <div class="logo-text">
-                    <h1>TAREK Tickets - متعدد العملات</h1>
+                    <h1>TAREK Tickets</h1>
                     <p>@tro8qa</p>
                 </div>
             </div>
@@ -368,10 +2483,7 @@
                     <h3 id="current-company">--</h3>
                     <p style="color: #666; margin-top: 5px; font-size: 0.9rem;">الرصيد الحالي</p>
                 </div>
-                <!-- رصيد الشركة بالعملات المتعددة -->
-                <div class="company-currencies" id="company-currency-balances">
-                    <!-- سيتم تعبئته بواسطة الجافاسكريبت -->
-                </div>
+                <div class="company-balance" id="company-balance">0 دينار</div>
             </div>
             
             <div class="form-group">
@@ -396,29 +2508,6 @@
                         <div class="type-indicator">نشط</div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- اختيار العملة -->
-            <div class="form-group">
-                <label>العملة</label>
-                <div class="currency-section">
-                    <div class="currency-option" id="currency-dinar">
-                        <div class="currency-flag">🇱🇾</div>
-                        <div class="currency-code">LYD</div>
-                        <div class="currency-name">دينار ليبي</div>
-                    </div>
-                    <div class="currency-option" id="currency-dollar">
-                        <div class="currency-flag">🇺🇸</div>
-                        <div class="currency-code">USD</div>
-                        <div class="currency-name">دولار أمريكي</div>
-                    </div>
-                    <div class="currency-option" id="currency-euro">
-                        <div class="currency-flag">🇪🇺</div>
-                        <div class="currency-code">EUR</div>
-                        <div class="currency-name">يورو</div>
-                    </div>
-                </div>
-                <input type="hidden" id="currency" value="LYD">
             </div>
             
             <!-- حقول التذكرة والغرامة -->
@@ -469,11 +2558,8 @@
             
             <!-- حقول مشتركة -->
             <div class="form-group">
-                <label for="amount">المبلغ</label>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <input type="number" id="amount" placeholder="أدخل المبلغ" min="0" step="0.001" pattern="[0-9]*[.,]?[0-9]{0,3}" inputmode="decimal" style="flex: 1;">
-                    <span id="currency-symbol" style="font-weight: bold; color: var(--primary-color);">LYD</span>
-                </div>
+                <label for="amount">المبلغ (دينار)</label>
+                <input type="number" id="amount" placeholder="أدخل المبلغ" min="0" step="0.001" pattern="[0-9]*[.,]?[0-9]{0,3}" inputmode="decimal">
             </div>
             
             <div class="form-group">
@@ -511,11 +2597,6 @@
                 </div>
             </div>
             
-            <!-- ملخص العملات -->
-            <div class="summary-items-currency no-print" id="currency-summary">
-                <!-- سيتم تعبئته بواسطة الجافاسكريبت -->
-            </div>
-            
             <div class="table-container">
                 <div class="scroll-indicator">← اسحب لرؤية المزيد →</div>
                 <table id="transactions-table">
@@ -530,7 +2611,6 @@
                             <th>الرحلة</th>
                             <th>السبب</th>
                             <th>المبلغ</th>
-                            <th>العملة</th>
                             <th>الرصيد</th>
                         </tr>
                     </thead>
@@ -550,15 +2630,15 @@
                     </div>
                     <div class="summary-item">
                         <h4>مجموع الغرامات</h4>
-                        <div class="value" id="total-fines">0</div>
+                        <div class="value" id="total-fines">0 دينار</div>
                     </div>
                     <div class="summary-item">
                         <h4>مجموع المدفوعات</h4>
-                        <div class="value" id="total-payments">0</div>
+                        <div class="value" id="total-payments">0 دينار</div>
                     </div>
                     <div class="summary-item">
-                        <h4>عدد العمليات</h4>
-                        <div class="value" id="total-transactions">0</div>
+                        <h4>الرصيد النهائي</h4>
+                        <div class="value" id="total-balance">0 دينار</div>
                     </div>
                 </div>
             </div>
@@ -592,16 +2672,6 @@
                     </select>
                 </div>
                 
-                <div class="filter-group">
-                    <label for="filter-currency">تصفية حسب العملة</label>
-                    <select id="filter-currency">
-                        <option value="">جميع العملات</option>
-                        <option value="LYD">دينار (LYD)</option>
-                        <option value="USD">دولار (USD)</option>
-                        <option value="EUR">يورو (EUR)</option>
-                    </select>
-                </div>
-                
                 <button class="btn btn-reset" id="reset-filters" style="margin-top: 0;">
                     <i class="fas fa-filter"></i> إعادة التعيين
                 </button>
@@ -617,15 +2687,6 @@
                             <option value="ticket">تذكرة</option>
                             <option value="fine">غرامة</option>
                             <option value="payment">تسليم دفعة</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="edit-currency">العملة</label>
-                        <select id="edit-currency">
-                            <option value="LYD">دينار ليبي (LYD)</option>
-                            <option value="USD">دولار أمريكي (USD)</option>
-                            <option value="EUR">يورو (EUR)</option>
                         </select>
                     </div>
                     
@@ -673,7 +2734,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="edit-amount">المبلغ</label>
+                        <label for="edit-amount">المبلغ (دينار)</label>
                         <input type="number" id="edit-amount" placeholder="المبلغ" min="0" step="0.001" pattern="[0-9]*[.,]?[0-9]{0,3}">
                     </div>
                     
@@ -744,7 +2805,6 @@
                             <th>النوع</th>
                             <th>المسافر</th>
                             <th>المبلغ</th>
-                            <th>العملة</th>
                             <th>الإجراءات</th>
                         </tr>
                     </thead>
@@ -800,13 +2860,9 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="initial-balance">المبلغ (دينار ليبي)</label>
-                    <input type="number" id="initial-balance" placeholder="أدخل المبلغ بالدينار" min="0" step="0.001" pattern="[0-9]*[.,]?[0-9]{0,3}" inputmode="decimal">
+                    <label for="initial-balance">المبلغ (دينار)</label>
+                    <input type="number" id="initial-balance" placeholder="أدخل المبلغ" min="0" step="0.001" pattern="[0-9]*[.,]?[0-9]{0,3}" inputmode="decimal">
                 </div>
-                
-                <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">
-                    <i class="fas fa-info-circle"></i> الرصيد الافتتاحي يكون بالدينار الليبي فقط. يمكن إضافة عمليات بعملات أخرى بعد إنشاء الشركة.
-                </p>
             </div>
             
             <button class="btn btn-add" id="save-new-company">
@@ -816,14 +2872,14 @@
     </div>
     
     <footer class="no-print">
-        <p>TAREK Tickets - متعدد العملات &copy; 2023</p>
+        <p>TAREK Tickets &copy; 2023</p>
         <p>@tro8qa | طارق الطيف للبرمجيات</p>
     </footer>
 
     <script>
         // بيانات التطبيق
         let transactions = [];
-        let companies = {}; // هيكل جديد: {companyName: {LYD: balance, USD: balance, EUR: balance}}
+        let companies = {};
         
         // حالة التطبيق
         let balanceType = 'credit';
@@ -831,7 +2887,6 @@
         let currentEditTransactionId = null;
         let currentDeleteTransactionId = null;
         let currentCancelTransactionId = null;
-        let selectedCurrency = 'LYD';
         
         // عناصر DOM
         const tabs = document.querySelectorAll('.tab');
@@ -839,16 +2894,6 @@
         
         // مؤشر نوع العملية النشط
         const activeTypeIndicator = document.getElementById('active-type-indicator');
-        
-        // عناصر العملات
-        const currencyDinar = document.getElementById('currency-dinar');
-        const currencyDollar = document.getElementById('currency-dollar');
-        const currencyEuro = document.getElementById('currency-euro');
-        const currencyInput = document.getElementById('currency');
-        const currencySymbol = document.getElementById('currency-symbol');
-        const companyCurrencyBalances = document.getElementById('company-currency-balances');
-        const currencySummary = document.getElementById('currency-summary');
-        const filterCurrencySelect = document.getElementById('filter-currency');
         
         // إدارة الشركات
         const openAddCompanyModalBtn = document.getElementById('open-add-company-modal');
@@ -879,9 +2924,6 @@
         const currentPrintDate = document.getElementById('current-print-date');
         const printTransactionsBody = document.getElementById('print-transactions-body');
         const printSummaryBalance = document.getElementById('print-summary-balance');
-        const printCompanyCurrencies = document.getElementById('print-company-currencies');
-        const printCurrencySummary = document.getElementById('print-currency-summary');
-        const printSummaryByCurrency = document.getElementById('print-summary-by-currency');
         
         // عناصر خيارات نوع العملية
         const ticketOption = document.getElementById('ticket-option');
@@ -920,7 +2962,6 @@
         const editAmountInput = document.getElementById('edit-amount');
         const editDateInput = document.getElementById('edit-date');
         const editNotesInput = document.getElementById('edit-notes');
-        const editCurrencySelect = document.getElementById('edit-currency');
         
         // تأكيد الحذف
         const deleteConfirmContainer = document.getElementById('delete-confirm-container');
@@ -953,7 +2994,7 @@
         const totalTicketsElement = document.getElementById('total-tickets');
         const totalFinesElement = document.getElementById('total-fines');
         const totalPaymentsElement = document.getElementById('total-payments');
-        const totalTransactionsElement = document.getElementById('total-transactions');
+        const totalBalanceElement = document.getElementById('total-balance');
         const summaryBelowTable = document.getElementById('summary-below-table');
         
         // تعيين تاريخ اليوم كتاريخ افتراضي
@@ -994,11 +3035,6 @@
             });
         });
         
-        // أحداث اختيار العملة
-        currencyDinar.addEventListener('click', () => selectCurrency('LYD'));
-        currencyDollar.addEventListener('click', () => selectCurrency('USD'));
-        currencyEuro.addEventListener('click', () => selectCurrency('EUR'));
-        
         // إدارة الشركات
         openAddCompanyModalBtn.addEventListener('click', openAddCompanyModal);
         closeAddCompanyModalBtn.addEventListener('click', closeAddCompanyModal);
@@ -1018,7 +3054,7 @@
             const companyName = this.value || '--';
             currentCompanyElement.textContent = companyName;
             reportCompanyNameElement.textContent = companyName === '--' ? 'كشف الحساب' : `كشف حساب: ${companyName}`;
-            updateCompanyCurrencyBalances(this.value);
+            updateCompanyBalance(this.value);
             updateReport();
             optimizeForMobile();
         });
@@ -1062,11 +3098,9 @@
         // فلاتر إدارة العمليات
         filterCompanySelect.addEventListener('change', updateManageTable);
         filterTypeSelect.addEventListener('change', updateManageTable);
-        filterCurrencySelect.addEventListener('change', updateManageTable);
         resetFiltersBtn.addEventListener('click', function() {
             filterCompanySelect.value = '';
             filterTypeSelect.value = '';
-            filterCurrencySelect.value = '';
             updateManageTable();
             this.classList.add('pulse');
             setTimeout(() => this.classList.remove('pulse'), 1000);
@@ -1096,30 +3130,9 @@
         loadData();
         
         // تحديث واجهة المستخدم
-        selectCurrency('LYD'); // اختيار الدينار كعملة افتراضية
         updateReport();
         updateActiveTypeIndicator();
         updateActiveTypeClasses('ticket'); // تذكرة هي الافتراضية
-        
-        // دالة اختيار العملة
-        function selectCurrency(currency) {
-            selectedCurrency = currency;
-            currencyInput.value = currency;
-            currencySymbol.textContent = currency;
-            
-            // تحديث التحديد البصري
-            currencyDinar.classList.remove('selected');
-            currencyDollar.classList.remove('selected');
-            currencyEuro.classList.remove('selected');
-            
-            if (currency === 'LYD') {
-                currencyDinar.classList.add('selected');
-            } else if (currency === 'USD') {
-                currencyDollar.classList.add('selected');
-            } else if (currency === 'EUR') {
-                currencyEuro.classList.add('selected');
-            }
-        }
         
         // دالة تحسين العرض للهواتف
         function optimizeForMobile() {
@@ -1273,12 +3286,7 @@
                 openingBalance = -balance;
             }
             
-            // إنشاء هيكل جديد للعملات المتعددة
-            companies[companyName] = {
-                LYD: openingBalance,
-                USD: 0,
-                EUR: 0
-            };
+            companies[companyName] = openingBalance;
             
             if (balance > 0) {
                 const transaction = {
@@ -1287,7 +3295,6 @@
                     type: 'initial',
                     company: companyName,
                     amount: balance,
-                    currency: 'LYD',
                     description: `رصيد افتتاحي ${balanceType === 'credit' ? 'دائن (الشركة تحتاج مني)' : 'مدين (أحتاج من الشركة)'}`
                 };
                 
@@ -1302,7 +3309,7 @@
             companySelect.value = companyName;
             currentCompanyElement.textContent = companyName;
             reportCompanyNameElement.textContent = `كشف حساب: ${companyName}`;
-            updateCompanyCurrencyBalances(companyName);
+            updateCompanyBalance(companyName);
             
             closeAddCompanyModal();
             saveData();
@@ -1374,8 +3381,7 @@
                 date: dateInput.value,
                 type: transactionType,
                 company: company,
-                amount: parseFloat(amountInput.value),
-                currency: selectedCurrency
+                amount: parseFloat(amountInput.value)
             };
             
             if (transactionType === 'ticket') {
@@ -1430,7 +3436,7 @@
                 }
             }
             
-            updateCompanyBalanceAfterTransaction(company, transaction.type, transaction.amount, transaction.currency);
+            updateCompanyBalanceAfterTransaction(company, transaction.type, transaction.amount);
             
             transactions.push(transaction);
             
@@ -1458,67 +3464,38 @@
         }
         
         // دالة تحديث رصيد الشركة بعد العملية
-        function updateCompanyBalanceAfterTransaction(company, type, amount, currency) {
-            if (!companies[company]) {
-                companies[company] = {LYD: 0, USD: 0, EUR: 0};
-            }
-            
+        function updateCompanyBalanceAfterTransaction(company, type, amount) {
             if (type === 'ticket' || type === 'fine') {
-                companies[company][currency] += amount;
+                companies[company] += amount;
             } else if (type === 'payment') {
-                companies[company][currency] -= amount;
+                companies[company] -= amount;
             } else if (type === 'cancel') {
                 // لا يتغير الرصيد مع عملية الإلغاء لأنها عملية معاكسة
                 // يتم تحديث الرصيد عند إضافة العملية الأصلية
             }
         }
         
-        // دالة تحديث عرض رصيد الشركة بالعملات المتعددة
-        function updateCompanyCurrencyBalances(company) {
+        // دالة تحديث عرض رصيد الشركة
+        function updateCompanyBalance(company) {
             if (!company) {
-                companyCurrencyBalances.innerHTML = `
-                    <div class="currency-balance-item">
-                        <div class="currency-balance-code">LYD</div>
-                        <div class="currency-balance-amount">0.000</div>
-                    </div>
-                    <div class="currency-balance-item">
-                        <div class="currency-balance-code">USD</div>
-                        <div class="currency-balance-amount">0.000</div>
-                    </div>
-                    <div class="currency-balance-item">
-                        <div class="currency-balance-code">EUR</div>
-                        <div class="currency-balance-amount">0.000</div>
-                    </div>
-                `;
+                companyBalanceElement.textContent = '0 دينار';
+                companyBalanceElement.className = 'company-balance';
                 return;
             }
             
-            const companyBalances = companies[company] || {LYD: 0, USD: 0, EUR: 0};
+            let balance = companies[company] || 0;
+            let balanceText = formatCurrency(Math.abs(balance));
             
-            companyCurrencyBalances.innerHTML = '';
-            
-            ['LYD', 'USD', 'EUR'].forEach(currency => {
-                const balance = companyBalances[currency] || 0;
-                const balanceItem = document.createElement('div');
-                balanceItem.className = 'currency-balance-item';
-                
-                let amountClass = 'currency-balance-amount';
-                if (balance > 0) {
-                    amountClass += ' positive';
-                } else if (balance < 0) {
-                    amountClass += ' negative';
-                }
-                
-                balanceItem.innerHTML = `
-                    <div class="currency-balance-code">${currency}</div>
-                    <div class="${amountClass}">${formatCurrency(balance, currency)}</div>
-                    <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">
-                        ${balance > 0 ? '(دائن)' : balance < 0 ? '(مدين)' : '(صفر)'}
-                    </div>
-                `;
-                
-                companyCurrencyBalances.appendChild(balanceItem);
-            });
+            if (balance > 0) {
+                companyBalanceElement.className = 'company-balance positive-balance';
+                companyBalanceElement.textContent = balanceText + ' (دائن)';
+            } else if (balance < 0) {
+                companyBalanceElement.className = 'company-balance negative-balance';
+                companyBalanceElement.textContent = balanceText + ' (مدين)';
+            } else {
+                companyBalanceElement.className = 'company-balance';
+                companyBalanceElement.textContent = balanceText;
+            }
         }
         
         // دالة تحديث قائمة الشركات
@@ -1536,26 +3513,20 @@
                 const companyItem = document.createElement('div');
                 companyItem.className = 'company-item';
                 
-                const companyBalances = companies[company];
-                let balanceText = '';
+                const balance = companies[company];
+                let balanceText = formatCurrency(Math.abs(balance));
                 
-                // جمع إجمالي الرصيد لجميع العملات
-                let totalBalance = 0;
-                ['LYD', 'USD', 'EUR'].forEach(currency => {
-                    totalBalance += companyBalances[currency] || 0;
-                });
-                
-                if (totalBalance > 0) {
-                    balanceText = 'دائن';
-                } else if (totalBalance < 0) {
-                    balanceText = 'مدين';
-                } else {
-                    balanceText = 'متوازن';
+                if (balance > 0) {
+                    balanceText += ' (دائن)';
+                } else if (balance < 0) {
+                    balanceText += ' (مدين)';
                 }
+                
+                const balanceClass = balance > 0 ? 'positive-balance' : (balance < 0 ? 'negative-balance' : '');
                 
                 companyItem.innerHTML = `
                     <div class="company-name">${company}</div>
-                    <div class="company-item-balance">${balanceText}</div>
+                    <div class="company-item-balance ${balanceClass}">${balanceText}</div>
                     <div class="company-item-actions">
                         <button class="delete-company" data-company="${company}">حذف</button>
                     </div>
@@ -1653,7 +3624,6 @@
             cancelTransactionContainer.classList.add('hidden');
             
             editTransactionTypeSelect.value = transaction.type;
-            editCurrencySelect.value = transaction.currency;
             updateEditFormFields(transaction.type);
             
             if (transaction.type === 'ticket') {
@@ -1694,18 +3664,15 @@
             const oldTransaction = transactions[transactionIndex];
             const oldAmount = oldTransaction.amount;
             const oldType = oldTransaction.type;
-            const oldCurrency = oldTransaction.currency;
             
-            // إزالة التأثير القديم
             if (oldType === 'ticket' || oldType === 'fine') {
-                companies[oldTransaction.company][oldCurrency] -= oldAmount;
+                companies[oldTransaction.company] -= oldAmount;
             } else if (oldType === 'payment') {
-                companies[oldTransaction.company][oldCurrency] += oldAmount;
+                companies[oldTransaction.company] += oldAmount;
             }
             
             const transactionType = editTransactionTypeSelect.value;
             const amount = parseFloat(editAmountInput.value);
-            const currency = editCurrencySelect.value;
             
             if (!amount || amount <= 0) {
                 alert('يرجى إدخال مبلغ صحيح أكبر من صفر');
@@ -1717,8 +3684,7 @@
                 ...oldTransaction,
                 date: editDateInput.value,
                 type: transactionType,
-                amount: amount,
-                currency: currency
+                amount: amount
             };
             
             if (transactionType === 'ticket') {
@@ -1783,11 +3749,10 @@
                 }
             }
             
-            // تطبيق التأثير الجديد
             if (transactionType === 'ticket' || transactionType === 'fine') {
-                companies[updatedTransaction.company][currency] += amount;
+                companies[updatedTransaction.company] += amount;
             } else if (transactionType === 'payment') {
-                companies[updatedTransaction.company][currency] -= amount;
+                companies[updatedTransaction.company] -= amount;
             }
             
             transactions[transactionIndex] = updatedTransaction;
@@ -1795,7 +3760,6 @@
             saveData();
             updateReport();
             updateCompanyList();
-            updateCompanyCurrencyBalances(updatedTransaction.company);
             updateManageTable();
             optimizeForMobile();
             
@@ -1834,11 +3798,11 @@
             
             const transaction = transactions[transactionIndex];
             
-            if (confirm(`هل أنت متأكد من حذف هذه العملية؟\n\nالتفاصيل:\n- الشركة: ${transaction.company}\n- النوع: ${getTypeName(transaction.type)}\n- المبلغ: ${formatCurrency(transaction.amount, transaction.currency)}\n- العملة: ${transaction.currency}\n\nهذا الإجراء لا يمكن التراجع عنه.`)) {
+            if (confirm(`هل أنت متأكد من حذف هذه العملية؟\n\nالتفاصيل:\n- الشركة: ${transaction.company}\n- النوع: ${getTypeName(transaction.type)}\n- المبلغ: ${formatCurrency(transaction.amount)}\n\nهذا الإجراء لا يمكن التراجع عنه.`)) {
                 if (transaction.type === 'ticket' || transaction.type === 'fine') {
-                    companies[transaction.company][transaction.currency] -= transaction.amount;
+                    companies[transaction.company] -= transaction.amount;
                 } else if (transaction.type === 'payment') {
-                    companies[transaction.company][transaction.currency] += transaction.amount;
+                    companies[transaction.company] += transaction.amount;
                 } else if (transaction.type === 'cancel') {
                     // لا يتغير الرصيد عند حذف عملية إلغاء
                 }
@@ -1848,7 +3812,6 @@
                 saveData();
                 updateReport();
                 updateCompanyList();
-                updateCompanyCurrencyBalances(transaction.company);
                 updateManageTable();
                 optimizeForMobile();
                 
@@ -1875,15 +3838,13 @@
             // تحضير تفاصيل الإلغاء
             const cancelType = getCancelType(transaction.type);
             const newAmount = transaction.amount;
-            const currency = transaction.currency;
             
             cancelDetails.innerHTML = `
                 <p><strong>العملية الأصلية:</strong></p>
                 <ul>
                     <li><strong>الشركة:</strong> ${transaction.company}</li>
                     <li><strong>النوع:</strong> ${getTypeName(transaction.type)}</li>
-                    <li><strong>المبلغ:</strong> ${formatCurrency(transaction.amount, transaction.currency)}</li>
-                    <li><strong>العملة:</strong> ${currency}</li>
+                    <li><strong>المبلغ:</strong> ${formatCurrency(transaction.amount)}</li>
                     <li><strong>التاريخ:</strong> ${transaction.date}</li>
                     ${transaction.passengerName ? `<li><strong>المسافر:</strong> ${transaction.passengerName}</li>` : ''}
                     ${transaction.description ? `<li><strong>الوصف:</strong> ${transaction.description}</li>` : ''}
@@ -1891,8 +3852,7 @@
                 <p><strong>العملية الجديدة (معكوسة):</strong></p>
                 <ul>
                     <li><strong>النوع:</strong> ${getTypeName(cancelType)}</li>
-                    <li><strong>المبلغ:</strong> ${formatCurrency(newAmount, currency)}</li>
-                    <li><strong>العملة:</strong> ${currency}</li>
+                    <li><strong>المبلغ:</strong> ${formatCurrency(newAmount)}</li>
                     <li><strong>التاريخ:</strong> اليوم</li>
                 </ul>
                 <p class="warning-text" style="color: var(--cancel-color); font-weight: bold; margin-top: 10px;">
@@ -1927,7 +3887,6 @@
                 type: 'cancel',
                 company: originalTransaction.company,
                 amount: originalTransaction.amount,
-                currency: originalTransaction.currency,
                 originalTransactionId: originalTransaction.id,
                 cancelType: getCancelType(originalTransaction.type)
             };
@@ -1946,9 +3905,9 @@
             
             // تحديث رصيد الشركة (عملية معاكسة)
             if (originalTransaction.type === 'ticket' || originalTransaction.type === 'fine') {
-                companies[originalTransaction.company][originalTransaction.currency] -= originalTransaction.amount;
+                companies[originalTransaction.company] -= originalTransaction.amount;
             } else if (originalTransaction.type === 'payment') {
-                companies[originalTransaction.company][originalTransaction.currency] += originalTransaction.amount;
+                companies[originalTransaction.company] += originalTransaction.amount;
             }
             
             transactions.push(cancelTransaction);
@@ -1956,7 +3915,6 @@
             saveData();
             updateReport();
             updateCompanyList();
-            updateCompanyCurrencyBalances(originalTransaction.company);
             updateManageTable();
             optimizeForMobile();
             
@@ -1980,7 +3938,6 @@
         function updateManageTable() {
             const filterCompany = filterCompanySelect.value;
             const filterType = filterTypeSelect.value;
-            const filterCurrency = filterCurrencySelect.value;
             
             let filteredTransactions = [...transactions];
             
@@ -1990,10 +3947,6 @@
             
             if (filterType) {
                 filteredTransactions = filteredTransactions.filter(t => t.type === filterType);
-            }
-            
-            if (filterCurrency) {
-                filteredTransactions = filteredTransactions.filter(t => t.currency === filterCurrency);
             }
             
             if (filteredTransactions.length > 0) {
@@ -2036,8 +3989,7 @@
                     <td>${transaction.company}</td>
                     <td><span class="transaction-type ${typeClass}">${typeText}</span></td>
                     <td>${passengerName}</td>
-                    <td class="currency-column">${formatCurrency(transaction.amount, transaction.currency, false)}</td>
-                    <td><span class="currency-badge">${transaction.currency}</span></td>
+                    <td>${formatCurrency(transaction.amount)}</td>
                     <td>
                         <div class="action-buttons">
                             <button class="action-btn action-btn-edit" data-id="${transaction.id}">
@@ -2090,7 +4042,7 @@
                 printCompanyName.textContent = 'كشف الحساب';
             }
             
-            updateCompanyCurrencyBalances(selectedCompany);
+            updateCompanyBalance(selectedCompany);
             
             if (transactions.length > 0) {
                 noDataElement.style.display = 'none';
@@ -2101,237 +4053,129 @@
                 summaryBelowTable.style.display = 'none';
                 transactionsBody.innerHTML = '';
                 updateSummary();
-                updateCurrencySummary();
                 return;
             }
             
             let filteredTransactions = [];
+            let finalBalance = 0;
             
             if (selectedCompany) {
                 filteredTransactions = transactions.filter(t => t.company === selectedCompany);
+                finalBalance = companies[selectedCompany] || 0;
             } else {
                 filteredTransactions = [...transactions];
+                finalBalance = Object.values(companies).reduce((sum, balance) => sum + balance, 0);
             }
             
-            // إنشاء جداول منفصلة لكل عملة
-            const currencyGroups = {
-                LYD: [],
-                USD: [],
-                EUR: []
-            };
-            
-            filteredTransactions.forEach(transaction => {
-                if (currencyGroups[transaction.currency]) {
-                    currencyGroups[transaction.currency].push(transaction);
-                }
-            });
-            
-            // عرض كل عملة في جدول منفصل
-            let rowIndex = 1;
-            
-            ['LYD', 'USD', 'EUR'].forEach(currency => {
-                const currencyTransactions = currencyGroups[currency];
-                
-                if (currencyTransactions.length === 0) {
-                    return;
+            let runningBalance = 0;
+            filteredTransactions.forEach((transaction, index) => {
+                if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
+                    runningBalance += transaction.amount;
+                } else if (transaction.type === 'payment') {
+                    runningBalance -= transaction.amount;
+                } else if (transaction.type === 'cancel') {
+                    runningBalance -= transaction.amount;
                 }
                 
-                // إضافة عنوان العملة
-                const currencyHeaderRow = document.createElement('tr');
-                currencyHeaderRow.className = 'currency-header-row';
-                currencyHeaderRow.innerHTML = `
-                    <td colspan="11" style="background-color: var(--light-color); font-weight: bold; text-align: center; padding: 15px;">
-                        <i class="fas fa-money-bill-wave"></i> ${getCurrencyName(currency)} (${currency})
-                    </td>
-                `;
-                transactionsBody.appendChild(currencyHeaderRow);
+                const row = document.createElement('tr');
                 
-                let runningBalance = 0;
-                currencyTransactions.forEach((transaction, index) => {
-                    if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
-                        runningBalance += transaction.amount;
-                    } else if (transaction.type === 'payment') {
-                        runningBalance -= transaction.amount;
-                    } else if (transaction.type === 'cancel') {
-                        runningBalance -= transaction.amount;
-                    }
-                    
-                    const row = document.createElement('tr');
-                    
-                    let typeClass = '';
-                    let typeText = getTypeName(transaction.type);
-                    
-                    if (transaction.type === 'ticket') {
-                        typeClass = 'transaction-ticket';
-                    } else if (transaction.type === 'fine') {
-                        typeClass = 'transaction-fine';
-                    } else if (transaction.type === 'payment') {
-                        typeClass = 'transaction-payment';
-                    } else if (transaction.type === 'initial') {
-                        typeClass = 'transaction-initial';
-                    } else if (transaction.type === 'cancel') {
-                        typeClass = 'transaction-cancel';
-                        typeText = 'إلغاء';
-                    }
-                    
-                    let passengerName = transaction.passengerName || '-';
-                    let documentNumber = transaction.documentNumber || '-';
-                    
-                    let destination = transaction.destination || '-';
-                    if (destination.includes('(')) {
-                        const match = destination.match(/\(([^)]+)\)/);
-                        if (match) {
-                            destination = `<span class="destination-abbr">${match[1]}</span>`;
-                        }
-                    }
-                    
-                    let tripType = transaction.tripType || '-';
-                    let reasonDesc = transaction.reason || transaction.description || '-';
-                    
-                    row.innerHTML = `
-                        <td>${rowIndex++}</td>
-                        <td>${transaction.date}</td>
-                        <td><span class="transaction-type ${typeClass}">${typeText}</span></td>
-                        <td>${passengerName}</td>
-                        <td>${documentNumber}</td>
-                        <td>${destination}</td>
-                        <td>${tripType}</td>
-                        <td>${reasonDesc}</td>
-                        <td class="currency-column">${formatCurrency(transaction.amount, transaction.currency, false)}</td>
-                        <td><span class="currency-badge">${transaction.currency}</span></td>
-                        <td class="currency-column">${formatCurrency(runningBalance, transaction.currency, false)}</td>
-                    `;
-                    
-                    transactionsBody.appendChild(row);
-                });
+                let typeClass = '';
+                let typeText = getTypeName(transaction.type);
                 
-                // إضافة صف الرصيد النهائي لكل عملة
-                const totalRow = document.createElement('tr');
-                totalRow.className = 'total-row';
-                totalRow.innerHTML = `
-                    <td colspan="9">الرصيد النهائي لل${getCurrencyName(currency)} (${currency})</td>
-                    <td>${currency}</td>
-                    <td class="currency-column">${formatCurrency(runningBalance, currency, false)}</td>
+                if (transaction.type === 'ticket') {
+                    typeClass = 'transaction-ticket';
+                } else if (transaction.type === 'fine') {
+                    typeClass = 'transaction-fine';
+                } else if (transaction.type === 'payment') {
+                    typeClass = 'transaction-payment';
+                } else if (transaction.type === 'initial') {
+                    typeClass = 'transaction-initial';
+                } else if (transaction.type === 'cancel') {
+                    typeClass = 'transaction-cancel';
+                    typeText = 'إلغاء';
+                }
+                
+                let passengerName = transaction.passengerName || '-';
+                let documentNumber = transaction.documentNumber || '-';
+                
+                let destination = transaction.destination || '-';
+                if (destination.includes('(')) {
+                    const match = destination.match(/\(([^)]+)\)/);
+                    if (match) {
+                        destination = `<span class="destination-abbr">${match[1]}</span>`;
+                    }
+                }
+                
+                let tripType = transaction.tripType || '-';
+                let reasonDesc = transaction.reason || transaction.description || '-';
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${transaction.date}</td>
+                    <td><span class="transaction-type ${typeClass}">${typeText}</span></td>
+                    <td>${passengerName}</td>
+                    <td>${documentNumber}</td>
+                    <td>${destination}</td>
+                    <td>${tripType}</td>
+                    <td>${reasonDesc}</td>
+                    <td>${formatCurrency(transaction.amount)}</td>
+                    <td>${formatCurrency(runningBalance)}</td>
                 `;
-                transactionsBody.appendChild(totalRow);
+                
+                transactionsBody.appendChild(row);
             });
             
-            updateSummary(filteredTransactions);
-            updateCurrencySummary(filteredTransactions);
+            // إضافة صف الرصيد النهائي في الجدول
+            const totalRow = document.createElement('tr');
+            totalRow.className = 'total-row';
+            totalRow.innerHTML = `
+                <td colspan="8">الرصيد النهائي</td>
+                <td colspan="2">${formatCurrency(finalBalance)}</td>
+            `;
+            transactionsBody.appendChild(totalRow);
+            
+            updateSummary(filteredTransactions, finalBalance);
             optimizeForMobile();
         }
         
-        // دالة تحديث ملخص العملات
-        function updateCurrencySummary(filteredTransactions = null) {
-            const transactionsToCalculate = filteredTransactions || transactions;
-            
-            currencySummary.innerHTML = '';
-            
-            const currencyTotals = {
-                LYD: {tickets: 0, fines: 0, payments: 0, balance: 0},
-                USD: {tickets: 0, fines: 0, payments: 0, balance: 0},
-                EUR: {tickets: 0, fines: 0, payments: 0, balance: 0}
-            };
-            
-            // حساب الإجماليات لكل عملة
-            transactionsToCalculate.forEach(transaction => {
-                const currency = transaction.currency;
-                if (!currencyTotals[currency]) return;
-                
-                if (transaction.type === 'ticket') {
-                    currencyTotals[currency].tickets += transaction.amount;
-                } else if (transaction.type === 'fine') {
-                    currencyTotals[currency].fines += transaction.amount;
-                } else if (transaction.type === 'payment') {
-                    currencyTotals[currency].payments += transaction.amount;
-                }
-            });
-            
-            // حساب الرصيد لكل عملة
-            const selectedCompany = reportCompanySelect.value || companySelect.value;
-            if (selectedCompany && companies[selectedCompany]) {
-                currencyTotals.LYD.balance = companies[selectedCompany].LYD || 0;
-                currencyTotals.USD.balance = companies[selectedCompany].USD || 0;
-                currencyTotals.EUR.balance = companies[selectedCompany].EUR || 0;
-            } else {
-                // حساب إجمالي جميع الشركات
-                Object.values(companies).forEach(companyBalances => {
-                    currencyTotals.LYD.balance += companyBalances.LYD || 0;
-                    currencyTotals.USD.balance += companyBalances.USD || 0;
-                    currencyTotals.EUR.balance += companyBalances.EUR || 0;
-                });
-            }
-            
-            // عرض ملخص كل عملة
-            ['LYD', 'USD', 'EUR'].forEach(currency => {
-                if (currencyTotals[currency].tickets === 0 && 
-                    currencyTotals[currency].fines === 0 && 
-                    currencyTotals[currency].payments === 0) {
-                    return;
-                }
-                
-                const currencyDiv = document.createElement('div');
-                currencyDiv.className = 'currency-total';
-                
-                let balanceClass = '';
-                if (currencyTotals[currency].balance > 0) {
-                    balanceClass = 'positive';
-                } else if (currencyTotals[currency].balance < 0) {
-                    balanceClass = 'negative';
-                }
-                
-                currencyDiv.innerHTML = `
-                    <h4>${getCurrencyName(currency)} (${currency})</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
-                        <div>
-                            <div style="font-size: 0.9rem; color: #666;">التذاكر</div>
-                            <div style="font-weight: bold;">${formatCurrency(currencyTotals[currency].tickets, currency, false)}</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 0.9rem; color: #666;">الغرامات</div>
-                            <div style="font-weight: bold;">${formatCurrency(currencyTotals[currency].fines, currency, false)}</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 0.9rem; color: #666;">المدفوعات</div>
-                            <div style="font-weight: bold;">${formatCurrency(currencyTotals[currency].payments, currency, false)}</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 0.9rem; color: #666;">الرصيد</div>
-                            <div style="font-weight: bold;" class="${balanceClass}">${formatCurrency(currencyTotals[currency].balance, currency, false)}</div>
-                        </div>
-                    </div>
-                `;
-                
-                currencySummary.appendChild(currencyDiv);
-            });
-        }
-        
         // دالة تحديث الملخص تحت الجدول
-        function updateSummary(filteredTransactions = null) {
+        function updateSummary(filteredTransactions = null, finalBalance = 0) {
             const transactionsToCalculate = filteredTransactions || transactions;
             
             let totalTickets = 0;
             let totalFines = 0;
             let totalPayments = 0;
+            let totalCancels = 0;
             
             transactionsToCalculate.forEach(transaction => {
                 if (transaction.type === 'ticket') {
                     totalTickets++;
                 } else if (transaction.type === 'fine') {
-                    totalFines++;
+                    totalFines += transaction.amount;
                 } else if (transaction.type === 'payment') {
-                    totalPayments++;
+                    totalPayments += transaction.amount;
+                } else if (transaction.type === 'cancel') {
+                    totalCancels += transaction.amount;
                 }
             });
             
             totalTicketsElement.textContent = totalTickets;
-            totalFinesElement.textContent = totalFines;
-            totalPaymentsElement.textContent = totalPayments;
-            totalTransactionsElement.textContent = transactionsToCalculate.length;
+            totalFinesElement.textContent = formatCurrency(totalFines);
+            totalPaymentsElement.textContent = formatCurrency(totalPayments);
+            totalBalanceElement.textContent = formatCurrency(finalBalance);
+            
+            // تحديث ألوان الرصيد النهائي
+            if (finalBalance > 0) {
+                totalBalanceElement.className = 'value positive';
+            } else if (finalBalance < 0) {
+                totalBalanceElement.className = 'value negative';
+            } else {
+                totalBalanceElement.className = 'value';
+            }
         }
         
         // دالة تحديث جدول الطباعة
-        function updatePrintTable(filteredTransactions = null) {
+        function updatePrintTable(filteredTransactions = null, finalBalance = 0) {
             const currentCompany = reportCompanySelect.value || companySelect.value;
             const transactionsToShow = filteredTransactions || transactions.filter(t => !currentCompany || t.company === currentCompany);
             
@@ -2341,68 +4185,39 @@
                 return;
             }
             
-            // تجميع العمليات حسب العملة
-            const currencyGroups = {
-                LYD: [],
-                USD: [],
-                EUR: []
-            };
-            
-            transactionsToShow.forEach(transaction => {
-                if (currencyGroups[transaction.currency]) {
-                    currencyGroups[transaction.currency].push(transaction);
-                }
-            });
-            
-            let rowIndex = 1;
-            
-            ['LYD', 'USD', 'EUR'].forEach(currency => {
-                const currencyTransactions = currencyGroups[currency];
-                
-                if (currencyTransactions.length === 0) {
-                    return;
+            let runningBalance = 0;
+            transactionsToShow.forEach((transaction, index) => {
+                if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
+                    runningBalance += transaction.amount;
+                } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
+                    runningBalance -= transaction.amount;
                 }
                 
-                // إضافة عنوان العملة
-                const headerRow = document.createElement('tr');
-                headerRow.innerHTML = `<td colspan="6" style="background-color: #f8f9fa; font-weight: bold; text-align: center; padding: 10px;">${getCurrencyName(currency)} (${currency})</td>`;
-                printTransactionsBody.appendChild(headerRow);
+                const row = document.createElement('tr');
                 
-                let runningBalance = 0;
-                currencyTransactions.forEach(transaction => {
-                    if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
-                        runningBalance += transaction.amount;
-                    } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
-                        runningBalance -= transaction.amount;
-                    }
-                    
-                    const row = document.createElement('tr');
-                    
-                    row.innerHTML = `
-                        <td>${rowIndex++}</td>
-                        <td>${transaction.date}</td>
-                        <td>${transaction.passengerName || '-'}</td>
-                        <td>${transaction.documentNumber || '-'}</td>
-                        <td>${formatCurrency(transaction.amount, transaction.currency, false)}</td>
-                        <td>${formatCurrency(runningBalance, transaction.currency, false)}</td>
-                    `;
-                    
-                    printTransactionsBody.appendChild(row);
-                });
-                
-                // إضافة صف الرصيد النهائي لكل عملة
-                const totalRow = document.createElement('tr');
-                totalRow.innerHTML = `
-                    <td colspan="5" style="font-weight: bold; text-align: center;">الرصيد النهائي لل${getCurrencyName(currency)} (${currency})</td>
-                    <td style="font-weight: bold;">${formatCurrency(runningBalance, currency, false)}</td>
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${transaction.date}</td>
+                    <td>${transaction.passengerName || '-'}</td>
+                    <td>${transaction.documentNumber || '-'}</td>
+                    <td>${formatCurrency(transaction.amount)}</td>
+                    <td>${formatCurrency(runningBalance)}</td>
                 `;
-                printTransactionsBody.appendChild(totalRow);
                 
-                // إضافة صف فارغ للفصل بين العملات
-                const spacerRow = document.createElement('tr');
-                spacerRow.innerHTML = `<td colspan="6" style="height: 15px;"></td>`;
-                printTransactionsBody.appendChild(spacerRow);
+                printTransactionsBody.appendChild(row);
             });
+            
+            // تحديث الرصيد النهائي في الطباعة
+            printSummaryBalance.textContent = formatCurrency(finalBalance);
+            
+            // تحديث لون الرصيد النهائي
+            if (finalBalance > 0) {
+                printSummaryBalance.className = 'positive-balance-print';
+            } else if (finalBalance < 0) {
+                printSummaryBalance.className = 'negative-balance-print';
+            } else {
+                printSummaryBalance.className = 'neutral-balance-print';
+            }
         }
         
         // دالة إعداد الطباعة
@@ -2422,100 +4237,28 @@
             });
             currentPrintDate.textContent = formattedDate;
             
-            // تحديث رصيد الشركة بالعملات
+            // تحديث الرصيد الحالي
             const currentCompany = reportCompanySelect.value || companySelect.value;
-            printCompanyCurrencies.innerHTML = '';
-            
-            if (currentCompany && companies[currentCompany]) {
-                const companyBalances = companies[currentCompany];
-                
-                ['LYD', 'USD', 'EUR'].forEach(currency => {
-                    const balance = companyBalances[currency] || 0;
-                    if (balance !== 0) {
-                        const balanceDiv = document.createElement('div');
-                        balanceDiv.className = 'print-currency-balance';
-                        balanceDiv.innerHTML = `
-                            <div class="print-currency-code">${currency}</div>
-                            <div class="print-currency-amount">${formatCurrency(balance, currency, false)}</div>
-                            <div style="font-size: 12px;">${balance > 0 ? '(دائن)' : '(مدين)'}</div>
-                        `;
-                        printCompanyCurrencies.appendChild(balanceDiv);
-                    }
-                });
+            if (currentCompany) {
+                const balance = companies[currentCompany] || 0;
+                printCurrentBalance.textContent = formatCurrency(Math.abs(balance)) + (balance > 0 ? ' (دائن)' : balance < 0 ? ' (مدين)' : '');
+            } else {
+                printCurrentBalance.textContent = '0 دينار';
             }
-            
-            // تحديث ملخص العملات في الطباعة
-            printCurrencySummary.innerHTML = '';
-            const transactionsToShow = currentCompany ? 
-                transactions.filter(t => t.company === currentCompany) : 
-                transactions;
-            
-            const currencyTotals = {
-                LYD: {tickets: 0, fines: 0, payments: 0, balance: 0},
-                USD: {tickets: 0, fines: 0, payments: 0, balance: 0},
-                EUR: {tickets: 0, fines: 0, payments: 0, balance: 0}
-            };
-            
-            transactionsToShow.forEach(transaction => {
-                const currency = transaction.currency;
-                if (!currencyTotals[currency]) return;
-                
-                if (transaction.type === 'ticket') {
-                    currencyTotals[currency].tickets += transaction.amount;
-                } else if (transaction.type === 'fine') {
-                    currencyTotals[currency].fines += transaction.amount;
-                } else if (transaction.type === 'payment') {
-                    currencyTotals[currency].payments += transaction.amount;
-                }
-            });
-            
-            // حساب الرصيد لكل عملة
-            if (currentCompany && companies[currentCompany]) {
-                currencyTotals.LYD.balance = companies[currentCompany].LYD || 0;
-                currencyTotals.USD.balance = companies[currentCompany].USD || 0;
-                currencyTotals.EUR.balance = companies[currentCompany].EUR || 0;
-            }
-            
-            ['LYD', 'USD', 'EUR'].forEach(currency => {
-                if (currencyTotals[currency].tickets === 0 && 
-                    currencyTotals[currency].fines === 0 && 
-                    currencyTotals[currency].payments === 0) {
-                    return;
-                }
-                
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'print-currency-item';
-                itemDiv.innerHTML = `
-                    <div class="print-currency-code">${currency}</div>
-                    <div class="print-currency-amount">${formatCurrency(currencyTotals[currency].balance, currency, false)}</div>
-                    <div style="font-size: 11px; margin-top: 5px;">
-                        ت: ${formatCurrency(currencyTotals[currency].tickets, currency, false)}<br>
-                        غ: ${formatCurrency(currencyTotals[currency].fines, currency, false)}<br>
-                        د: ${formatCurrency(currencyTotals[currency].payments, currency, false)}
-                    </div>
-                `;
-                printCurrencySummary.appendChild(itemDiv);
-            });
-            
-            // تحديث قسم الرصيد النهائي
-            printSummaryByCurrency.innerHTML = '';
-            ['LYD', 'USD', 'EUR'].forEach(currency => {
-                const balance = currencyTotals[currency].balance;
-                if (balance !== 0) {
-                    const balanceDiv = document.createElement('div');
-                    balanceDiv.style.margin = '10px 0';
-                    balanceDiv.innerHTML = `
-                        <strong>${getCurrencyName(currency)} (${currency}):</strong> 
-                        <span class="${balance > 0 ? 'positive-balance-print' : 'negative-balance-print'}">
-                            ${formatCurrency(balance, currency)}
-                        </span>
-                    `;
-                    printSummaryByCurrency.appendChild(balanceDiv);
-                }
-            });
             
             // تحديث جدول الطباعة
-            updatePrintTable(transactionsToShow);
+            let filteredTransactions = [];
+            let finalBalance = 0;
+            
+            if (currentCompany) {
+                filteredTransactions = transactions.filter(t => t.company === currentCompany);
+                finalBalance = companies[currentCompany] || 0;
+            } else {
+                filteredTransactions = [...transactions];
+                finalBalance = Object.values(companies).reduce((sum, balance) => sum + balance, 0);
+            }
+            
+            updatePrintTable(filteredTransactions, finalBalance);
         }
         
         // دالة إعادة تعيين النموذج
@@ -2551,75 +4294,35 @@
             }
         }
         
-        // دالة الحصول على اسم العملة
-        function getCurrencyName(currency) {
-            switch(currency) {
-                case 'LYD': return 'دينار ليبي';
-                case 'USD': return 'دولار أمريكي';
-                case 'EUR': return 'يورو';
-                default: return currency;
-            }
-        }
-        
         // دالة توليد معرف فريد
         function generateId() {
             return Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
         
         // دالة تنسيق العملة
-        function formatCurrency(amount, currency = 'LYD', includeSymbol = true) {
+        function formatCurrency(amount) {
             const absAmount = Math.abs(amount);
-            let formatted;
-            
-            // استخدام تنسيق مناسب للعملة
-            if (currency === 'LYD') {
-                formatted = new Intl.NumberFormat('ar-LY', {
-                    minimumFractionDigits: 3,
-                    maximumFractionDigits: 3
-                }).format(absAmount);
-            } else if (currency === 'USD') {
-                formatted = new Intl.NumberFormat('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }).format(absAmount);
-            } else if (currency === 'EUR') {
-                formatted = new Intl.NumberFormat('de-DE', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }).format(absAmount);
-            } else {
-                formatted = absAmount.toFixed(3);
-            }
-            
-            let result = formatted;
-            
-            if (includeSymbol) {
-                const symbols = {
-                    'LYD': 'دينار',
-                    'USD': 'دولار',
-                    'EUR': 'يورو'
-                };
-                result += ` ${symbols[currency] || ''}`;
-            }
+            const formatted = new Intl.NumberFormat('ar-LY', {
+                minimumFractionDigits: 3,
+                maximumFractionDigits: 3
+            }).format(absAmount) + ' دينار';
             
             if (amount < 0) {
-                result = '-' + result;
+                return '-' + formatted;
             }
-            
-            return result;
+            return formatted;
         }
         
         // دالة حفظ البيانات في localStorage
         function saveData() {
-            localStorage.setItem('ticketSystem_transactions_multi', JSON.stringify(transactions));
-            localStorage.setItem('ticketSystem_companies_multi', JSON.stringify(companies));
+            localStorage.setItem('ticketSystem_transactions', JSON.stringify(transactions));
+            localStorage.setItem('ticketSystem_companies', JSON.stringify(companies));
         }
         
         // دالة تحميل البيانات من localStorage
         function loadData() {
-            // محاولة تحميل البيانات متعددة العملات
-            const savedTransactions = localStorage.getItem('ticketSystem_transactions_multi');
-            const savedCompanies = localStorage.getItem('ticketSystem_companies_multi');
+            const savedTransactions = localStorage.getItem('ticketSystem_transactions');
+            const savedCompanies = localStorage.getItem('ticketSystem_companies');
             
             if (savedTransactions) {
                 transactions = JSON.parse(savedTransactions);
@@ -2627,41 +4330,12 @@
             
             if (savedCompanies) {
                 companies = JSON.parse(savedCompanies);
-            } else {
-                // محاولة تحميل البيانات القديمة وتحويلها
-                const savedOldTransactions = localStorage.getItem('ticketSystem_transactions');
-                const savedOldCompanies = localStorage.getItem('ticketSystem_companies');
-                
-                if (savedOldTransactions) {
-                    const oldTransactions = JSON.parse(savedOldTransactions);
-                    transactions = oldTransactions.map(t => ({
-                        ...t,
-                        currency: 'LYD' // تحويل العمليات القديمة إلى دينار
-                    }));
-                }
-                
-                if (savedOldCompanies) {
-                    const oldCompanies = JSON.parse(savedOldCompanies);
-                    // تحويل هيكل الشركات القديم إلى الجديد
-                    Object.keys(oldCompanies).forEach(company => {
-                        companies[company] = {
-                            LYD: oldCompanies[company],
-                            USD: 0,
-                            EUR: 0
-                        };
-                    });
-                }
-                
-                if (savedOldTransactions || savedOldCompanies) {
-                    saveData(); // حفظ البيانات المحولة بالشكل الجديد
-                }
+                updateCompanySelect();
+                updateReportCompanySelect();
+                updateFilterCompanySelect();
+                updateCompanyList();
+                optimizeForMobile();
             }
-            
-            updateCompanySelect();
-            updateReportCompanySelect();
-            updateFilterCompanySelect();
-            updateCompanyList();
-            optimizeForMobile();
         }
         
         // إغلاق النافذة عند النقر خارجها
@@ -2711,3 +4385,4 @@
     </script>
 </body>
 </html>
+
