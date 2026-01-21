@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TAREK Tickets</title>
+    <title>TAREK Tickets - متعدد العملات</title>
     <style>
         * {
             box-sizing: border-box;
@@ -23,12 +23,18 @@
             --light-color: #F8F9FF;
             --dark-color: #1A1A2E;
             --card-bg: #FFFFFF;
+            --lyd-color: #218838;
+            --eur-color: #007BFF;
+            --usd-color: #FF5722;
             --gradient-primary: linear-gradient(135deg, #4A00E0 0%, #8E2DE2 100%);
             --gradient-secondary: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%);
             --gradient-success: linear-gradient(135deg, #00D2A0 0%, #00B894 100%);
             --gradient-warning: linear-gradient(135deg, #FFA62E 0%, #FF9A3D 100%);
             --gradient-cancel: linear-gradient(135deg, #8E44AD 0%, #6C3483 100%);
             --gradient-dark: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+            --gradient-lyd: linear-gradient(135deg, #218838 0%, #28a745 100%);
+            --gradient-eur: linear-gradient(135deg, #007BFF 0%, #0056b3 100%);
+            --gradient-usd: linear-gradient(135deg, #FF5722 0%, #e64a19 100%);
             --shadow-light: 0 10px 30px rgba(74, 0, 224, 0.08);
             --shadow-medium: 0 15px 35px rgba(74, 0, 224, 0.12);
             --shadow-heavy: 0 20px 50px rgba(74, 0, 224, 0.15);
@@ -938,6 +944,46 @@
             box-shadow: 0 5px 15px rgba(142, 68, 173, 0.2);
         }
         
+        /* ألوان العملات */
+        .currency-lyd {
+            color: var(--lyd-color);
+            font-weight: bold;
+        }
+        
+        .currency-eur {
+            color: var(--eur-color);
+            font-weight: bold;
+        }
+        
+        .currency-usd {
+            color: var(--usd-color);
+            font-weight: bold;
+        }
+        
+        .currency-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .currency-badge.lyd {
+            background: var(--gradient-lyd);
+            color: white;
+        }
+        
+        .currency-badge.eur {
+            background: var(--gradient-eur);
+            color: white;
+        }
+        
+        .currency-badge.usd {
+            background: var(--gradient-usd);
+            color: white;
+        }
+        
         .action-buttons {
             display: flex;
             gap: 10px;
@@ -1157,37 +1203,37 @@
         }
         
         /* =========================================== */
-        /* تحسينات الطباعة الاحترافية */
+        /* تحسينات الطباعة الاحترافية لحجم A4 */
         /* =========================================== */
         
         @media print {
             body {
-                padding: 5mm !important;
+                padding: 0 !important;
+                margin: 0 !important;
                 background-color: white !important;
-                font-size: 11px !important;
+                font-size: 10px !important;
                 line-height: 1.3 !important;
                 color: black !important;
-            }
-            
-            .no-print, .bg-animation {
-                display: none !important;
+                width: 210mm;
+                height: 297mm;
             }
             
             /* إخفاء جميع العناصر غير المرغوبة */
-            .form-section, .summary-below-table, .manage-section, .tabs,
-            .scroll-indicator, .company-info, .main-header, footer,
-            .report-header-actions, .company-selector-report {
+            .no-print, .bg-animation, .tabs, .main-header, footer,
+            .form-section, .manage-section, .scroll-indicator, .company-info,
+            .report-header-actions, .company-selector-report, .currency-filter {
                 display: none !important;
             }
             
-            /* تصميم الصفحة للطباعة */
+            /* تصميم الصفحة للطباعة A4 */
             .print-page {
                 display: block !important;
-                width: 100% !important;
-                max-width: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
+                width: 210mm !important;
+                min-height: 297mm !important;
+                margin: 0 auto !important;
+                padding: 15mm !important;
                 page-break-inside: avoid;
+                font-family: 'Tajawal', Arial, sans-serif !important;
             }
             
             /* ترويسة الطباعة الجميلة */
@@ -1196,9 +1242,9 @@
                 flex-direction: column;
                 align-items: center;
                 text-align: center;
-                padding: 10px 0;
-                margin-bottom: 15px;
-                border-bottom: 2px solid #4A00E0;
+                padding: 5mm 0;
+                margin-bottom: 8mm;
+                border-bottom: 1px solid #4A00E0;
                 page-break-after: avoid;
             }
             
@@ -1206,20 +1252,20 @@
                 display: flex !important;
                 align-items: center;
                 justify-content: center;
-                gap: 10px;
-                margin-bottom: 8px;
+                gap: 5mm;
+                margin-bottom: 3mm;
             }
             
             .print-logo-icon {
-                width: 50px;
-                height: 50px;
+                width: 15mm;
+                height: 15mm;
                 background: var(--gradient-secondary);
                 color: white;
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 20px;
+                font-size: 7mm;
                 font-weight: bold;
             }
             
@@ -1229,15 +1275,15 @@
             }
             
             .print-title h1 {
-                font-size: 18px !important;
+                font-size: 8mm !important;
                 color: #4A00E0 !important;
-                margin-bottom: 3px;
+                margin-bottom: 1mm;
                 font-weight: bold;
                 text-shadow: none !important;
             }
             
             .print-title p {
-                font-size: 12px !important;
+                font-size: 4mm !important;
                 color: #666 !important;
                 margin: 0;
             }
@@ -1246,127 +1292,131 @@
             .print-company-info {
                 display: block !important;
                 text-align: center;
-                margin: 12px 0;
-                padding: 10px;
+                margin: 5mm 0;
+                padding: 3mm;
                 background: #f8f9fa;
-                border-radius: 5px;
-                border: 1px solid #dee2e6;
+                border-radius: 2mm;
+                border: 0.5mm solid #dee2e6;
                 page-break-after: avoid;
             }
             
             .print-company-name {
-                font-size: 16px !important;
+                font-size: 6mm !important;
                 color: #1A1A2E !important;
                 font-weight: bold;
-                margin-bottom: 5px;
+                margin-bottom: 2mm;
             }
             
             .print-company-details {
-                font-size: 12px !important;
+                font-size: 4mm !important;
                 color: #666 !important;
-                margin: 3px 0;
+                margin: 1mm 0;
             }
             
             /* جدول الطباعة */
             .print-table-container {
-                margin: 15px 0;
-                border: 1px solid #dee2e6;
-                border-radius: 6px;
+                margin: 5mm 0;
+                border: 0.5mm solid #dee2e6;
+                border-radius: 2mm;
                 overflow: hidden;
+                page-break-inside: avoid;
             }
             
-            #print-transactions-table {
+            .print-transactions-table {
                 width: 100% !important;
                 border-collapse: collapse !important;
-                font-size: 10px !important;
+                font-size: 3mm !important;
                 table-layout: fixed !important;
+                margin-bottom: 0 !important;
             }
             
-            #print-transactions-table th {
+            .print-transactions-table th {
                 background: var(--gradient-dark) !important;
                 color: white !important;
-                padding: 6px 4px !important;
+                padding: 2mm 1.5mm !important;
                 text-align: center !important;
                 font-weight: bold !important;
-                border: 1px solid #1A1A2E !important;
-                font-size: 10px !important;
+                border: 0.3mm solid #1A1A2E !important;
+                font-size: 3.2mm !important;
+                height: 8mm;
             }
             
-            #print-transactions-table td {
-                padding: 5px 4px !important;
-                border: 1px solid #dee2e6 !important;
+            .print-transactions-table td {
+                padding: 1.8mm 1.5mm !important;
+                border: 0.3mm solid #dee2e6 !important;
                 text-align: center !important;
-                font-size: 9px !important;
+                font-size: 3mm !important;
                 word-wrap: break-word !important;
                 overflow-wrap: break-word !important;
+                height: 7mm;
             }
             
-            #print-transactions-table tr:nth-child(even) td {
+            .print-transactions-table tr:nth-child(even) td {
                 background-color: #f8f9fa !important;
             }
             
             /* تحسين عرض أنواع العمليات عند الطباعة */
             .transaction-type {
-                padding: 2px 5px !important;
-                font-size: 8px !important;
+                padding: 0.5mm 1.5mm !important;
+                font-size: 2.8mm !important;
                 font-weight: bold !important;
-                border-radius: 8px !important;
+                border-radius: 1.5mm !important;
                 display: inline-block !important;
-                min-width: 50px !important;
+                min-width: 15mm !important;
                 text-align: center !important;
             }
             
             .transaction-ticket {
                 background: var(--gradient-success) !important;
                 color: white !important;
-                border: 1px solid #00D2A0 !important;
+                border: 0.2mm solid #00D2A0 !important;
             }
             
             .transaction-fine {
                 background: var(--gradient-secondary) !important;
                 color: white !important;
-                border: 1px solid #FF416C !important;
+                border: 0.2mm solid #FF416C !important;
             }
             
             .transaction-payment {
                 background: var(--gradient-primary) !important;
                 color: white !important;
-                border: 1px solid #8E2DE2 !important;
+                border: 0.2mm solid #8E2DE2 !important;
             }
             
             .transaction-initial {
                 background: var(--gradient-warning) !important;
                 color: white !important;
-                border: 1px solid #FFA62E !important;
+                border: 0.2mm solid #FFA62E !important;
             }
             
             .transaction-cancel {
                 background: var(--gradient-cancel) !important;
                 color: white !important;
-                border: 1px solid #8E44AD !important;
+                border: 0.2mm solid #8E44AD !important;
             }
             
             /* قسم الرصيد النهائي في الطباعة */
             .print-balance-summary {
                 display: block !important;
-                margin-top: 15px;
-                padding: 10px;
+                margin-top: 5mm;
+                padding: 3mm;
                 background: linear-gradient(135deg, #F0F4FF, #E8EDFF);
-                border-radius: 6px;
-                border: 1px solid #8E2DE2;
+                border-radius: 2mm;
+                border: 0.5mm solid #8E2DE2;
                 text-align: center;
                 page-break-before: avoid;
                 page-break-after: avoid;
-                font-size: 11px !important;
+                font-size: 4mm !important;
             }
             
             .print-total-balance {
-                font-size: 14px !important;
+                font-size: 5mm !important;
                 font-weight: bold;
                 color: #1A1A2E;
-                margin-top: 8px;
-                padding-top: 8px;
-                border-top: 1px solid #8E2DE2;
+                margin-top: 2mm;
+                padding-top: 2mm;
+                border-top: 0.3mm solid #8E2DE2;
             }
             
             .positive-balance-print {
@@ -1385,70 +1435,64 @@
             .print-footer {
                 display: block !important;
                 text-align: center;
-                margin-top: 20px;
-                padding-top: 10px;
-                border-top: 1px solid #dee2e6;
-                font-size: 9px !important;
+                margin-top: 8mm;
+                padding-top: 3mm;
+                border-top: 0.3mm solid #dee2e6;
+                font-size: 3mm !important;
                 color: #666 !important;
                 page-break-before: avoid;
             }
             
             .print-footer p {
-                margin: 2px 0;
+                margin: 1mm 0;
             }
             
             .print-signature {
-                margin-top: 15px;
-                padding-top: 10px;
-                border-top: 1px dashed #999;
+                margin-top: 5mm;
+                padding-top: 3mm;
+                border-top: 0.3mm dashed #999;
                 text-align: center;
             }
             
             .signature-line {
-                width: 150px;
-                border-bottom: 1px solid #333;
-                margin: 15px auto 3px;
-                padding-bottom: 10px;
+                width: 50mm;
+                border-bottom: 0.3mm solid #333;
+                margin: 5mm auto 1mm;
+                padding-bottom: 3mm;
             }
             
             .signature-label {
-                font-size: 10px;
+                font-size: 3.5mm;
                 color: #333;
             }
             
-            /* تحسينات للطباعة على الهواتف */
-            @media (max-width: 768px) and print {
-                body {
-                    padding: 3mm !important;
-                    font-size: 9px !important;
-                }
-                
-                .print-title h1 {
-                    font-size: 16px !important;
-                }
-                
-                .print-company-name {
-                    font-size: 14px !important;
-                }
-                
-                #print-transactions-table {
-                    font-size: 8px !important;
-                }
-                
-                #print-transactions-table th,
-                #print-transactions-table td {
-                    padding: 4px 2px !important;
-                    font-size: 8px !important;
-                }
-                
-                .transaction-type {
-                    font-size: 7px !important;
-                    padding: 1px 4px !important;
-                }
-                
-                .print-balance-summary {
-                    font-size: 9px !important;
-                }
+            /* عنوان العملة في الطباعة */
+            .currency-print-title {
+                text-align: center;
+                font-size: 5mm !important;
+                font-weight: bold;
+                margin: 5mm 0 3mm;
+                padding: 2mm;
+                background: #f8f9fa;
+                border-radius: 2mm;
+                border: 0.5mm solid #dee2e6;
+                page-break-before: always;
+            }
+            
+            .currency-print-title:first-child {
+                page-break-before: avoid !important;
+            }
+            
+            .currency-print-title.lyd {
+                border-left: 1mm solid var(--lyd-color);
+            }
+            
+            .currency-print-title.eur {
+                border-left: 1mm solid var(--eur-color);
+            }
+            
+            .currency-print-title.usd {
+                border-left: 1mm solid var(--usd-color);
             }
             
             /* إخفاء حاوية التمرير */
@@ -1474,15 +1518,34 @@
                 background: white !important;
             }
             
-            /* ضبط هوامش الصفحة */
+            /* ضبط هوامش الصفحة A4 */
             @page {
-                margin: 8mm;
-                size: auto;
+                size: A4;
+                margin: 15mm;
             }
             
             /* منع تقسيم الصفوف بين الصفحات */
             tr {
                 page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            
+            /* منع تقسيم الجداول بين الصفحات */
+            .print-table-container {
+                page-break-inside: avoid;
+            }
+            
+            /* تحسين عرض النص العربي في الطباعة */
+            * {
+                font-family: 'Tajawal', Arial, sans-serif !important;
+            }
+            
+            /* تحسين عرض العملات */
+            .currency-badge {
+                padding: 0.5mm 1.5mm !important;
+                font-size: 2.5mm !important;
+                border-radius: 1mm !important;
+                margin-right: 1mm;
             }
         }
         
@@ -2346,6 +2409,143 @@
             gap: 15px;
             margin-top: 20px;
         }
+        
+        /* أقسام العملات في الملخص */
+        .currency-summary-section {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border: 2px solid;
+        }
+        
+        .currency-summary-section.lyd {
+            border-color: var(--lyd-color);
+            background: linear-gradient(135deg, rgba(33, 136, 56, 0.05), rgba(40, 167, 69, 0.02));
+        }
+        
+        .currency-summary-section.eur {
+            border-color: var(--eur-color);
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), rgba(0, 86, 179, 0.02));
+        }
+        
+        .currency-summary-section.usd {
+            border-color: var(--usd-color);
+            background: linear-gradient(135deg, rgba(255, 87, 34, 0.05), rgba(230, 74, 25, 0.02));
+        }
+        
+        .currency-summary-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid;
+        }
+        
+        .currency-summary-title.lyd {
+            color: var(--lyd-color);
+            border-bottom-color: rgba(33, 136, 56, 0.3);
+        }
+        
+        .currency-summary-title.eur {
+            color: var(--eur-color);
+            border-bottom-color: rgba(0, 123, 255, 0.3);
+        }
+        
+        .currency-summary-title.usd {
+            color: var(--usd-color);
+            border-bottom-color: rgba(255, 87, 34, 0.3);
+        }
+        
+        .currency-summary-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .currency-summary-items {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .currency-summary-item {
+            background: white;
+            padding: 15px;
+            border-radius: var(--border-radius-sm);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        
+        .currency-summary-item h5 {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .currency-summary-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+        
+        .currency-summary-value.lyd {
+            color: var(--lyd-color);
+        }
+        
+        .currency-summary-value.eur {
+            color: var(--eur-color);
+        }
+        
+        .currency-summary-value.usd {
+            color: var(--usd-color);
+        }
+        
+        /* فلتر العملة في الإدارة */
+        .currency-filter {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .currency-filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #E0E0FF;
+            background: white;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .currency-filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .currency-filter-btn.active {
+            color: white;
+            border-color: transparent;
+        }
+        
+        .currency-filter-btn.lyd.active {
+            background: var(--gradient-lyd);
+        }
+        
+        .currency-filter-btn.eur.active {
+            background: var(--gradient-eur);
+        }
+        
+        .currency-filter-btn.usd.active {
+            background: var(--gradient-usd);
+        }
+        
+        .currency-filter-btn.all.active {
+            background: var(--gradient-primary);
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -2366,7 +2566,7 @@
                     <i class="fas fa-plane"></i>
                 </div>
                 <div class="print-title">
-                    <h1>TAREK Tickets</h1>
+                    <h1>TAREK Tickets - متعدد العملات</h1>
                     <p>@tro8qa</p>
                 </div>
             </div>
@@ -2376,34 +2576,13 @@
             <h2 class="print-company-name" id="print-company-name">كشف الحساب</h2>
             <div class="print-company-details">
                 <p>تاريخ الطباعة: <span id="current-print-date"></span></p>
-                <p id="print-company-balance-info"><span id="print-current-balance"></span></p>
+                <p id="print-company-balance-info"></p>
             </div>
         </div>
         
-        <!-- جدول الطباعة -->
-        <div class="print-table-container">
-            <table id="print-transactions-table">
-                <thead>
-                    <tr>
-                        <th style="width: 5%;">#</th>
-                        <th style="width: 12%;">التاريخ</th>
-                        <th style="width: 15%;">المسافر</th>
-                        <th style="width: 12%;">المستند</th>
-                        <th style="width: 15%;">المبلغ</th>
-                        <th style="width: 15%;">الاجمالي</th>
-                    </tr>
-                </thead>
-                <tbody id="print-transactions-body">
-                    <!-- البيانات ستنسخ هنا -->
-                </tbody>
-            </table>
-        </div>
-        
-        <!-- قسم الرصيد النهائي في الطباعة -->
-        <div class="print-balance-summary" id="print-balance-summary">
-            <div class="print-total-balance">
-                الرصيد النهائي: <span id="print-summary-balance">0 دينار</span>
-            </div>
+        <!-- جداول الطباعة ستضاف هنا ديناميكياً -->
+        <div id="print-tables-container">
+            <!-- سيتم تعبئته بواسطة الجافاسكريبت -->
         </div>
         
         <div class="print-footer">
@@ -2429,7 +2608,7 @@
                 </div>
                 <div class="logo-text">
                     <h1>TAREK Tickets</h1>
-                    <p>@tro8qa</p>
+                    <p>متعدد العملات</p>
                 </div>
             </div>
             <div class="header-info">
@@ -2510,6 +2689,16 @@
                 </div>
             </div>
             
+            <!-- إضافة حقل اختيار العملة -->
+            <div class="form-group">
+                <label for="currency">العملة</label>
+                <select id="currency">
+                    <option value="LYD">دينار ليبي (LYD)</option>
+                    <option value="EUR">يورو (EUR)</option>
+                    <option value="USD">دولار أمريكي (USD)</option>
+                </select>
+            </div>
+            
             <!-- حقول التذكرة والغرامة -->
             <div id="ticket-fine-fields">
                 <div class="form-group">
@@ -2558,8 +2747,9 @@
             
             <!-- حقول مشتركة -->
             <div class="form-group">
-                <label for="amount">المبلغ (دينار)</label>
+                <label for="amount">المبلغ</label>
                 <input type="number" id="amount" placeholder="أدخل المبلغ" min="0" step="0.001" pattern="[0-9]*[.,]?[0-9]{0,3}" inputmode="decimal">
+                <small id="currency-symbol" style="color: #666; margin-top: 5px; display: block;">المبلغ بالعملة المختارة أعلاه</small>
             </div>
             
             <div class="form-group">
@@ -2597,6 +2787,23 @@
                 </div>
             </div>
             
+            <!-- فلتر العملة في التقرير -->
+            <div class="currency-filter no-print" id="report-currency-filter">
+                <span>تصفية حسب العملة:</span>
+                <button class="currency-filter-btn all active" data-currency="all">
+                    <i class="fas fa-globe"></i> الكل
+                </button>
+                <button class="currency-filter-btn lyd" data-currency="LYD">
+                    <i class="fas fa-coins"></i> دينار
+                </button>
+                <button class="currency-filter-btn eur" data-currency="EUR">
+                    <i class="fas fa-euro-sign"></i> يورو
+                </button>
+                <button class="currency-filter-btn usd" data-currency="USD">
+                    <i class="fas fa-dollar-sign"></i> دولار
+                </button>
+            </div>
+            
             <div class="table-container">
                 <div class="scroll-indicator">← اسحب لرؤية المزيد →</div>
                 <table id="transactions-table">
@@ -2604,6 +2811,7 @@
                         <tr>
                             <th>#</th>
                             <th>التاريخ</th>
+                            <th>العملة</th>
                             <th>النوع</th>
                             <th>المسافر</th>
                             <th>المستند</th>
@@ -2620,27 +2828,9 @@
                 </table>
             </div>
             
-            <!-- ملخص تحت الجدول -->
-            <div class="summary-below-table no-print" id="summary-below-table">
-                <h3><i class="fas fa-chart-bar"></i> ملخص كشف الحساب</h3>
-                <div class="summary-items">
-                    <div class="summary-item">
-                        <h4>عدد التذاكر</h4>
-                        <div class="value" id="total-tickets">0</div>
-                    </div>
-                    <div class="summary-item">
-                        <h4>مجموع الغرامات</h4>
-                        <div class="value" id="total-fines">0 دينار</div>
-                    </div>
-                    <div class="summary-item">
-                        <h4>مجموع المدفوعات</h4>
-                        <div class="value" id="total-payments">0 دينار</div>
-                    </div>
-                    <div class="summary-item">
-                        <h4>الرصيد النهائي</h4>
-                        <div class="value" id="total-balance">0 دينار</div>
-                    </div>
-                </div>
+            <!-- ملخص حسب العملة -->
+            <div class="currency-summaries no-print" id="currency-summaries">
+                <!-- سيتم تعبئته بواسطة الجافاسكريبت -->
             </div>
             
             <div id="no-data">
@@ -2672,6 +2862,16 @@
                     </select>
                 </div>
                 
+                <div class="filter-group">
+                    <label for="filter-currency">تصفية حسب العملة</label>
+                    <select id="filter-currency">
+                        <option value="">جميع العملات</option>
+                        <option value="LYD">دينار</option>
+                        <option value="EUR">يورو</option>
+                        <option value="USD">دولار</option>
+                    </select>
+                </div>
+                
                 <button class="btn btn-reset" id="reset-filters" style="margin-top: 0;">
                     <i class="fas fa-filter"></i> إعادة التعيين
                 </button>
@@ -2687,6 +2887,15 @@
                             <option value="ticket">تذكرة</option>
                             <option value="fine">غرامة</option>
                             <option value="payment">تسليم دفعة</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-currency">العملة</label>
+                        <select id="edit-currency">
+                            <option value="LYD">دينار ليبي (LYD)</option>
+                            <option value="EUR">يورو (EUR)</option>
+                            <option value="USD">دولار أمريكي (USD)</option>
                         </select>
                     </div>
                     
@@ -2734,7 +2943,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="edit-amount">المبلغ (دينار)</label>
+                        <label for="edit-amount">المبلغ</label>
                         <input type="number" id="edit-amount" placeholder="المبلغ" min="0" step="0.001" pattern="[0-9]*[.,]?[0-9]{0,3}">
                     </div>
                     
@@ -2802,6 +3011,7 @@
                             <th>#</th>
                             <th>التاريخ</th>
                             <th>الشركة</th>
+                            <th>العملة</th>
                             <th>النوع</th>
                             <th>المسافر</th>
                             <th>المبلغ</th>
@@ -2872,7 +3082,7 @@
     </div>
     
     <footer class="no-print">
-        <p>TAREK Tickets &copy; 2023</p>
+        <p>TAREK Tickets - متعدد العملات &copy; 2023</p>
         <p>@tro8qa | طارق الطيف للبرمجيات</p>
     </footer>
 
@@ -2922,8 +3132,7 @@
         const printCompanyName = document.getElementById('print-company-name');
         const printCurrentBalance = document.getElementById('print-current-balance');
         const currentPrintDate = document.getElementById('current-print-date');
-        const printTransactionsBody = document.getElementById('print-transactions-body');
-        const printSummaryBalance = document.getElementById('print-summary-balance');
+        const printTablesContainer = document.getElementById('print-tables-container');
         
         // عناصر خيارات نوع العملية
         const ticketOption = document.getElementById('ticket-option');
@@ -2941,6 +3150,8 @@
         const fineReasonInput = document.getElementById('fine-reason');
         const paymentFields = document.getElementById('payment-fields');
         const paymentDescriptionInput = document.getElementById('payment-description');
+        const currencySelect = document.getElementById('currency');
+        const currencySymbol = document.getElementById('currency-symbol');
         const amountInput = document.getElementById('amount');
         const dateInput = document.getElementById('date');
         const notesInput = document.getElementById('notes');
@@ -2949,6 +3160,7 @@
         // حقول التعديل
         const editFormContainer = document.getElementById('edit-form-container');
         const editTransactionTypeSelect = document.getElementById('edit-transaction-type');
+        const editCurrencySelect = document.getElementById('edit-currency');
         const editTicketFields = document.getElementById('edit-ticket-fields');
         const editFineOnlyFields = document.getElementById('edit-fine-only-fields');
         const editPaymentFields = document.getElementById('edit-payment-fields');
@@ -2973,7 +3185,11 @@
         // فلاتر إدارة العمليات
         const filterCompanySelect = document.getElementById('filter-company');
         const filterTypeSelect = document.getElementById('filter-type');
+        const filterCurrencySelect = document.getElementById('filter-currency');
         const resetFiltersBtn = document.getElementById('reset-filters');
+        
+        // فلتر العملة في التقرير
+        const reportCurrencyFilter = document.getElementById('report-currency-filter');
         
         // أزرار
         const addTransactionButton = document.getElementById('add-transaction');
@@ -2991,16 +3207,71 @@
         const manageTransactionsBody = document.getElementById('manage-transactions-body');
         const noDataElement = document.getElementById('no-data');
         const noTransactionsElement = document.getElementById('no-transactions');
-        const totalTicketsElement = document.getElementById('total-tickets');
-        const totalFinesElement = document.getElementById('total-fines');
-        const totalPaymentsElement = document.getElementById('total-payments');
-        const totalBalanceElement = document.getElementById('total-balance');
-        const summaryBelowTable = document.getElementById('summary-below-table');
+        const currencySummaries = document.getElementById('currency-summaries');
         
         // تعيين تاريخ اليوم كتاريخ افتراضي
         const today = new Date().toISOString().split('T')[0];
         dateInput.value = today;
         editDateInput.value = today;
+        
+        // تحديث رمز العملة عند تغيير العملة
+        function updateCurrencySymbol() {
+            const currency = currencySelect.value;
+            let symbol = '';
+            let color = '';
+            
+            switch(currency) {
+                case 'LYD':
+                    symbol = 'دينار ليبي';
+                    color = 'var(--lyd-color)';
+                    break;
+                case 'EUR':
+                    symbol = 'يورو';
+                    color = 'var(--eur-color)';
+                    break;
+                case 'USD':
+                    symbol = 'دولار أمريكي';
+                    color = 'var(--usd-color)';
+                    break;
+            }
+            
+            currencySymbol.textContent = `المبلغ بالـ ${symbol}`;
+            currencySymbol.style.color = color;
+        }
+        
+        // تحديث رمز العملة في نموذج التعديل
+        function updateEditCurrencySymbol() {
+            const currency = editCurrencySelect.value;
+            let symbol = '';
+            let color = '';
+            
+            switch(currency) {
+                case 'LYD':
+                    symbol = 'دينار ليبي';
+                    color = 'var(--lyd-color)';
+                    break;
+                case 'EUR':
+                    symbol = 'يورو';
+                    color = 'var(--eur-color)';
+                    break;
+                case 'USD':
+                    symbol = 'دولار أمريكي';
+                    color = 'var(--usd-color)';
+                    break;
+            }
+            
+            // إضافة عنصر لعرض رمز العملة إذا لم يكن موجوداً
+            let currencySymbolElement = document.getElementById('edit-currency-symbol');
+            if (!currencySymbolElement) {
+                currencySymbolElement = document.createElement('small');
+                currencySymbolElement.id = 'edit-currency-symbol';
+                currencySymbolElement.style.cssText = 'color: #666; margin-top: 5px; display: block;';
+                editAmountInput.parentNode.appendChild(currencySymbolElement);
+            }
+            
+            currencySymbolElement.textContent = `المبلغ بالـ ${symbol}`;
+            currencySymbolElement.style.color = color;
+        }
         
         // أحداث التحكم
         // التبويبات
@@ -3095,12 +3366,35 @@
             updateEditFormFields(this.value);
         });
         
+        // تغيير العملة
+        currencySelect.addEventListener('change', updateCurrencySymbol);
+        editCurrencySelect.addEventListener('change', updateEditCurrencySymbol);
+        
+        // فلتر العملة في التقرير
+        reportCurrencyFilter.addEventListener('click', function(e) {
+            if (e.target.classList.contains('currency-filter-btn') || e.target.parentElement.classList.contains('currency-filter-btn')) {
+                const button = e.target.classList.contains('currency-filter-btn') ? e.target : e.target.parentElement;
+                const currency = button.getAttribute('data-currency');
+                
+                // تحديث الأزرار النشطة
+                document.querySelectorAll('#report-currency-filter .currency-filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+                
+                // تصفية الجدول حسب العملة
+                filterReportByCurrency(currency);
+            }
+        });
+        
         // فلاتر إدارة العمليات
         filterCompanySelect.addEventListener('change', updateManageTable);
         filterTypeSelect.addEventListener('change', updateManageTable);
+        filterCurrencySelect.addEventListener('change', updateManageTable);
         resetFiltersBtn.addEventListener('click', function() {
             filterCompanySelect.value = '';
             filterTypeSelect.value = '';
+            filterCurrencySelect.value = '';
             updateManageTable();
             this.classList.add('pulse');
             setTimeout(() => this.classList.remove('pulse'), 1000);
@@ -3133,6 +3427,7 @@
         updateReport();
         updateActiveTypeIndicator();
         updateActiveTypeClasses('ticket'); // تذكرة هي الافتراضية
+        updateCurrencySymbol(); // تحديث رمز العملة الافتراضي
         
         // دالة تحسين العرض للهواتف
         function optimizeForMobile() {
@@ -3140,7 +3435,7 @@
             
             if (isMobile) {
                 // تحسين عرض الوجهة على الهواتف
-                document.querySelectorAll('#transactions-table td:nth-child(6)').forEach(td => {
+                document.querySelectorAll('#transactions-table td:nth-child(7)').forEach(td => {
                     const content = td.textContent;
                     if (content.includes('-')) {
                         const parts = content.split('-');
@@ -3152,7 +3447,7 @@
                 });
                 
                 // تحسين عرض السبب/الوصف
-                document.querySelectorAll('#transactions-table td:nth-child(8)').forEach(td => {
+                document.querySelectorAll('#transactions-table td:nth-child(9)').forEach(td => {
                     const content = td.textContent;
                     if (content.length > 15) {
                         td.textContent = content.substring(0, 15) + '...';
@@ -3161,7 +3456,7 @@
                 });
                 
                 // تحسين عرض اسم المسافر
-                document.querySelectorAll('#transactions-table td:nth-child(4)').forEach(td => {
+                document.querySelectorAll('#transactions-table td:nth-child(5)').forEach(td => {
                     const content = td.textContent;
                     if (content.length > 12) {
                         td.textContent = content.substring(0, 12) + '...';
@@ -3286,7 +3581,13 @@
                 openingBalance = -balance;
             }
             
-            companies[companyName] = openingBalance;
+            // تخزين رصيد الشركة متعدد العملات
+            companies[companyName] = {
+                LYD: openingBalance,
+                EUR: 0,
+                USD: 0,
+                openingBalance: openingBalance
+            };
             
             if (balance > 0) {
                 const transaction = {
@@ -3295,6 +3596,7 @@
                     type: 'initial',
                     company: companyName,
                     amount: balance,
+                    currency: 'LYD',
                     description: `رصيد افتتاحي ${balanceType === 'credit' ? 'دائن (الشركة تحتاج مني)' : 'مدين (أحتاج من الشركة)'}`
                 };
                 
@@ -3376,12 +3678,15 @@
                 if (radio.checked) transactionType = radio.value;
             });
             
+            const currency = currencySelect.value;
+            
             const transaction = {
                 id: generateId(),
                 date: dateInput.value,
                 type: transactionType,
                 company: company,
-                amount: parseFloat(amountInput.value)
+                amount: parseFloat(amountInput.value),
+                currency: currency
             };
             
             if (transactionType === 'ticket') {
@@ -3436,7 +3741,8 @@
                 }
             }
             
-            updateCompanyBalanceAfterTransaction(company, transaction.type, transaction.amount);
+            // تحديث رصيد الشركة للعملة المحددة
+            updateCompanyBalanceAfterTransaction(company, transaction.type, transaction.amount, transaction.currency);
             
             transactions.push(transaction);
             
@@ -3464,11 +3770,20 @@
         }
         
         // دالة تحديث رصيد الشركة بعد العملية
-        function updateCompanyBalanceAfterTransaction(company, type, amount) {
+        function updateCompanyBalanceAfterTransaction(company, type, amount, currency) {
+            if (!companies[company]) {
+                companies[company] = {
+                    LYD: 0,
+                    EUR: 0,
+                    USD: 0,
+                    openingBalance: 0
+                };
+            }
+            
             if (type === 'ticket' || type === 'fine') {
-                companies[company] += amount;
+                companies[company][currency] += amount;
             } else if (type === 'payment') {
-                companies[company] -= amount;
+                companies[company][currency] -= amount;
             } else if (type === 'cancel') {
                 // لا يتغير الرصيد مع عملية الإلغاء لأنها عملية معاكسة
                 // يتم تحديث الرصيد عند إضافة العملية الأصلية
@@ -3483,13 +3798,20 @@
                 return;
             }
             
-            let balance = companies[company] || 0;
-            let balanceText = formatCurrency(Math.abs(balance));
+            if (!companies[company]) return;
             
-            if (balance > 0) {
+            const balances = companies[company];
+            let totalBalanceLYD = balances.LYD || 0;
+            
+            // يمكن إضافة تحويلات العملات هنا إذا أردت عرض إجمالي موحد
+            // لكن حالياً نعرض الدينار فقط كعملة أساسية
+            
+            let balanceText = formatCurrency(Math.abs(totalBalanceLYD), 'LYD');
+            
+            if (totalBalanceLYD > 0) {
                 companyBalanceElement.className = 'company-balance positive-balance';
                 companyBalanceElement.textContent = balanceText + ' (دائن)';
-            } else if (balance < 0) {
+            } else if (totalBalanceLYD < 0) {
                 companyBalanceElement.className = 'company-balance negative-balance';
                 companyBalanceElement.textContent = balanceText + ' (مدين)';
             } else {
@@ -3513,16 +3835,17 @@
                 const companyItem = document.createElement('div');
                 companyItem.className = 'company-item';
                 
-                const balance = companies[company];
-                let balanceText = formatCurrency(Math.abs(balance));
+                const balances = companies[company];
+                let totalBalanceLYD = balances.LYD || 0;
+                let balanceText = formatCurrency(Math.abs(totalBalanceLYD), 'LYD');
                 
-                if (balance > 0) {
+                if (totalBalanceLYD > 0) {
                     balanceText += ' (دائن)';
-                } else if (balance < 0) {
+                } else if (totalBalanceLYD < 0) {
                     balanceText += ' (مدين)';
                 }
                 
-                const balanceClass = balance > 0 ? 'positive-balance' : (balance < 0 ? 'negative-balance' : '');
+                const balanceClass = totalBalanceLYD > 0 ? 'positive-balance' : (totalBalanceLYD < 0 ? 'negative-balance' : '');
                 
                 companyItem.innerHTML = `
                     <div class="company-name">${company}</div>
@@ -3624,7 +3947,9 @@
             cancelTransactionContainer.classList.add('hidden');
             
             editTransactionTypeSelect.value = transaction.type;
+            editCurrencySelect.value = transaction.currency;
             updateEditFormFields(transaction.type);
+            updateEditCurrencySymbol();
             
             if (transaction.type === 'ticket') {
                 editPassengerNameInput.value = transaction.passengerName || '';
@@ -3664,14 +3989,21 @@
             const oldTransaction = transactions[transactionIndex];
             const oldAmount = oldTransaction.amount;
             const oldType = oldTransaction.type;
+            const oldCurrency = oldTransaction.currency;
             
+            // التراجع عن التأثير القديم
             if (oldType === 'ticket' || oldType === 'fine') {
-                companies[oldTransaction.company] -= oldAmount;
+                if (companies[oldTransaction.company]) {
+                    companies[oldTransaction.company][oldCurrency] -= oldAmount;
+                }
             } else if (oldType === 'payment') {
-                companies[oldTransaction.company] += oldAmount;
+                if (companies[oldTransaction.company]) {
+                    companies[oldTransaction.company][oldCurrency] += oldAmount;
+                }
             }
             
             const transactionType = editTransactionTypeSelect.value;
+            const currency = editCurrencySelect.value;
             const amount = parseFloat(editAmountInput.value);
             
             if (!amount || amount <= 0) {
@@ -3684,6 +4016,7 @@
                 ...oldTransaction,
                 date: editDateInput.value,
                 type: transactionType,
+                currency: currency,
                 amount: amount
             };
             
@@ -3749,10 +4082,27 @@
                 }
             }
             
+            // تطبيق التأثير الجديد
             if (transactionType === 'ticket' || transactionType === 'fine') {
-                companies[updatedTransaction.company] += amount;
+                if (!companies[updatedTransaction.company]) {
+                    companies[updatedTransaction.company] = {
+                        LYD: 0,
+                        EUR: 0,
+                        USD: 0,
+                        openingBalance: 0
+                    };
+                }
+                companies[updatedTransaction.company][currency] += amount;
             } else if (transactionType === 'payment') {
-                companies[updatedTransaction.company] -= amount;
+                if (!companies[updatedTransaction.company]) {
+                    companies[updatedTransaction.company] = {
+                        LYD: 0,
+                        EUR: 0,
+                        USD: 0,
+                        openingBalance: 0
+                    };
+                }
+                companies[updatedTransaction.company][currency] -= amount;
             }
             
             transactions[transactionIndex] = updatedTransaction;
@@ -3798,11 +4148,15 @@
             
             const transaction = transactions[transactionIndex];
             
-            if (confirm(`هل أنت متأكد من حذف هذه العملية؟\n\nالتفاصيل:\n- الشركة: ${transaction.company}\n- النوع: ${getTypeName(transaction.type)}\n- المبلغ: ${formatCurrency(transaction.amount)}\n\nهذا الإجراء لا يمكن التراجع عنه.`)) {
+            if (confirm(`هل أنت متأكد من حذف هذه العملية؟\n\nالتفاصيل:\n- الشركة: ${transaction.company}\n- النوع: ${getTypeName(transaction.type)}\n- العملة: ${getCurrencyName(transaction.currency)}\n- المبلغ: ${formatCurrency(transaction.amount, transaction.currency)}\n\nهذا الإجراء لا يمكن التراجع عنه.`)) {
                 if (transaction.type === 'ticket' || transaction.type === 'fine') {
-                    companies[transaction.company] -= transaction.amount;
+                    if (companies[transaction.company]) {
+                        companies[transaction.company][transaction.currency] -= transaction.amount;
+                    }
                 } else if (transaction.type === 'payment') {
-                    companies[transaction.company] += transaction.amount;
+                    if (companies[transaction.company]) {
+                        companies[transaction.company][transaction.currency] += transaction.amount;
+                    }
                 } else if (transaction.type === 'cancel') {
                     // لا يتغير الرصيد عند حذف عملية إلغاء
                 }
@@ -3844,7 +4198,8 @@
                 <ul>
                     <li><strong>الشركة:</strong> ${transaction.company}</li>
                     <li><strong>النوع:</strong> ${getTypeName(transaction.type)}</li>
-                    <li><strong>المبلغ:</strong> ${formatCurrency(transaction.amount)}</li>
+                    <li><strong>العملة:</strong> ${getCurrencyName(transaction.currency)}</li>
+                    <li><strong>المبلغ:</strong> ${formatCurrency(transaction.amount, transaction.currency)}</li>
                     <li><strong>التاريخ:</strong> ${transaction.date}</li>
                     ${transaction.passengerName ? `<li><strong>المسافر:</strong> ${transaction.passengerName}</li>` : ''}
                     ${transaction.description ? `<li><strong>الوصف:</strong> ${transaction.description}</li>` : ''}
@@ -3852,7 +4207,8 @@
                 <p><strong>العملية الجديدة (معكوسة):</strong></p>
                 <ul>
                     <li><strong>النوع:</strong> ${getTypeName(cancelType)}</li>
-                    <li><strong>المبلغ:</strong> ${formatCurrency(newAmount)}</li>
+                    <li><strong>العملة:</strong> ${getCurrencyName(transaction.currency)}</li>
+                    <li><strong>المبلغ:</strong> ${formatCurrency(newAmount, transaction.currency)}</li>
                     <li><strong>التاريخ:</strong> اليوم</li>
                 </ul>
                 <p class="warning-text" style="color: var(--cancel-color); font-weight: bold; margin-top: 10px;">
@@ -3887,6 +4243,7 @@
                 type: 'cancel',
                 company: originalTransaction.company,
                 amount: originalTransaction.amount,
+                currency: originalTransaction.currency,
                 originalTransactionId: originalTransaction.id,
                 cancelType: getCancelType(originalTransaction.type)
             };
@@ -3905,9 +4262,13 @@
             
             // تحديث رصيد الشركة (عملية معاكسة)
             if (originalTransaction.type === 'ticket' || originalTransaction.type === 'fine') {
-                companies[originalTransaction.company] -= originalTransaction.amount;
+                if (companies[originalTransaction.company]) {
+                    companies[originalTransaction.company][originalTransaction.currency] -= originalTransaction.amount;
+                }
             } else if (originalTransaction.type === 'payment') {
-                companies[originalTransaction.company] += originalTransaction.amount;
+                if (companies[originalTransaction.company]) {
+                    companies[originalTransaction.company][originalTransaction.currency] += originalTransaction.amount;
+                }
             }
             
             transactions.push(cancelTransaction);
@@ -3934,10 +4295,42 @@
             return 'cancel';
         }
         
+        // دالة تصفية التقرير حسب العملة
+        function filterReportByCurrency(currency) {
+            const rows = document.querySelectorAll('#transactions-body tr');
+            const currencySections = document.querySelectorAll('.currency-summary-section');
+            
+            if (currency === 'all') {
+                // إظهار جميع الصفوف
+                rows.forEach(row => row.style.display = '');
+                currencySections.forEach(section => section.style.display = 'block');
+            } else {
+                // إخفاء جميع الصفوف ثم إظهار المطابقة فقط
+                rows.forEach(row => {
+                    const rowCurrency = row.getAttribute('data-currency');
+                    if (rowCurrency === currency) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                // إظهار قسم العملة المحددة فقط
+                currencySections.forEach(section => {
+                    if (section.classList.contains(currency.toLowerCase())) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            }
+        }
+        
         // دالة تحديث جدول إدارة العمليات
         function updateManageTable() {
             const filterCompany = filterCompanySelect.value;
             const filterType = filterTypeSelect.value;
+            const filterCurrency = filterCurrencySelect.value;
             
             let filteredTransactions = [...transactions];
             
@@ -3947,6 +4340,10 @@
             
             if (filterType) {
                 filteredTransactions = filteredTransactions.filter(t => t.type === filterType);
+            }
+            
+            if (filterCurrency) {
+                filteredTransactions = filteredTransactions.filter(t => t.currency === filterCurrency);
             }
             
             if (filteredTransactions.length > 0) {
@@ -3983,13 +4380,24 @@
                     passengerName = passengerName.substring(0, 20) + '...';
                 }
                 
+                // إضافة شارة العملة
+                let currencyBadge = '';
+                if (transaction.currency === 'LYD') {
+                    currencyBadge = '<span class="currency-badge lyd">LYD</span>';
+                } else if (transaction.currency === 'EUR') {
+                    currencyBadge = '<span class="currency-badge eur">EUR</span>';
+                } else if (transaction.currency === 'USD') {
+                    currencyBadge = '<span class="currency-badge usd">USD</span>';
+                }
+                
                 row.innerHTML = `
                     <td>${index + 1}</td>
                     <td>${transaction.date}</td>
                     <td>${transaction.company}</td>
+                    <td>${currencyBadge}</td>
                     <td><span class="transaction-type ${typeClass}">${typeText}</span></td>
                     <td>${passengerName}</td>
-                    <td>${formatCurrency(transaction.amount)}</td>
+                    <td>${formatCurrency(transaction.amount, transaction.currency)}</td>
                     <td>
                         <div class="action-buttons">
                             <button class="action-btn action-btn-edit" data-id="${transaction.id}">
@@ -4046,108 +4454,146 @@
             
             if (transactions.length > 0) {
                 noDataElement.style.display = 'none';
-                summaryBelowTable.style.display = 'block';
                 transactionsBody.innerHTML = '';
             } else {
                 noDataElement.style.display = 'block';
-                summaryBelowTable.style.display = 'none';
                 transactionsBody.innerHTML = '';
-                updateSummary();
+                currencySummaries.innerHTML = '';
                 return;
             }
             
             let filteredTransactions = [];
-            let finalBalance = 0;
             
             if (selectedCompany) {
                 filteredTransactions = transactions.filter(t => t.company === selectedCompany);
-                finalBalance = companies[selectedCompany] || 0;
             } else {
                 filteredTransactions = [...transactions];
-                finalBalance = Object.values(companies).reduce((sum, balance) => sum + balance, 0);
             }
             
-            let runningBalance = 0;
-            filteredTransactions.forEach((transaction, index) => {
-                if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
-                    runningBalance += transaction.amount;
-                } else if (transaction.type === 'payment') {
-                    runningBalance -= transaction.amount;
-                } else if (transaction.type === 'cancel') {
-                    runningBalance -= transaction.amount;
+            // ترتيب العمليات حسب التاريخ
+            filteredTransactions.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            // فصل العمليات حسب العملة
+            const transactionsByCurrency = {
+                LYD: [],
+                EUR: [],
+                USD: []
+            };
+            
+            filteredTransactions.forEach(transaction => {
+                if (transactionsByCurrency[transaction.currency]) {
+                    transactionsByCurrency[transaction.currency].push(transaction);
+                } else {
+                    transactionsByCurrency[transaction.currency] = [transaction];
                 }
-                
-                const row = document.createElement('tr');
-                
-                let typeClass = '';
-                let typeText = getTypeName(transaction.type);
-                
-                if (transaction.type === 'ticket') {
-                    typeClass = 'transaction-ticket';
-                } else if (transaction.type === 'fine') {
-                    typeClass = 'transaction-fine';
-                } else if (transaction.type === 'payment') {
-                    typeClass = 'transaction-payment';
-                } else if (transaction.type === 'initial') {
-                    typeClass = 'transaction-initial';
-                } else if (transaction.type === 'cancel') {
-                    typeClass = 'transaction-cancel';
-                    typeText = 'إلغاء';
-                }
-                
-                let passengerName = transaction.passengerName || '-';
-                let documentNumber = transaction.documentNumber || '-';
-                
-                let destination = transaction.destination || '-';
-                if (destination.includes('(')) {
-                    const match = destination.match(/\(([^)]+)\)/);
-                    if (match) {
-                        destination = `<span class="destination-abbr">${match[1]}</span>`;
-                    }
-                }
-                
-                let tripType = transaction.tripType || '-';
-                let reasonDesc = transaction.reason || transaction.description || '-';
-                
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${transaction.date}</td>
-                    <td><span class="transaction-type ${typeClass}">${typeText}</span></td>
-                    <td>${passengerName}</td>
-                    <td>${documentNumber}</td>
-                    <td>${destination}</td>
-                    <td>${tripType}</td>
-                    <td>${reasonDesc}</td>
-                    <td>${formatCurrency(transaction.amount)}</td>
-                    <td>${formatCurrency(runningBalance)}</td>
-                `;
-                
-                transactionsBody.appendChild(row);
             });
             
-            // إضافة صف الرصيد النهائي في الجدول
-            const totalRow = document.createElement('tr');
-            totalRow.className = 'total-row';
-            totalRow.innerHTML = `
-                <td colspan="8">الرصيد النهائي</td>
-                <td colspan="2">${formatCurrency(finalBalance)}</td>
-            `;
-            transactionsBody.appendChild(totalRow);
+            // إعادة تعيين جداول العملات
+            transactionsBody.innerHTML = '';
+            currencySummaries.innerHTML = '';
             
-            updateSummary(filteredTransactions, finalBalance);
+            // عرض كل عملة في جدول منفصل
+            Object.keys(transactionsByCurrency).forEach(currency => {
+                const currencyTransactions = transactionsByCurrency[currency];
+                
+                if (currencyTransactions.length === 0) return;
+                
+                // إضافة صف عنوان العملة
+                const currencyHeaderRow = document.createElement('tr');
+                currencyHeaderRow.className = 'currency-header-row';
+                currencyHeaderRow.style.cssText = 'background-color: #f8f9fa; font-weight: bold;';
+                currencyHeaderRow.innerHTML = `
+                    <td colspan="11" style="text-align: center; padding: 15px;">
+                        <i class="fas ${getCurrencyIcon(currency)}"></i> ${getCurrencyName(currency)}
+                    </td>
+                `;
+                transactionsBody.appendChild(currencyHeaderRow);
+                
+                let runningBalance = 0;
+                
+                currencyTransactions.forEach((transaction, index) => {
+                    if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
+                        runningBalance += transaction.amount;
+                    } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
+                        runningBalance -= transaction.amount;
+                    }
+                    
+                    const row = document.createElement('tr');
+                    row.setAttribute('data-currency', currency);
+                    
+                    let typeClass = '';
+                    let typeText = getTypeName(transaction.type);
+                    
+                    if (transaction.type === 'ticket') {
+                        typeClass = 'transaction-ticket';
+                    } else if (transaction.type === 'fine') {
+                        typeClass = 'transaction-fine';
+                    } else if (transaction.type === 'payment') {
+                        typeClass = 'transaction-payment';
+                    } else if (transaction.type === 'initial') {
+                        typeClass = 'transaction-initial';
+                    } else if (transaction.type === 'cancel') {
+                        typeClass = 'transaction-cancel';
+                        typeText = 'إلغاء';
+                    }
+                    
+                    let passengerName = transaction.passengerName || '-';
+                    let documentNumber = transaction.documentNumber || '-';
+                    
+                    let destination = transaction.destination || '-';
+                    if (destination.includes('(')) {
+                        const match = destination.match(/\(([^)]+)\)/);
+                        if (match) {
+                            destination = `<span class="destination-abbr">${match[1]}</span>`;
+                        }
+                    }
+                    
+                    let tripType = transaction.tripType || '-';
+                    let reasonDesc = transaction.reason || transaction.description || '-';
+                    
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${transaction.date}</td>
+                        <td><span class="currency-badge ${currency.toLowerCase()}">${currency}</span></td>
+                        <td><span class="transaction-type ${typeClass}">${typeText}</span></td>
+                        <td>${passengerName}</td>
+                        <td>${documentNumber}</td>
+                        <td>${destination}</td>
+                        <td>${tripType}</td>
+                        <td>${reasonDesc}</td>
+                        <td>${formatCurrency(transaction.amount, currency)}</td>
+                        <td>${formatCurrency(runningBalance, currency)}</td>
+                    `;
+                    
+                    transactionsBody.appendChild(row);
+                });
+                
+                // إضافة صف الرصيد النهائي لكل عملة
+                const totalRow = document.createElement('tr');
+                totalRow.className = 'total-row';
+                totalRow.setAttribute('data-currency', currency);
+                totalRow.style.cssText = 'background-color: #f0f4ff; font-weight: bold;';
+                totalRow.innerHTML = `
+                    <td colspan="9">الرصيد النهائي للـ ${getCurrencyName(currency)}</td>
+                    <td colspan="2">${formatCurrency(runningBalance, currency)}</td>
+                `;
+                transactionsBody.appendChild(totalRow);
+                
+                // إنشاء ملخص لكل عملة
+                createCurrencySummary(currency, currencyTransactions, runningBalance);
+            });
+            
             optimizeForMobile();
         }
         
-        // دالة تحديث الملخص تحت الجدول
-        function updateSummary(filteredTransactions = null, finalBalance = 0) {
-            const transactionsToCalculate = filteredTransactions || transactions;
-            
+        // دالة إنشاء ملخص لكل عملة
+        function createCurrencySummary(currency, transactions, finalBalance) {
             let totalTickets = 0;
             let totalFines = 0;
             let totalPayments = 0;
             let totalCancels = 0;
             
-            transactionsToCalculate.forEach(transaction => {
+            transactions.forEach(transaction => {
                 if (transaction.type === 'ticket') {
                     totalTickets++;
                 } else if (transaction.type === 'fine') {
@@ -4159,65 +4605,139 @@
                 }
             });
             
-            totalTicketsElement.textContent = totalTickets;
-            totalFinesElement.textContent = formatCurrency(totalFines);
-            totalPaymentsElement.textContent = formatCurrency(totalPayments);
-            totalBalanceElement.textContent = formatCurrency(finalBalance);
+            const summarySection = document.createElement('div');
+            summarySection.className = `currency-summary-section ${currency.toLowerCase()}`;
             
-            // تحديث ألوان الرصيد النهائي
-            if (finalBalance > 0) {
-                totalBalanceElement.className = 'value positive';
-            } else if (finalBalance < 0) {
-                totalBalanceElement.className = 'value negative';
-            } else {
-                totalBalanceElement.className = 'value';
-            }
+            summarySection.innerHTML = `
+                <div class="currency-summary-title ${currency.toLowerCase()}">
+                    <i class="fas ${getCurrencyIcon(currency)}"></i>
+                    ملخص الـ ${getCurrencyName(currency)}
+                </div>
+                <div class="currency-summary-items">
+                    <div class="currency-summary-item">
+                        <h5>عدد التذاكر</h5>
+                        <div class="currency-summary-value ${currency.toLowerCase()}">${totalTickets}</div>
+                    </div>
+                    <div class="currency-summary-item">
+                        <h5>مجموع الغرامات</h5>
+                        <div class="currency-summary-value ${currency.toLowerCase()}">${formatCurrency(totalFines, currency)}</div>
+                    </div>
+                    <div class="currency-summary-item">
+                        <h5>مجموع المدفوعات</h5>
+                        <div class="currency-summary-value ${currency.toLowerCase()}">${formatCurrency(totalPayments, currency)}</div>
+                    </div>
+                    <div class="currency-summary-item">
+                        <h5>الرصيد النهائي</h5>
+                        <div class="currency-summary-value ${currency.toLowerCase()}">${formatCurrency(finalBalance, currency)}</div>
+                    </div>
+                </div>
+            `;
+            
+            currencySummaries.appendChild(summarySection);
         }
         
         // دالة تحديث جدول الطباعة
-        function updatePrintTable(filteredTransactions = null, finalBalance = 0) {
-            const currentCompany = reportCompanySelect.value || companySelect.value;
-            const transactionsToShow = filteredTransactions || transactions.filter(t => !currentCompany || t.company === currentCompany);
+        function updatePrintTable(transactionsByCurrency, companyName) {
+            printTablesContainer.innerHTML = '';
             
-            printTransactionsBody.innerHTML = '';
-            
-            if (transactionsToShow.length === 0) {
-                return;
-            }
-            
+            Object.keys(transactionsByCurrency).forEach(currency => {
+                const currencyTransactions = transactionsByCurrency[currency];
+                
+                if (currencyTransactions.length === 0) return;
+                
+                // عنوان العملة
+                const currencyTitle = document.createElement('div');
+                currencyTitle.className = `currency-print-title ${currency.toLowerCase()}`;
+                currencyTitle.innerHTML = `
+                    <i class="fas ${getCurrencyIcon(currency)}"></i> 
+                    ${getCurrencyName(currency)} - ${companyName || 'كافة الشركات'}
+                `;
+                printTablesContainer.appendChild(currencyTitle);
+                
+                // جدول العملة
+                const tableContainer = document.createElement('div');
+                tableContainer.className = 'print-table-container';
+                
+                const table = document.createElement('table');
+                table.className = 'print-transactions-table';
+                
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">#</th>
+                            <th style="width: 12%;">التاريخ</th>
+                            <th style="width: 15%;">المسافر</th>
+                            <th style="width: 12%;">المستند</th>
+                            <th style="width: 15%;">المبلغ</th>
+                            <th style="width: 15%;">الاجمالي</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${generatePrintTableRows(currencyTransactions, currency)}
+                    </tbody>
+                `;
+                
+                tableContainer.appendChild(table);
+                printTablesContainer.appendChild(tableContainer);
+                
+                // الرصيد النهائي للعملة
+                let finalBalance = 0;
+                currencyTransactions.forEach(transaction => {
+                    if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
+                        finalBalance += transaction.amount;
+                    } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
+                        finalBalance -= transaction.amount;
+                    }
+                });
+                
+                const balanceSummary = document.createElement('div');
+                balanceSummary.className = 'print-balance-summary';
+                balanceSummary.innerHTML = `
+                    <div class="print-total-balance">
+                        الرصيد النهائي للـ ${getCurrencyName(currency)}: 
+                        <span class="${finalBalance > 0 ? 'positive-balance-print' : finalBalance < 0 ? 'negative-balance-print' : 'neutral-balance-print'}">
+                            ${formatCurrency(finalBalance, currency)}
+                        </span>
+                    </div>
+                `;
+                
+                printTablesContainer.appendChild(balanceSummary);
+                
+                // مسافة بين العملات
+                const spacer = document.createElement('div');
+                spacer.style.cssText = 'height: 20px;';
+                printTablesContainer.appendChild(spacer);
+            });
+        }
+        
+        // دالة إنشاء صفوف جدول الطباعة
+        function generatePrintTableRows(transactions, currency) {
+            let rows = '';
             let runningBalance = 0;
-            transactionsToShow.forEach((transaction, index) => {
+            
+            transactions.forEach((transaction, index) => {
                 if (transaction.type === 'ticket' || transaction.type === 'fine' || transaction.type === 'initial') {
                     runningBalance += transaction.amount;
                 } else if (transaction.type === 'payment' || transaction.type === 'cancel') {
                     runningBalance -= transaction.amount;
                 }
                 
-                const row = document.createElement('tr');
+                let passengerName = transaction.passengerName || '-';
+                let documentNumber = transaction.documentNumber || '-';
                 
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${transaction.date}</td>
-                    <td>${transaction.passengerName || '-'}</td>
-                    <td>${transaction.documentNumber || '-'}</td>
-                    <td>${formatCurrency(transaction.amount)}</td>
-                    <td>${formatCurrency(runningBalance)}</td>
+                rows += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${transaction.date}</td>
+                        <td>${passengerName}</td>
+                        <td>${documentNumber}</td>
+                        <td>${formatCurrency(transaction.amount, currency)}</td>
+                        <td>${formatCurrency(runningBalance, currency)}</td>
+                    </tr>
                 `;
-                
-                printTransactionsBody.appendChild(row);
             });
             
-            // تحديث الرصيد النهائي في الطباعة
-            printSummaryBalance.textContent = formatCurrency(finalBalance);
-            
-            // تحديث لون الرصيد النهائي
-            if (finalBalance > 0) {
-                printSummaryBalance.className = 'positive-balance-print';
-            } else if (finalBalance < 0) {
-                printSummaryBalance.className = 'negative-balance-print';
-            } else {
-                printSummaryBalance.className = 'neutral-balance-print';
-            }
+            return rows;
         }
         
         // دالة إعداد الطباعة
@@ -4240,25 +4760,55 @@
             // تحديث الرصيد الحالي
             const currentCompany = reportCompanySelect.value || companySelect.value;
             if (currentCompany) {
-                const balance = companies[currentCompany] || 0;
-                printCurrentBalance.textContent = formatCurrency(Math.abs(balance)) + (balance > 0 ? ' (دائن)' : balance < 0 ? ' (مدين)' : '');
+                const balances = companies[currentCompany];
+                let balanceText = '';
+                
+                if (balances) {
+                    Object.keys(balances).forEach(currency => {
+                        if (currency !== 'openingBalance' && balances[currency] !== 0) {
+                            const balance = balances[currency];
+                            balanceText += `${getCurrencyName(currency)}: ${formatCurrency(Math.abs(balance), currency)} ${balance > 0 ? '(دائن)' : balance < 0 ? '(مدين)' : ''}<br>`;
+                        }
+                    });
+                }
+                
+                if (balanceText === '') {
+                    balanceText = '0 دينار';
+                }
+                
+                document.getElementById('print-company-balance-info').innerHTML = balanceText;
             } else {
-                printCurrentBalance.textContent = '0 دينار';
+                document.getElementById('print-company-balance-info').textContent = '0 دينار';
             }
             
-            // تحديث جدول الطباعة
+            // فصل العمليات حسب العملة للطباعة
+            const currentCompanyForPrint = reportCompanySelect.value || companySelect.value;
             let filteredTransactions = [];
-            let finalBalance = 0;
             
-            if (currentCompany) {
-                filteredTransactions = transactions.filter(t => t.company === currentCompany);
-                finalBalance = companies[currentCompany] || 0;
+            if (currentCompanyForPrint) {
+                filteredTransactions = transactions.filter(t => t.company === currentCompanyForPrint);
             } else {
                 filteredTransactions = [...transactions];
-                finalBalance = Object.values(companies).reduce((sum, balance) => sum + balance, 0);
             }
             
-            updatePrintTable(filteredTransactions, finalBalance);
+            // ترتيب حسب التاريخ
+            filteredTransactions.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            // فصل حسب العملة
+            const transactionsByCurrency = {
+                LYD: [],
+                EUR: [],
+                USD: []
+            };
+            
+            filteredTransactions.forEach(transaction => {
+                if (transactionsByCurrency[transaction.currency]) {
+                    transactionsByCurrency[transaction.currency].push(transaction);
+                }
+            });
+            
+            // تحديث جداول الطباعة
+            updatePrintTable(transactionsByCurrency, currentCompanyForPrint);
         }
         
         // دالة إعادة تعيين النموذج
@@ -4277,6 +4827,10 @@
             dateInput.value = today;
             notesInput.value = '';
             
+            // إعادة العملة إلى الدينار
+            currencySelect.value = 'LYD';
+            updateCurrencySymbol();
+            
             if (companySelect.value) {
                 passengerNameInput.focus();
             }
@@ -4294,18 +4848,55 @@
             }
         }
         
+        // دالة الحصول على اسم العملة
+        function getCurrencyName(currency) {
+            switch(currency) {
+                case 'LYD': return 'دينار ليبي';
+                case 'EUR': return 'يورو';
+                case 'USD': return 'دولار أمريكي';
+                default: return currency;
+            }
+        }
+        
+        // دالة الحصول على أيقونة العملة
+        function getCurrencyIcon(currency) {
+            switch(currency) {
+                case 'LYD': return 'fa-coins';
+                case 'EUR': return 'fa-euro-sign';
+                case 'USD': return 'fa-dollar-sign';
+                default: return 'fa-money-bill';
+            }
+        }
+        
         // دالة توليد معرف فريد
         function generateId() {
             return Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
         
         // دالة تنسيق العملة
-        function formatCurrency(amount) {
+        function formatCurrency(amount, currency) {
             const absAmount = Math.abs(amount);
+            let symbol = '';
+            let decimalDigits = 3;
+            
+            switch(currency) {
+                case 'LYD':
+                    symbol = 'دينار';
+                    break;
+                case 'EUR':
+                    symbol = 'يورو';
+                    decimalDigits = 2;
+                    break;
+                case 'USD':
+                    symbol = 'دولار';
+                    decimalDigits = 2;
+                    break;
+            }
+            
             const formatted = new Intl.NumberFormat('ar-LY', {
-                minimumFractionDigits: 3,
-                maximumFractionDigits: 3
-            }).format(absAmount) + ' دينار';
+                minimumFractionDigits: decimalDigits,
+                maximumFractionDigits: decimalDigits
+            }).format(absAmount) + ' ' + symbol;
             
             if (amount < 0) {
                 return '-' + formatted;
@@ -4315,26 +4906,42 @@
         
         // دالة حفظ البيانات في localStorage
         function saveData() {
-            localStorage.setItem('ticketSystem_transactions', JSON.stringify(transactions));
-            localStorage.setItem('ticketSystem_companies', JSON.stringify(companies));
+            localStorage.setItem('ticketSystem_transactions_multi', JSON.stringify(transactions));
+            localStorage.setItem('ticketSystem_companies_multi', JSON.stringify(companies));
         }
         
         // دالة تحميل البيانات من localStorage
         function loadData() {
-            const savedTransactions = localStorage.getItem('ticketSystem_transactions');
-            const savedCompanies = localStorage.getItem('ticketSystem_companies');
+            const savedTransactions = localStorage.getItem('ticketSystem_transactions_multi');
+            const savedCompanies = localStorage.getItem('ticketSystem_companies_multi');
             
             if (savedTransactions) {
-                transactions = JSON.parse(savedTransactions);
+                try {
+                    transactions = JSON.parse(savedTransactions);
+                } catch (e) {
+                    console.error('Error loading transactions:', e);
+                    transactions = [];
+                }
             }
             
             if (savedCompanies) {
-                companies = JSON.parse(savedCompanies);
-                updateCompanySelect();
-                updateReportCompanySelect();
-                updateFilterCompanySelect();
-                updateCompanyList();
-                optimizeForMobile();
+                try {
+                    companies = JSON.parse(savedCompanies);
+                } catch (e) {
+                    console.error('Error loading companies:', e);
+                    companies = {};
+                }
+                
+                // تحديث واجهة المستخدم بعد تحميل البيانات
+                setTimeout(() => {
+                    updateCompanySelect();
+                    updateReportCompanySelect();
+                    updateFilterCompanySelect();
+                    updateCompanyList();
+                    updateReport();
+                    updateManageTable();
+                    optimizeForMobile();
+                }, 100);
             }
         }
         
@@ -4382,7 +4989,108 @@
         window.addEventListener('afterprint', function() {
             printPage.style.display = 'none';
         });
+        
+        // تهيئة بيانات تجريبية للمستخدم الجديد
+        window.addEventListener('load', function() {
+            // إذا لم يكن هناك بيانات مخزنة، نضيف بيانات تجريبية
+            if (transactions.length === 0 && Object.keys(companies).length === 0) {
+                // إضافة شركات تجريبية
+                companies = {
+                    "شركة الطيران الوطنية": {
+                        LYD: 1500,
+                        EUR: 500,
+                        USD: 0,
+                        openingBalance: 1500
+                    },
+                    "وكالة سفر العالمية": {
+                        LYD: -800,
+                        EUR: 200,
+                        USD: 300,
+                        openingBalance: -800
+                    },
+                    "مكتب تذاكر المدينة": {
+                        LYD: 2500,
+                        EUR: 0,
+                        USD: 0,
+                        openingBalance: 2500
+                    }
+                };
+                
+                // إضافة عمليات تجريبية
+                transactions = [
+                    {
+                        id: generateId(),
+                        date: "2023-10-01",
+                        type: "ticket",
+                        company: "شركة الطيران الوطنية",
+                        passengerName: "أحمد محمد",
+                        documentNumber: "TKT-001",
+                        destination: "TIP - IST",
+                        tripType: "ذهاب",
+                        amount: 350,
+                        currency: "LYD"
+                    },
+                    {
+                        id: generateId(),
+                        date: "2023-10-03",
+                        type: "ticket",
+                        company: "وكالة سفر العالمية",
+                        passengerName: "سارة علي",
+                        documentNumber: "TKT-002",
+                        destination: "TIP - ROM",
+                        tripType: "ذهاب وعودة",
+                        amount: 450,
+                        currency: "EUR"
+                    },
+                    {
+                        id: generateId(),
+                        date: "2023-10-05",
+                        type: "payment",
+                        company: "شركة الطيران الوطنية",
+                        description: "تسليم دفعة شهر أكتوبر",
+                        amount: 200,
+                        currency: "LYD"
+                    },
+                    {
+                        id: generateId(),
+                        date: "2023-10-08",
+                        type: "fine",
+                        company: "وكالة سفر العالمية",
+                        passengerName: "محمد خالد",
+                        documentNumber: "FNE-001",
+                        destination: "TIP - IST",
+                        tripType: "ذهاب",
+                        reason: "تأخير في الحضور",
+                        amount: 50,
+                        currency: "USD"
+                    },
+                    {
+                        id: generateId(),
+                        date: "2023-10-10",
+                        type: "ticket",
+                        company: "مكتب تذاكر المدينة",
+                        passengerName: "فاطمة حسن",
+                        documentNumber: "TKT-003",
+                        destination: "TIP - PAR",
+                        tripType: "ذهاب وعودة",
+                        amount: 600,
+                        currency: "LYD"
+                    }
+                ];
+                
+                // حفظ البيانات
+                saveData();
+                
+                // تحديث واجهة المستخدم
+                updateCompanySelect();
+                updateReportCompanySelect();
+                updateFilterCompanySelect();
+                updateCompanyList();
+                updateReport();
+                updateManageTable();
+                optimizeForMobile();
+            }
+        });
     </script>
 </body>
 </html>
-
