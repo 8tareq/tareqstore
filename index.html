@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TAREK Tickets - نظام إدارة التذاكر الذكي | النسخة المطورة</title>
+    <title>TAREK Tickets - نظام إدارة التذاكر الذكي | النسخة المتقنة</title>
     <style>
         :root {
             --primary: #7C3AED;
@@ -247,42 +247,64 @@
         transactions.push(trans); saveData(); updateUI(); resetForm(); showNotification('تمت الإضافة','success');
     }
     function resetForm(){ document.getElementById('passenger-name').value=''; document.getElementById('document-number').value=''; document.getElementById('amount').value=''; document.getElementById('date').value=new Date().toISOString().split('T')[0]; document.getElementById('fine-reason').value=''; document.getElementById('payment-description').value=''; document.getElementById('notes').value=''; }
+    
     function updateReport(){
-        let company=document.getElementById('report-company').value;
-        let filtered=company?transactions.filter(t=>t.company===company):[...transactions];
-        filtered.sort((a,b)=>new Date(a.date)-new Date(b.date));
-        let tbody=document.getElementById('transactions-body'), noData=document.getElementById('no-data');
-        if(filtered.length===0){ tbody.innerHTML=''; noData.style.display='block'; document.getElementById('currency-summaries').innerHTML=''; return; }
-        noData.style.display='none'; tbody.innerHTML='';
-        let balances={LYD:0,EUR:0,USD:0}, summaries={LYD:[],EUR:[],USD:[]};
-        filtered.forEach((t,i)=>{
-            if(t.type==='ticket'||t.type==='fine'||t.type==='initial') balances[t.currency]+=t.amount;
-            else if(t.type==='payment'||t.type==='cancel') balances[t.currency]-=t.amount;
-            summaries[t.currency].push(t);
-            let row=`<tr><td>${i+1}</td><td>${t.date}</td><td><span class="currency-badge ${t.currency.toLowerCase()}">${t.currency}</span></td><td><span class="badge badge-${t.type}">${getTypeName(t.type)}</span></td><td>${t.passengerName||t.description||'-'}</td><td>${t.documentNumber||'-'}</td><td>${t.destination||'-'}</td><td>${formatCurrency(t.amount,t.currency)}</td><td>${formatCurrency(balances[t.currency],t.currency)}</td></tr>`;
-            tbody.insertAdjacentHTML('beforeend',row);
+        let company = document.getElementById('report-company').value;
+        let filtered = company ? transactions.filter(t => t.company === company) : [...transactions];
+        filtered.sort((a,b) => new Date(a.date) - new Date(b.date));
+        let tbody = document.getElementById('transactions-body');
+        let noData = document.getElementById('no-data');
+        if(filtered.length === 0){ tbody.innerHTML = ''; noData.style.display = 'block'; document.getElementById('currency-summaries').innerHTML = ''; return; }
+        noData.style.display = 'none';
+        tbody.innerHTML = '';
+        let balances = { LYD: 0, EUR: 0, USD: 0 };
+        let summaryTotals = { LYD: 0, EUR: 0, USD: 0 };
+        filtered.forEach((t, i) => {
+            let impact = 0;
+            if(t.type === 'ticket' || t.type === 'fine' || t.type === 'initial') impact = t.amount;
+            else if(t.type === 'payment' || t.type === 'cancel') impact = -t.amount;
+            balances[t.currency] += impact;
+            summaryTotals[t.currency] += impact;
+            let row = `<tr>
+                <td>${i+1}</td>
+                <td>${t.date}</td>
+                <td><span class="currency-badge ${t.currency.toLowerCase()}">${t.currency}</span></td>
+                <td><span class="badge badge-${t.type}">${getTypeName(t.type)}</span></td>
+                <td>${t.passengerName || t.description || '-'}</td>
+                <td>${t.documentNumber || '-'}</td>
+                <td>${t.destination || '-'}</td>
+                <td>${formatCurrency(t.amount, t.currency)}</td>
+                <td>${formatCurrency(balances[t.currency], t.currency)}</td>
+            </tr>`;
+            tbody.insertAdjacentHTML('beforeend', row);
         });
-        let sumDiv=document.getElementById('currency-summaries'); sumDiv.innerHTML='';
-        for(let cur of Object.keys(summaries)) if(summaries[cur].length){
-            let totalBal = balances[cur];
-            let isPositive = totalBal >= 0;
-            let absBal = Math.abs(totalBal);
-            let statusText = isPositive ? 'علينا' : 'لنا';
-            let statusClass = isPositive ? 'total-amount-positive' : 'total-amount-negative';
-            let totalTickets=summaries[cur].filter(t=>t.type==='ticket').length, totalFines=summaries[cur].filter(t=>t.type==='fine').reduce((s,t)=>s+t.amount,0), totalPayments=summaries[cur].filter(t=>t.type==='payment').reduce((s,t)=>s+t.amount,0);
-            sumDiv.innerHTML+=`
-                <div class="summary-card" data-currency="${cur}">
-                    <div class="summary-icon ${cur.toLowerCase()}"><i class="fas ${cur==='LYD'?'fa-coins':cur==='EUR'?'fa-euro-sign':'fa-dollar-sign'}"></i></div>
-                    <div class="summary-title">${getCurrencyName(cur)}</div>
-                    <div class="${statusClass}">${absBal.toFixed(3)} ${getCurrencySymbol(cur)} <span class="status-badge">${statusText}</span></div>
-                    <div style="display:flex; justify-content:space-between; margin-top:0.5rem; font-size:0.85rem;">
-                        <div>التذاكر: ${totalTickets}</div>
-                        <div>الغرامات: ${formatCurrency(totalFines,cur)}</div>
-                        <div>المدفوعات: ${formatCurrency(totalPayments,cur)}</div>
-                    </div>
-                </div>`;
+        let sumDiv = document.getElementById('currency-summaries');
+        sumDiv.innerHTML = '';
+        for(let cur of ['LYD','EUR','USD']){
+            let totalBal = summaryTotals[cur];
+            if(filtered.some(t=>t.currency===cur)){
+                let isPositive = totalBal >= 0;
+                let absBal = Math.abs(totalBal);
+                let statusText = isPositive ? 'علينا' : 'لنا';
+                let statusClass = isPositive ? 'total-amount-positive' : 'total-amount-negative';
+                let totalTickets = filtered.filter(t=>t.currency===cur && t.type==='ticket').length;
+                let totalFines = filtered.filter(t=>t.currency===cur && t.type==='fine').reduce((s,t)=>s+t.amount,0);
+                let totalPayments = filtered.filter(t=>t.currency===cur && t.type==='payment').reduce((s,t)=>s+t.amount,0);
+                sumDiv.innerHTML += `
+                    <div class="summary-card" data-currency="${cur}">
+                        <div class="summary-icon ${cur.toLowerCase()}"><i class="fas ${cur==='LYD'?'fa-coins':cur==='EUR'?'fa-euro-sign':'fa-dollar-sign'}"></i></div>
+                        <div class="summary-title">${getCurrencyName(cur)}</div>
+                        <div class="${statusClass}">${absBal.toFixed(3)} ${getCurrencySymbol(cur)} <span class="status-badge">${statusText}</span></div>
+                        <div style="display:flex; justify-content:space-between; margin-top:0.5rem; font-size:0.85rem;">
+                            <div>التذاكر: ${totalTickets}</div>
+                            <div>الغرامات: ${formatCurrency(totalFines,cur)}</div>
+                            <div>المدفوعات: ${formatCurrency(totalPayments,cur)}</div>
+                        </div>
+                    </div>`;
+            }
         }
     }
+    
     function updateManageTable(){
         let company=document.getElementById('filter-company').value, type=document.getElementById('filter-type').value, currency=document.getElementById('filter-currency').value;
         let filtered=transactions.filter(t=>(!company||t.company===company)&&(!type||t.type===type)&&(!currency||t.currency===currency));
